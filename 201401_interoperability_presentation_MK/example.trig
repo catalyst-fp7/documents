@@ -1,0 +1,195 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix trig: <http://www.w3.org/2004/03/trix/rdfg-1/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix sioc: <http://rdfs.org/sioc/ns#> .
+@prefix oa: <http://www.openannotation.org/ns/> .
+@prefix idea: <http://purl.org/catalyst/idea#> .
+@prefix ibis: <http://purl.org/catalyst/ibis#> .
+@prefix assembl: <http://purl.org/assembl/core#> .
+@prefix version: <http://purl.org/catalyst/version#> .
+@prefix vote: <http://purl.org/catalyst/vote#> .
+
+@prefix eg_site: <http://www.assembl.net/> .
+@prefix eg_d1: <http://www.assembl.net/discussion/1/> .
+
+# A site, with a forum and a user.
+
+<http://www.assembl.net> a sioc:Site ;
+    sioc:host_of eg_d1:forum.
+    # Note: should be the whole discussion.
+
+eg_site:discussing_ibis a assembl:Discussion .
+    # To a non-assembl-aware tool, this is just a sioc:Container.
+
+eg_d1:forum a sioc:Forum ;
+    sioc:part_of eg_site:discussing_ibis .
+
+eg_d1:ideas a assembl:Ideas ;
+    sioc:part_of eg_site:discussing_ibis .
+    # To a non-assembl-aware tool, this is just another sioc:Container.
+
+eg_site:agent_benoitg a foaf:Person;
+    foaf:familyName "Grégoire";
+    foaf:firstName "Benoît".
+
+eg_site:agent_maparent a foaf:Person;
+    foaf:familyName "Marc-Antoine";
+    foaf:firstName "Parent".
+
+eg_site:user_maparent a sioc:UserAccount;
+    sioc:account_of eg_site:agent_maparent;
+    sioc:email "maparent@acm.org".
+
+# A post
+
+eg_d1:message_1 a sioc:Post ;
+    dcterms:created "2013-11-01T09:00:04"^^<xsd:dateTimeStamp>;
+    dcterms:title "Climate change is a real problem"@eng;
+    sioc:content """We need to reduce CO2 levels."""@eng;
+    sioc:has_creator eg_site:user_maparent;
+    sioc:addressed_to "discussion1@assembl.net";
+    sioc:has_container eg_d1:forum.
+
+eg_d1:message_2 a sioc:Post ;
+    dcterms:title "Telecommuting might help"@eng;
+    sioc:has_creator eg_site:user_benoitg;
+    sioc:addressed_to eg_site:user_maparent;
+    sioc:has_container eg_d1:forum;
+    sioc:reply_of eg_d1:message_1.
+
+
+# Annotating text from this post's content.
+
+eg_d1:extracts_1 a oa:SpecificResource;
+    oa:hasSource eg_d1:message_1;
+    oa:hasSelector [
+        a oa:TextPositionSelector;
+        oa:start "18"^^<xsd:integer>;
+        oa:end "28"^^<xsd:integer>;
+        oa:exact "CO2 levels"@eng
+    ].
+
+eg_d1:annotations_1 a oa:Annotation;
+    oa:hasTarget eg_d1:extracts_1;
+    oa:hasBody eg_site:annotation_1_target.
+
+eg_site:annotation_1_target a trig:Graph.
+
+
+# The annotation body (a named graph) links the text extract to an idea.
+
+eg_site:annotation_1_target = {
+    eg_d1:extracts_1 assembl:expressesIdea eg_d1:idea_1.
+}
+
+# NOTE : We may also add the triple directly to the graph.
+# Note 2: We could have the following rule:
+# sioc:embeds_knowledge owl:propertyChainAxiom ([owl:inverse-of oa:hasSource] [owl:inverse-of oa:hasTarget] oa:hasBody)
+# and deduce eg_d1:message_1 sioc:embeds_knowledge eg_site:annotation_1_target.
+
+# A few ideas.
+
+eg_d1:idea_1 a ibis:Issue;
+    dcterms:title "Stop climate change"@eng;
+    dcterms:description "A longer description "@eng;
+    sioc:has_creator eg_site:user_maparent;
+    dcterms:created "2013-11-02T14:20:04"^^<xsd:dateTimeStamp>;
+    dcterms:modified "2014-01-02T11:32:17"^^<xsd:dateTimeStamp>;
+    sioc:has_container eg_d1:ideas.
+
+eg_d1:idea_2 a ibis:Position;
+    dcterms:title "We should telecommute"@eng.
+
+eg_d1:idealink_2_1 a ibis:PositionRespondsToIssue;
+    ibis:response_position eg_d1:idea_2;
+    ibis:response_issue eg_d1:idea_1.
+
+eg_d1:idea_3 a ibis:Argument;
+    dcterms:title """Personal transport is a big part 
+        of fuel consumption."""@eng.
+
+eg_d1:idealink_3_2 a ibis:ArgumentSupportsPosition;
+    ibis:argument_supporting eg_d1:idea_3;
+    ibis:position_supported eg_d1:idea_2.
+
+# Vote
+
+eg_d1:vote1 a vote:BinaryVote;
+    vote:voter eg_site:agent_johnsmith;
+    dcterms:created "2013-11-02T14:20:04"^^<xsd:dateTimeStamp>;
+    vote:subject eg_d1:idea_3;
+    vote:positive "true"^^<xsd:boolean>.
+
+eg_d1:vote_range a vote:LickertRange;
+    vote:min "1"^^xsd:integer;
+    vote:max "10"^^xsd:integer.
+
+eg_d1:vote2 a vote:LickertVote;
+    vote:voter eg_site:agent_johnsmith;
+    vote:subject eg_d1:idea_3;
+    vote:lickert_in_range eg_d1:vote_range;
+    vote:lickert_value "8"^^xsd:integer.
+
+eg_d1:vote3 a vote:OrderingVote;
+    vote:voter eg_site:agent_johnsmith;
+    vote:ordered_ideas [ a rdf:Seq;
+        rdf:_1 eg_d1:idea3;
+        rdf:_2 eg_d1:idea5;
+        rdf:_3 eg_d1:idea4 ].
+
+# History
+
+eg_d1:message_1 version:has_history (
+    [
+        a version:Create;
+        version:target eg_d1:message_1;
+        version:access_author eg_site:user_maparent;
+        version:change_version "0"^^<xsd:integer>;
+        version:initial_data [
+            dcterms:created "2013-11-01T09:00:04"^^<xsd:dateTimeStamp>;
+            dcterms:title "Let's discuss IBIS"@eng;
+            sioc:content """This was the initial text of the post."""@eng;
+            sioc:has_creator eg_site:user_maparent;
+            sioc:has_container eg_d1:forum
+        ]
+    ]
+    [
+        a version:Transaction;
+        version:change_version "1"^^<xsd:integer>;
+        version:access_author eg_site:user_maparent;
+        dcterms:date "2013-11-02T14:20:04"^^<xsd:dateTimeStamp>;
+        version:hasPart
+        [
+            a version:SinglePropertyChange;
+            version:target eg_d1:message_1;
+            rdf:subject eg_d1:message_1;
+            rdf:predicate dcterms:title;
+            rdf:object "Let's discuss IBIS in RDF"@eng
+        ], [
+            a version:SinglePropertyChange;
+            version:target eg_d1:message_1;
+            rdf:subject eg_d1:message_1;
+            rdf:predicate sioc:content;
+            rdf:object """This is the text of the post, discussing reification of links."""@eng;
+        ]
+    ]
+    [
+        a version:PropertyChange;
+        version:change_version "2"^^<xsd:integer>;
+        version:access_author eg_site:user_maparent;
+        version:new_properties [
+            sioc:addressed_to "someone@example.com";
+        ]
+    ]
+    #...
+    [
+        a version:Access;
+        version:access_author eg_site:user_maparent;
+        version:target eg_d1:message_1
+    ]
+    ).
+
