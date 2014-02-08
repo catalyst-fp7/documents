@@ -1,3 +1,13 @@
+## Requirements:
+# https://github.com/fletcher/MultiMarkdown-4
+# https://github.com/fletcher/peg-multimarkdown-latex-support
+# https://code.google.com/p/dot2tex/
+# https://pypi.python.org/pypi/Pygments
+# https://github.com/gniezen/n3pygments
+# LaTeX
+# LaTeX modules: Tikz, dot2texi, minted etc.
+
+
 all: interoperability.tex
 
 pdf: interoperability.pdf
