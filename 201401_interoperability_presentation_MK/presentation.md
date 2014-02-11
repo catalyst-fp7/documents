@@ -244,8 +244,8 @@ digraph g {
         dcterms:title "Stop climate change"@eng;
         dcterms:description "A longer description "@eng;
         sioc:has_creator eg_site:user_maparent;
-        dcterms:created "2013-11-02T14:20:04"^^<xsd:dateTimeStamp>;
-        dcterms:modified "2014-01-02T11:32:17"^^<xsd:dateTimeStamp>;
+        dcterms:created "2013-11-02T14:20:04"^^xsd:dateTimeStamp;
+        dcterms:modified "2014-01-02T11:32:17"^^xsd:dateTimeStamp;
         sioc:has_container eg_d1:ideas.
 
 ----
@@ -431,7 +431,7 @@ digraph g {
 
     :::turtle
     eg_d1:message_1 a sioc:Post ;
-        dcterms:created "2013-11-01T09:00:04"^^<xsd:dateTimeStamp>;
+        dcterms:created "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
         dcterms:title "Climate change is a real problem"@eng;
         sioc:content """We need to reduce CO2 levels."""@eng;
         sioc:has_creator eg_site:user_maparent;
@@ -498,8 +498,8 @@ digraph g {
         oa:hasSource eg_d1:message_1;
         oa:hasSelector [
             a oa:TextPositionSelector;
-            oa:start "18"^^<xsd:integer>;
-            oa:end "28"^^<xsd:integer>;
+            oa:start "18"^^xsd:integer;
+            oa:end "28"^^xsd:integer;
             oa:exact "CO2 levels"@eng
         ].
     
@@ -608,9 +608,9 @@ digraph g {
     :::turtle
     eg_d1:vote1 a vote:BinaryVote;
         vote:voter eg_site:user_benoitg;
-        dcterms:created "2013-11-02T14:20:04"^^<xsd:dateTimeStamp>;
+        dcterms:created "2013-11-02T14:20:04"^^xsd:dateTimeStamp;
         vote:subject eg_d1:idea_3;
-        vote:positive "true"^^<xsd:boolean>.
+        vote:positive "true"^^xsd:boolean.
 
 ----
 # Lickert Voting
@@ -763,9 +763,9 @@ digraph g {
         a version:Create;
         version:target eg_d1:message_1;
         version:access_author eg_site:user_maparent;
-        version:change_version "0"^^<xsd:integer>;
+        version:change_version "0"^^xsd:integer;
         version:initial_data [
-            dcterms:created "2013-11-01T09:00:04"^^<xsd:dateTimeStamp>;
+            dcterms:created "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
             dcterms:title "Climate change is a real problem"@eng;
             sioc:content """Initial text of the post."""@eng;
             sioc:has_creator eg_site:user_maparent;
@@ -823,7 +823,7 @@ digraph g {
     eg_d1:change_189
         a version:PropertyChange;
         version:target eg_d1:message_1;
-        version:change_version "2"^^<xsd:integer>;
+        version:change_version "2"^^xsd:integer;
         version:access_author eg_site:user_maparent;
         version:new_properties [
             sioc:content """We need to reduce CO2 levels."""@eng;
@@ -891,9 +891,9 @@ digraph g {
     eg_d1:message_1 version:latest_change eg_d1:change_207.
     eg_d1:change_207
         a version:Transaction;
-        version:change_version "1"^^<xsd:integer>;
+        version:change_version "1"^^xsd:integer;
         version:access_author eg_site:user_maparent;
-        dcterms:date "2013-11-02T14:20:04"^^<xsd:dateTimeStamp>;
+        dcterms:date "2013-11-02T14:20:04"^^xsd:dateTimeStamp;
         version:latest_change eg_d1:change_172;
         version:earliest_change eg_d1:change_189.
 
