@@ -11,15 +11,17 @@ Latex Footer: mmd-memoir-footer
 Latex Input: mmd-memoir-begin-doc
 Format: complete
 
+# Introduction
+
 # Prerequisites
 
 This document assumes a basic understanding of the following technologies, which are best described in their respective tutorials.
 
-* REST
-* RDF
-* Turtle syntax
-* JSON-LD
-* SPARQL
+* [REST](http://rest.elkstein.org/)
+* [RDF](http://www.w3.org/2007/02/turtle/primer/)
+* [Turtle syntax](http://www.w3.org/TR/turtle/)
+* [JSON-LD](json-ld.org/spec/latest/json-ld/)
+* [SPARQL 1.1](http://www.w3.org/TR/sparql11-overview/) ([tutorial](http://www.cambridgesemantics.com/semantic-university/sparql-by-example))
 
 # Architectural components
 
@@ -29,14 +31,14 @@ digraph g {
     node [fillcolor=white, style=filled,  shape=rectangle];
     comm [label="Social & messaging platforms"];
     dash [label="Dashboard"];
-    plat [label="Catalyst Web view [ACD]"];
-    viz [label="Visualization Module [ACW]"];
-    ibisdb [label="IBIS database [ACD]"];
-    postdb [label="post database [A]"];
-    analytics [label="analytics engine [DW]"];
+    plat [label="Catalyst integration platforms [IOZ]"];
+    viz [label="Visualization Module [IOW]"];
+    ibisdb [label="IBIS database [IOZ]"];
+    postdb [label="post database [I]"];
+    analytics [label="analytics engine [ZW]"];
     gred [label="ibis graph editor"];
     comm->ibisdb [label="bookmarklets"];
-    comm->postdb [label="data converters (A)"];
+    comm->postdb [label="data converters (I)"];
     viz->comm [label="embed"];
     gred->plat [label="embed"];
     viz->plat [label="embed"];
@@ -49,15 +51,27 @@ digraph g {
     ibisdb->gred [dir=both];
     ibisdb->analytics;
     postdb->analytics;
-    postdb->plat [label="embed [A]"];
+    postdb->plat [label="embed [I]"];
 }
 ```
 
-This is a view of components, and their expected interactions.
+This is a view of components, and their expected interactions. (Letters represent technical partners)
 
-## Post database
+## IBIS database
 
-The 
+The most central component is the IBIS database. 
+
+## Catalyst integration platforms
+
+## Visualisation components
+
+## Social and messaging platforms
+
+## Post database and converters
+
+## Analytics components
+
+## Voting components
 
 # Expected interoperability mechanisms
 
@@ -67,6 +81,27 @@ API endpoints would go into another chapter.
 ## Main communication bus between platforms
 
 ### Basics RESTful calls and JSON-LD
+
+Most server components are expected to expose RESTful endpoints that enable read and write access to the object graph. This will be the main point of access for client components. In particular, there will be one main URL for the server configuration that will give the endpoints for collections for all other data types. (To be discussed: We could use a subset of [Hydra](http://www.markus-lanthaler.com/hydra/) to describe endpoints.)
+
+At minimum, the main URL will give, for each conversation, an URL for the idea collection, one for each post collection (grouped by origin), and one for the set of users (if available.) Those URLs will return the appropriate object graph as JSON-LD. Each resource must be accessible
+
+#### What you have to know about RDF while using JSON-LD
+
+JSON-LD is meant to mostly look like just another JSON format, where many of the properties are valid URLs which specify where you can get more information about a given ressource. However, there are a few pitfalls.
+
+*Inheritance*: the `@type` argument in JSON-LD corresponds to a RDF class. It may be a subclass of the RDF class you expect. Similarly, every property may be a subproperty of the RDF property you expect. The JSON-LD `@context` will give you the ontology specifications; a RDF database can use the ontologies to answer sparql queries specified using known superclasses. 
+
+However, one goal of this specification is that tools should participate in the ecosystem without RDF machinery. So compliant tools SHOULD give multiple values for the `@type` parameters when appropriate, so that at least one comes from the catalyst classes specified in this document. This does not, however, solve the problem of subproperties; these should be avoided for this reason.
+
+*Inverses*: Some RDF properties define inverses: for example `sioc:creator_of owl:inverseOf sioc:has_creator`. Some of those inverse are not specified in the ontology, such as `dcterms:isPartOf` and `dcterms:hasPart`. (We will define a subproperty to specify this.) The list of such inverses is short, and well specified in the ontology documents. Tools that receive JSON-LD from a catalyst platform are expected to interpret either of those relationships as implying the other.
+
+<!-- todo: specify a subproperty of hasPart -->
+
+*Multiple identity*: URIs do not have to be unique in general, and a given object may have multiple identities. This would be marked with the `owl:sameAs`. 
+
+#### Aggregates and individual resources
+
 
 ### vetted SPARQL queries
 
@@ -89,6 +124,17 @@ API endpoints would go into another chapter.
 Location of Ontologies, JSON-LD context, etc.
 
 ## Generic ideas
+
+Though we have chosen to focus on IBIS within the Catalyst consortium, the general problem of discourse visualization has been approached through a variety of different models: formal logic and its varieties (modal, etc.); rhetorical tropes; argumentation schemes; decision theory; defeasability, etc. In all cases, we can distinguish the following principles:
+
+1. Networked context: Many ideas take their full meaning from the network of its associations with other ideas. In the case of IBIS, for example, an Argument's meaning can be hard to interpret without knowing what Option it bolsters. So we have a network structure of links and nodes, as opposed to conceptual monads.
+2. Abstract schemes: A configuration of a sub-network of ideas and links can be identified as an instance of a more abstract scheme. (This is the essence of AIF.)
+3. Implicit or explicit containment: An idea can often be decomposed or refined into sub-ideas. For example, an argument may depend on a hidden assumption, or refer to an issue that has not yet been isolated. Conversely, an Option can represent a collection of actions, each of which had been considered separately before.
+4. Theme and variation: many people will propose similar ideas, which are variations of each other. It is often possible to specify independently what they have in common and how they differ.
+
+These considerations are mostly out of scope for Catalyst, but we have seen it as appropriate to define an abstract notion of generic idea (node) and link as abstract superclasses of the IBIS nodes and links, for future-proofing purposes. Those classes have also been aligned with the AIF ontology to address point 2. Finally, RDF properties have been defined to address point 3 and 4, but they will not be used in the scope of this project.
+
+This is more than an academic exercise, as one of the platforms (Assembl) will allow the creation of generic ideas that do not have an IBIS type, but may acquire it later. Client tools may expect generic ideas from this platform, and maybe others.
 
 ## The IBIS model
 
@@ -496,14 +542,13 @@ Agents are URI identifiers to (probably pseudonymized) users; Verbs are taken fr
 
 ### Known change types
 
-At the most basic level, we can distinguish creation, destruction, or modification of a given target object. More advanced user operations (access, moving, cloning, merging) that involve multiple target objects, could belong to a second layer of support. This is not to say that such operations are not recorded in an application that only provides the first layer of support, but that they would expressed in terms of layer-1 operations, with some loss of information.
+At the most basic level, we can distinguish creation, destruction, or modification of a given target object. More advanced user operations (moving, cloning, merging) that involve multiple target objects, could belong to a second layer of support. This is not to say that such operations are not recorded in an application that only provides the first layer of support, but that they would expressed in terms of layer-1 operations, with some loss of information.
 
 So here is the list of operations:
 
 * Create (target, original_context?)
 * Delete (target)
 * Update (target, affected_properties*)
-* Access (target)
 * Move (target, new_context?, affected_links*)
 * Clone (clone, original?)
 * Merge (target, sources*)
@@ -521,24 +566,30 @@ A few notes on this model:
 5. When we specify updated properties, there are many kinds of properties to consider. I am seriously considering distinguish those as separate update subtypes.
     1. Properties intrinsic to the object : e.g. its name.
     2. Properties that are defined locally on a per-user basis, such as votes and (maybe) read status.
-    3. Properties that are defined by a user, but whose impact is global: e.g. tags.
+    3. Properties that are defined by a user, but whose impact is global. Tags could be treated as a property in this fashion; most of the following discussion will assume they are linked first-class objects.
     4. Lifecycle changes (e.g. moderator validation, locking.) In this case, the old state should be given as an argument, even in layer 2 support.
 
 ### Known object types
 
 The simplicity of the verbs is complemented by an open model of the types of object that are referred to, using RDF classes. (New object classes may be introduced by different implementations, which would by default be ignored by the analytics engines, unless they are RDF subclasses of the established object list.) Here is a first cut of existing object types in our platforms:
 
+* Discussions (a set of ideas taken as a whole)
 * Generic ideas (nodes)
-* Links
-* Posts (for Assembl)
+* Idea Links
 * Views (curated or automated collections of nodes and links, such as Compendium Maps or Assembl synthesis)
-* Quotes (from posts or websites)
-* Comments
+* Posts (for Assembl)
+    * Quotes (extracted from posts or websites)
+* Idea annotation links
 * Tags? (They could be treated as either first-class objects or an extrinsic property like votes. Suggestions welcome.)
+
+Notes:
+
+* Comments (as in Deliberatorium) can be considered a form of post that directly answers a Generic Idea.
+* In Assembl, Posts are related to Generic Ideas through Quotes. More generally, a Quote could be related to more than one Generic Idea through an Annotation Link. The same kind of link can also link a Generic Idea to a whole post or a comment. It would be consistent to treat Tags through the same mechanism (to be discussed.)
 
 ### Lifecycle events
 
-Similarly, we need to agree on a list of key lifecycle events on objects. Here, we do not mean creation, access, etc. but more methodology-dependent events such as:
+Similarly, we need to agree on a list of key lifecycle events on objects. Here, we do not mean creation, deletion, etc. which correspond to change events, but more methodology-dependent events such as those used in Deliberatorium:
 
 * Moderator review
 * Moderator approval
@@ -546,6 +597,8 @@ Similarly, we need to agree on a list of key lifecycle events on objects. Here, 
 * Un/Locking
 * De/Activation
 * Reversion to an earlier state
+
+We may also have lifecycles events that apply to the whole discussion, if the methodology expects the discussion to go through many phases. This needs more discussion between partners.
 
 ### Summary of the first level of support
 
