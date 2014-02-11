@@ -5,7 +5,7 @@
 # https://pypi.python.org/pypi/Pygments
 # https://github.com/gniezen/n3pygments
 # LaTeX
-# LaTeX modules: Tikz, dot2texi, minted etc.
+# LaTeX modules: minted, graphviz, etc. (earlier: Tikz, dot2texi.)
 
 
 all: interoperability.tex

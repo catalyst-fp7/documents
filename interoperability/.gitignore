@@ -1,0 +1,10 @@
+*.aux
+*.glo
+*.idx
+*.ist
+*.log
+*.out
+*.toc
+fig*.dot
+fit*.pdf
+tmpmaster.g*
