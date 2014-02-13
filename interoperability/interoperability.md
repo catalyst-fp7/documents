@@ -536,38 +536,64 @@ Many analytics require access to a detailed history of user interactions. On the
 
 The most basic level conceivable could be based on timed automatic snapshots of the idea graph; is this even usable for any of the analytics? We will not consider this option until we have an answer.
 
-Historical data is otherwise composed of a stream of change events; it should be possible to query the database for a subset of change events by date. At the most basic levels, each event takes the form of a triplet: An agent (Noun) does an action (Verb) on a target object (or objects.) (This is similar to the model used in the Experience API.)
+Historical data is otherwise composed of a stream of change events; it should be possible to query the database for a subset of change events by date. At the most basic levels, each event takes the form like that of a sequence: At a given Timestamp (When), agent (Noun) does an action (Verb) on a target object (or objects), with some optional contextual arguments that depend on the verb. (This is similar to the model used in the Experience API.)
 
-Agents are URI identifiers to (probably pseudonymized) users; Verbs are taken from a very limited closed vocabulary; and targets are URI references. Details about the target should be obtained using the usual RESTful API to obtain the object graph (preferably as collections.) Note that this will not in general allow to fully reconstitute the prior state; that would be left to optional arguments in a third layer of support.
+Agents are URI identifiers to (probably pseudonymized) users; Verbs are taken from a very limited closed vocabulary; and targets are URI references. Details about the target should be obtained using the usual RESTful API to obtain the object graph (preferably as collections.) Note that this will not in general allow to fully reconstitute the prior state; that would be left to optional arguments in a second layer of support.
 
 ### Known change types
 
 At the most basic level, we can distinguish creation, destruction, or modification of a given target object. More advanced user operations (moving, cloning, merging) that involve multiple target objects, could belong to a second layer of support. This is not to say that such operations are not recorded in an application that only provides the first layer of support, but that they would expressed in terms of layer-1 operations, with some loss of information.
 
-So here is the list of operations:
+So here is the list of fundamental operations:
 
 * Create (target, original_context?)
 * Delete (target)
-* Update (target, affected_properties*)
-* Move (target, new_context?, affected_links*)
-* Clone (clone, original?)
-* Merge (target, sources*)
+* Update generic property (target, property_names[^genericprop]*)
+* Change Read status (target, valence, strength?[^readstatus])
+* Annotate an object with a per-user[^peruser] property (target, property_name, value)
+    * Trouble tags (spam, etc.)
+    * Vote
+    * Rating[^rating]
+    * Bookmarks
+    * Tags
+* Annotate an object with a public link to another full-fledged object (targetted link)
+    * Quotes
+    * Posts
+    * Comments
+    * Tags
+* Change of object status
+    * Moderator approval (target)
+    * Moderator rejection (target, reason)
+
+[^genericprop]: We are still considering whether the the name of the properties that were affected by an update operation should be included in the first level of support. In particular, some implementers might change a row in a database without knowing which columns are affected. Also, note that the list of properties defined in the standard is closed, but implementers may introduce new properties or sub-properties. Feedback would be appreciated. 
+
+[^readstatus]: Some platforms may define weaker or stronger signals that a user paid attention to a message. If a platform cannot distinguish those, it should only send strong signals.
+
+[^peruser]: The visibility of per-user properties may be public, private, or public in the aggregate, depending on considerations outside the model, such as debate methodology. However, those signals are owned by the user, in that my vote is independent of your vote.
+
+[^rating]: structurally, ratings are a kind of vote; but in most methodologies voting has to follow a protocol, whereas ratings are informal.
+
+[^tags]: Tags may either be shared or belong to a user. We should allow both options.
+
+A few other operations are more complex, and we are hesitating to include them.
+
+* Move: corresponds to updates to link objects, which may be expressed as link creation/deletion.
+* Clone: create an object with a structural reference (`dcterms:source`) to its origin.
+* Merge: as clone, but the origins also happen to be deleted in another event (preferably with the same timestamp.)
+* Undo: As update
+* Translation: As update
 
 A few notes on this model: 
 
-1. Giving the target as an URI (vs data) in the "delete" operation implies that the corresponding data should still be retrieved, as a "tombstoned" object. This may be a level 2 requirement (or level 3?) At the first level of support, a query for the deleted object may return a HTTP 404 Not Found, HTTP 410 Gone, or equivalent.
+1. Giving the target as an URI (vs data) in the "delete" operation implies that the corresponding data should still be retrieved, as a "tombstoned" object. This is considered to be a level 2 requirement. At the first level of support, a query for the deleted object may return a HTTP 404 Not Found, HTTP 410 Gone, or equivalent.
 
-2. This list does not show layer 3 arguments for full history playback. Even in layer 2, new_context could be optional. The original nodes used for clone and merge node operations could be recorded as `dcterms:source` links in the static object structure, as opposed to optional arguments in history objects. (Should we agree on one way of doing this? What is easiest for existing platforms, including platforms such as Drupal used by Wikitalia?)
+2. This list does not show layer 2 arguments for full history playback.
 
 3. Presuming links are first-class objects in the implementation, a user operation corresponding to a node move can manifest either as a combination of link destruction and creation, or as a link update (of either its source or target property.) This is implementation dependent, though we would recommend the latter. As a consequence, the affected links given as parameters to the move operation in layer 2 support could be tombstones.
 
-4. Objects are often created within a context. This is especially true of dependent objects, such as comments. As this context may be lost with further update or move operations, me might consider giving the original context in the change objects, as a partial implementation of level 3 support.
+4. Objects are often created within a context. This is especially true of dependent objects, such as comments. As this context may be lost with further update or move operations, a platform may give the original context in the change objects, as a partial implementation of level 2 support.
 
-5. When we specify updated properties, there are many kinds of properties to consider. I am seriously considering distinguish those as separate update subtypes.
-    1. Properties intrinsic to the object : e.g. its name.
-    2. Properties that are defined locally on a per-user basis, such as votes and (maybe) read status.
-    3. Properties that are defined by a user, but whose impact is global. Tags could be treated as a property in this fashion; most of the following discussion will assume they are linked first-class objects.
-    4. Lifecycle changes (e.g. moderator validation, locking.) In this case, the old state should be given as an argument, even in layer 2 support.
+5. Some complex user actions (like move or merge) can become multiple events. In that case, best practice would be to use the same timestamp.
 
 ### Known object types
 
@@ -577,54 +603,29 @@ The simplicity of the verbs is complemented by an open model of the types of obj
 * Generic ideas (nodes)
 * Idea Links
 * Views (curated or automated collections of nodes and links, such as Compendium Maps or Assembl synthesis)
-* Posts (for Assembl)
+* Posts (for Assembl) and Comments (as a sub-case of posts)
     * Quotes (extracted from posts or websites)
 * Idea annotation links
-* Tags? (They could be treated as either first-class objects or an extrinsic property like votes. Suggestions welcome.)
+* Tags (at least public tags, as opposed to private tags.)
 
 Notes:
 
 * Comments (as in Deliberatorium) can be considered a form of post that directly answers a Generic Idea.
 * In Assembl, Posts are related to Generic Ideas through Quotes. More generally, a Quote could be related to more than one Generic Idea through an Annotation Link. The same kind of link can also link a Generic Idea to a whole post or a comment. It would be consistent to treat Tags through the same mechanism (to be discussed.)
 
-### Lifecycle events
+### Changes to object status
 
-Similarly, we need to agree on a list of key lifecycle events on objects. Here, we do not mean creation, deletion, etc. which correspond to change events, but more methodology-dependent events such as those used in Deliberatorium:
-
-* Moderator review
-* Moderator approval
-* Moderator rejection
-* Un/Locking
-* De/Activation
-* Reversion to an earlier state
+Similarly, we need to agree on a list of object status. What we have now is moderator approval or rejection, used in Deliberatorium. Deliberatorium includes a series of reasons for rejections, we will need to specify this list.
 
 We may also have lifecycles events that apply to the whole discussion, if the methodology expects the discussion to go through many phases. This needs more discussion between partners.
 
-### Summary of the first level of support
+### Summary of the different levels of support
 
-This would be minimal support for history, just showing who did what. Most information would still come from the current state of the ressource graph.
+The main difference between the two levels is how much history is stored: Tombstones and past property values.
+As mentioned, the list of changed properties may or may not be required of a first-level implementation.
+Some extra level of information (e.g. editing distance for text property updates) may be useful to analytics, and independently specified for level 1.
 
-Change types:
-
-* Create (target)
-* Delete (target)
-* Update (target, lifecycle_event?)
-
-Object types:
-
-* Generic ideas (nodes)
-* Links
-* Posts (for Assembl)
-
-### Summary of second level of support
-
-This would represent a more advanced level of support, with a finer picture of major lifecycle events. That may be the minimal level for advanced analytics. All change types and object types, as defined above, would be used. Note that context information in change and move events, as well as affected_properties in update events, would still be optional, but encouraged.
-
-Some extra level of information (e.g. editing distance for text property updates) may be useful to analytics, and independently specified.
-
-### Third level of support: full history
-
-Here, we would give enough information to reconstitute the state of the database at any point. This means that creation events should store the initial state of an object, and updates and moves should give the new value of any affected property. This is close to the level that was proposed originally.
+To support layer 2, the platform would retain enough information to reconstitute the state of the database at any point. This does not mean that giving an object graph at a given timepoint is the responsibility of the platform. But it does mean that creation events should store the initial state of an object, and updates and moves should give the new value of any affected property. This is close to the level that was proposed originally.
 
 Some aspects of this api are still under design, as we believe we can design them so as to fulfill two accessory goals:
 
