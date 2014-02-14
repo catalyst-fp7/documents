@@ -57,21 +57,27 @@ digraph g {
 
 This is a view of components, and their expected interactions. (Letters represent technical partners)
 
-## IBIS database
+IBIS database server
+: The most central component is the IBIS database, which holds most of the information about the main resource graph.
 
-The most central component is the IBIS database. 
+Catalyst integration platforms
+: These are the general web platforms that users will interact with: they include Open University's DebateHub, IP's Assembl, MIT's Deliberatorium. They may also include some social and messaging platforms that have facility for integrating plugins.
 
-## Catalyst integration platforms
+Social and messaging platforms
+: These are existing social and messaging platforms where users can post messages, such as email, facebook, twitter, blogs, etc. This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.
 
-## Visualisation components
+Visualisation components
+: Visualization components show static or dynamic aspects of the IBIS and social graph, and may allow to manipulate it. Some will be integrated in their respective Catalyst information platform, but some will be rewritten as reusable Web components that can be embedded in any of the Catalyst integration platforms, and possibly in some of the most flexible social platforms.
 
-## Social and messaging platforms
+Post database server
+: This component (and attendant converters) will extract messages from the social and messaging platforms and expose them to the Catalyst integration platforms, directly or through the analytics and voting components. Note that this means the user graph may be distributed between many databases (IBIS, Posts, and eventually voting.)
 
-## Post database and converters
+Analytics components
+: The analytic components will extract data from the various databases and supply analytic results to the Catalyst platforms, possibly through visual components.
 
-## Analytics components
+Voting components
+: Voting is another good candidate for reusable components: We can define votes in a platform independant fashion. Each voting component would define voting values, store them in their own databases, and provide appropriate aggregates.
 
-## Voting components
 
 # Expected interoperability mechanisms
 
@@ -82,7 +88,7 @@ API endpoints would go into another chapter.
 
 ### Basics RESTful calls and JSON-LD
 
-Most server components are expected to expose RESTful endpoints that enable read and write access to the object graph. This will be the main point of access for client components. In particular, there will be one main URL for the server configuration that will give the endpoints for collections for all other data types. (To be discussed: We could use a subset of [Hydra](http://www.markus-lanthaler.com/hydra/) to describe endpoints.)
+Most server components are expected to expose their data through read and write RESTful endpoints. This will be the main point of access for client components. In particular, there will be one main URL for the server configuration that will give the endpoints for collections for all other data types. (To be discussed: We could use a subset of [Hydra](http://www.markus-lanthaler.com/hydra/) to describe endpoints.)
 
 At minimum, the main URL will give, for each conversation, an URL for the idea collection, one for each post collection (grouped by origin), and one for the set of users (if available.) Those URLs will return the appropriate object graph as JSON-LD. Each resource must be accessible
 
@@ -102,22 +108,43 @@ However, one goal of this specification is that tools should participate in the 
 
 #### Aggregates and individual resources
 
+In accordance with the general principles of linked data, each resource's IRI should be dereferencable as a URL. However, most client applications will need to access aggregates of resources, to allow for more efficient access. This requires those aggregates to also be named resources. Also, from a RESTful point of view, aggregates need to exist as target to PUT operations.
 
-### vetted SPARQL queries
+### Trusted or vetted SPARQL queries
 
-### event mechanism (out of scope)
+Some platforms that have this capacity may allow trusted client tools (eg analytics, visualization, or voting modules) to make SPARQL queries directly against their database, as opposed to loading the whole object graph or navigating it in successive REST requests. This obviously allows for more efficient partial requests, in a way that can be independant of the specificities of the underlying abstract model of each platform.
+
+In a broader ecosystem context, most platforms would not open the SPARQL endpoint to untrusted external tools, if only to avoid denial of service attacks using complex queries. However, a platform may choose to expose a subset of pre-defined sparql queries to unknown tools, and tool builders may propose useful SPARQL queries to platform builders.
 
 ### Example: Platforms and analytics
 
 ## Platform and visualizations
 
-### Simple client-side widgets
+Reusable visual components that can be used across web sites is an old technical requirement, and the Web is riddled with different incompatible ways to partially fulfill it. Some new techniques are emerging, but we will need to balance forward thinking and flexibilty with ease of implementation, browser compatibility, and pragmatism. Instead of trying to find (or worse, define) a universal standard, we will define a variety of means to achieve varying levels of support. 
 
 ### Widgets with a server component
 
+The simplest widget would have a server component, which could receive a request on a known endpoint, and return visualization data. The server would have to get the graph data that is to be visualized: either the json-ld graph could be part of the request, or the location of a REST or SPARQL endpoint on the platform server where the visualization server could get the data.
+
+In the simplest case, the server would simply return an image; in some more elaborate cases, the visualization widget would have its own HTML snippet and attendant javascript to lay out and interact with the visualization data. This raises classical cross-origin data issues: If the widget code is hosted on the visualization server, it would require an authorization token to access the platform data, and vice-versa. Those problems have known solutions.
+
+### Fully client-side widgets
+
+A different scenario is that of a purely client-side visualization widget, simply a snippet of HTML with javascript. This can be done using [W3C Web widgets](http://www.w3.org/standards/techs/widgets) or maybe the emerging [W3C Web components](http://www.w3.org/TR/components-intro/). Such a widget would need to receive a configuration from the platform, giving the initial REST or SPARQL endpoint; it would then get its data by navigating the object graph from that endpoint.
+
 ### Example: voting
 
+
+
 ### Deep interoperability with events
+
+In the most complex case, the widget would not only read the platform's data model, but also allow to edit it, or at least to tell the platform front-end about a user action initiated in the widget, such as node selection. This requires deep interoperability between the widget and the platform, presumably through sharing high-level change events between the widget and the platform. 
+
+There are two ways to do this: The widget front-end may either communicate directly with a rich platform front-end, or indirectly through endpoints on the platform back-end. 
+
+Let's first examine contact through the back-end: this can be done easily through RESTful editing commands on the data itself (POST and PUT), or through POSTing high-level user events (node selected, etc.) that would correspond to those stored in the audit history. The advantage of that approach is that it uses mechanisms we have already defined; the disadvantage is that, in most architectures, it is difficult for the platform server to push changes back to the platform front-end. (Assembl being an exception.)
+
+The other option is for the widget front-end to exchange those same user events with the platform front-end. The advantage is that the widget front end needs to understand less about the platform backend endpoints; the disadvantage is that event passing between web components has not yet been standardized properly. We are left either with ad-hoc architectures, solutions that are heavily dependent on a specific front-end framework, or very heavy architectures such as [OpenSocial](http://opensocial.org/). This is going to be an area of further exploration for us.
 
 # Data model
 
