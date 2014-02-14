@@ -31,14 +31,14 @@ digraph g {
     node [fillcolor=white, style=filled,  shape=rectangle];
     comm [label="Social & messaging platforms"];
     dash [label="Dashboard"];
-    plat [label="Catalyst integration platforms [IOZ]"];
-    viz [label="Visualization Module [IOW]"];
-    ibisdb [label="IBIS database [IOZ]"];
+    plat [label="Catalyst integration platforms [I O Z]"];
+    viz [label="Visualization Module [I O W]"];
+    ibisdb [label="IBIS database [I O Z]"];
     postdb [label="post database [I]"];
-    analytics [label="analytics engine [ZW]"];
+    analytics [label="analytics engine [Z W]"];
     gred [label="ibis graph editor"];
     comm->ibisdb [label="bookmarklets"];
-    comm->postdb [label="data converters (I)"];
+    comm->postdb [label="data converters [I]"];
     viz->comm [label="embed"];
     gred->plat [label="embed"];
     viz->plat [label="embed"];
@@ -65,6 +65,7 @@ Catalyst integration platforms
 
 Social and messaging platforms
 : These are existing social and messaging platforms where users can post messages, such as email, facebook, twitter, blogs, etc. This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.
+<!-- Are we sure?  -->
 
 Visualisation components
 : Visualization components show static or dynamic aspects of the IBIS and social graph, and may allow to manipulate it. Some will be integrated in their respective Catalyst information platform, but some will be rewritten as reusable Web components that can be embedded in any of the Catalyst integration platforms, and possibly in some of the most flexible social platforms.
@@ -75,9 +76,17 @@ Post database server
 Analytics components
 : The analytic components will extract data from the various databases and supply analytic results to the Catalyst platforms, possibly through visual components.
 
+Analytics take several forms, but all take data from the Data Model defined later, and return either:
+
+Pull:
+1. Structured data for futher computation, transformation or visualisation.
+2. Visualisations (possibly interactive) or reports directly usable by a human 
+
+Push:
+1. Attention mediation signals to be processed by some deliberation environment (format to be defined).
+
 Voting components
 : Voting is another good candidate for reusable components: We can define votes in a platform independant fashion. Each voting component would define voting values, store them in their own databases, and provide appropriate aggregates.
-
 
 # Expected interoperability mechanisms
 
@@ -92,6 +101,15 @@ Most server components are expected to expose their data through read and write 
 
 At minimum, the main URL will give, for each conversation, an URL for the idea collection, one for each post collection (grouped by origin), and one for the set of users (if available.) Those URLs will return the appropriate object graph as JSON-LD. Each resource must be accessible
 
+<!-- benoitg: I think this is still a bit too specific.  I would think the levels (ordered by largest jump of usefullness at each step): 
+
+1- one file/endpoint with everything (wastefull, but allows doing everything)
+2- one file/endpoint with only everything recursively relevent to some discussion/conversation/debate (even the concept isn't that clear cut as we move out of assembl-land).  But every system will have some grouping that is natural to it.
+3- one endpoint per basic object type with some filtering.
+4- SPARQL endpoint
+
+-->
+
 #### What you have to know about RDF while using JSON-LD
 
 JSON-LD is meant to mostly look like just another JSON format, where many of the properties are valid URLs which specify where you can get more information about a given ressource. However, there are a few pitfalls.
@@ -100,7 +118,7 @@ JSON-LD is meant to mostly look like just another JSON format, where many of the
 
 However, one goal of this specification is that tools should participate in the ecosystem without RDF machinery. So compliant tools SHOULD give multiple values for the `@type` parameters when appropriate, so that at least one comes from the catalyst classes specified in this document. This does not, however, solve the problem of subproperties; these should be avoided for this reason.
 
-*Inverses*: Some RDF properties define inverses: for example `sioc:creator_of owl:inverseOf sioc:has_creator`. Some of those inverse are not specified in the ontology, such as `dcterms:isPartOf` and `dcterms:hasPart`. (We will define a subproperty to specify this.) The list of such inverses is short, and well specified in the ontology documents. Tools that receive JSON-LD from a catalyst platform are expected to interpret either of those relationships as implying the other.
+*Inverses*: Some RDF properties define inverses: for example `sioc:creator_of owl:inverseOf sioc:has_creator` (in other words, the fact that some user is the author of a Post in SIOC can be defined inside the Post object, or inside the user object). Some of those inverse are not specified in the ontology, such as `dcterms:isPartOf` and `dcterms:hasPart`. (We will define a subproperty to specify this.) The list of such inverses is short, and well specified in the ontology documents. Tools that receive JSON-LD from a catalyst platform are expected to interpret either of those relationships as implying the other.
 
 <!-- todo: specify a subproperty of hasPart -->
 
@@ -152,7 +170,7 @@ Location of Ontologies, JSON-LD context, etc.
 
 ## Generic ideas
 
-Though we have chosen to focus on IBIS within the Catalyst consortium, the general problem of discourse visualization has been approached through a variety of different models: formal logic and its varieties (modal, etc.); rhetorical tropes; argumentation schemes; decision theory; defeasability, etc. In all cases, we can distinguish the following principles:
+Though we have chosen to focus on the semantics of IBIS within the Catalyst consortium, the general problem of discourse visualization has been approached through a variety of different models: formal logic and its varieties (modal, etc.); rhetorical tropes; argumentation schemes; decision theory; defeasability, etc. In all cases, we can distinguish the following principles:
 
 1. Networked context: Many ideas take their full meaning from the network of its associations with other ideas. In the case of IBIS, for example, an Argument's meaning can be hard to interpret without knowing what Option it bolsters. So we have a network structure of links and nodes, as opposed to conceptual monads.
 2. Abstract schemes: A configuration of a sub-network of ideas and links can be identified as an instance of a more abstract scheme. (This is the essence of AIF.)
@@ -161,7 +179,9 @@ Though we have chosen to focus on IBIS within the Catalyst consortium, the gener
 
 These considerations are mostly out of scope for Catalyst, but we have seen it as appropriate to define an abstract notion of generic idea (node) and link as abstract superclasses of the IBIS nodes and links, for future-proofing purposes. Those classes have also been aligned with the AIF ontology to address point 2. Finally, RDF properties have been defined to address point 3 and 4, but they will not be used in the scope of this project.
 
-This is more than an academic exercise, as one of the platforms (Assembl) will allow the creation of generic ideas that do not have an IBIS type, but may acquire it later. Client tools may expect generic ideas from this platform, and maybe others.
+This is more than an academic exercise, as within the catalist consortium:
+1. Pure IBIS does not allow expressing abstract nodes and edges, and is thus insufficient as a "lowest common denominator". 
+2. One of the platforms (Assembl) will allow the creation of generic ideas that initially do not have an IBIS type, but may acquire it later. Client tools may expect generic ideas from this platform, and maybe others.
 
 ## The IBIS model
 
@@ -359,7 +379,7 @@ eg_d1:message_2 a sioc:Post ;
     sioc:reply_of eg_d1:message_1.
 ```
 
-## Quotes
+## Quotes and annotations
 
 ```graphviz
 digraph g {
@@ -668,6 +688,13 @@ Both those aspects are out of scope for catalyst 1, and this may even be true of
 
 ## The history graph
 
+# Other data models for system collaboration
+
+These models represent data that are usefull for systems in the ecosystem to interact together, but do not represent the interaction of the participants  
+
+## Attention mediation
+
+## Analytics configuration?
 
 # Security considerations
 
