@@ -5,6 +5,8 @@ Email: maparent@acm.org, benoitg@coeus.ca
 BibTex: catalystinterop
 MainLanguage: english
 Title: Catalyst interoperability operation
+Subtitle: PRELIMINARY DOCUMENT
+Revision: 0.01
 Author: Marc-Antoine Parent, Benoît Grégoire
 Affiliation: Imagination for people
 Latex Footer: mmd-memoir-footer
@@ -157,7 +159,7 @@ In the simplest case, the server would simply return an image; in some more elab
 
 ### Fully client-side widgets
 
-A different scenario is that of a purely client-side visualization widget, simply a snippet of HTML with javascript. This can be done using [W3C Web widgets](http://www.w3.org/standards/techs/widgets) or maybe the emerging [W3C Web components](http://www.w3.org/TR/components-intro/). Such a widget would need to receive a configuration from the platform, giving the initial REST or SPARQL endpoint; it would then get its data by navigating the object graph from that endpoint.
+A different scenario is that of a purely client-side visualization widget, simply a snippet of HTML with javascript. This can be done using [W3C Web widgets](http://www.w3.org/standards/techs/widgets) or maybe the emerging [W3C Web components](http://www.w3.org/TR/components-intro/), as described [here](http://www.html5rocks.com/en/tutorials/webcomponents/imports/). Such a widget would need to receive a configuration from the platform, giving the initial REST or SPARQL endpoint; it would then get its data by navigating the object graph from that endpoint.
 
 ### Example: voting
 
@@ -172,6 +174,32 @@ There are two ways to do this: The widget front-end may either communicate direc
 Let's first examine contact through the back-end: this can be done easily through RESTful editing commands on the data itself (POST and PUT), or through POSTing high-level user events (node selected, etc.) that would correspond to those stored in the audit history. The advantage of that approach is that it uses mechanisms we have already defined; the disadvantage is that, in most architectures, it is difficult for the platform server to push changes back to the platform front-end. (Assembl being an exception.)
 
 The other option is for the widget front-end to exchange those same user events with the platform front-end. The advantage is that the widget front end needs to understand less about the platform backend endpoints; the disadvantage is that event passing between web components has not yet been standardized properly. We are left either with ad-hoc architectures, solutions that are heavily dependent on a specific front-end framework, or very heavy architectures such as [OpenSocial](http://opensocial.org/). This is going to be an area of further exploration for us.
+
+# Security considerations
+
+Though members of the Catalyst consortium have mostly worked with public conversations, we may have to deal with private conversations and we must ensure that our APIs do not open the door to unauthorized access. In general, access control will be granted to tools on a per-conversation basis.
+
+## Pseudonymization support
+
+In particular, the Catalyst project has an obligation to ensure that personal information is not transmitted without consent. As large parts of our project deals with social network analysis, this is a non-trivial requirement. One safe route would have been to only deal with public forums, where there is no assumption of anonymity. That said, some of our communities are involved in ongoing discussions, and have not signed research agreements beforehand, and we have to do the best we can to guarantee their privacy against at least the most basic attempts at re-identification.
+
+To that purpose, the various platform should provide each tool they deal with pseudonymized data, that is data where the user identity is replaced by an opaque identity. This conversion must have the following properties:
+
+1. It must be identity preserving, in that two ideas with the same author should be marked as belonging to the same pseudonym.
+2. It must be reversible: if an analytic tool identifies someone as central in the social network, the platform should be able to identify the original user account.
+3. It must not leak personal information (name, email, etc.)
+4. The pseudonyms should vary by conversation unit. In particular, if the same user account is used in a public and private discussion on the same server, it should not be possible to tie those accounts together using the same pseudonym.
+5. Similarly, if two tools are given data different views of the data on the same conversation with different degrees of access to personal information, they should not be given the same pseudonyms. This is only a consideration if we distinguish an intermediate level of access to personal information between "full access" and "no access"; this is very unlikely to be worth the added complexity.
+
+Analysis tools must be granted access to APIs with a key that gives them access to certain discussions at a certain level, and not other discussions. On the other hand, the front-end of each platform will need access to at least some information about other participants in the discussion (at least their nickname), and hence the API access points used by the front-end will have to be secured.
+
+In general, it is easy to create a database table that will associate a unique random URI to a combination of user account, conversation unit, and access level (if used). The SPARQL machinery can use `owl:sameAs` equivalence to associate those identities to user accounts. That equivalence table, as well as all user information, must be off-limit to any query engine (including SPARQL endpoints) that do not have proper access.
+
+*Implementation note*: it would be much safer if all references to user accounts in the RDF model were made through the pseudonymization table, even at the database level. This is possible in new systems, much more difficult to add to existing systems. The alternative is to add a pseudonymizing filter at the exit, which could be bypassed by clever sparql queries. So we would discourage use of unvetted sparql queries for a database with direct reference to user records.
+
+## Credential-passing for platforms
+
+In general, this means that client platforms will have to use some form of authentication to extract data from server platforms. We suggest using the same form of authentication that the users themselves use, such as OAuth.
 
 # Data model
 
@@ -212,16 +240,19 @@ c1->c2[color=blue, arrowhead=empty, label="inheritance"];
 
 Though we have chosen to focus on the semantics of IBIS within the Catalyst consortium, the general problem of discourse visualization has been approached through a variety of different models: formal logic and its varieties (modal, etc.); rhetorical tropes; argumentation schemes; decision theory; defeasability, etc. In all cases, we can distinguish the following principles:
 
+<!-- todo: References -->
+
 1. Networked context: Many ideas take their full meaning from the network of its associations with other ideas. In the case of IBIS, for example, an Argument's meaning can be hard to interpret without knowing what Option it bolsters. So we have a network structure of links and nodes, as opposed to conceptual monads.
 2. Abstract schemes: A configuration of a sub-network of ideas and links can be identified as an instance of a more abstract scheme. (This is the essence of AIF.)
 3. Implicit or explicit containment: An idea can often be decomposed or refined into sub-ideas. For example, an argument may depend on a hidden assumption, or refer to an issue that has not yet been isolated. Conversely, an Option can represent a collection of actions, each of which had been considered separately before.
 4. Theme and variation: many people will propose similar ideas, which are variations of each other. It is often possible to specify independently what they have in common and how they differ.
+5. Views: It is often useful to present a subset of all known ideas as a unit. Such subsets are also first-class entities. (Compendium Maps are an instance of such views.)
 
-These considerations are mostly out of scope for Catalyst, but we have seen it as appropriate to define an abstract notion of generic idea (node) and link as abstract superclasses of the IBIS nodes and links, for future-proofing purposes. Those classes have also been aligned with the AIF ontology to address point 2. Finally, RDF properties have been defined to address point 3 and 4, but they will not be used in the scope of this project.
+Most of these considerations (except 5.) are out of scope for Catalyst, but we have seen it appropriate to define an abstract notion of generic idea node and generic idea link as abstract superclasses of the IBIS-specific nodes and links, for future-proofing purposes. Those classes themselves derive from an abstract generic idea, which has also been aligned with the AIF ontology to address point 2. Finally, RDF properties have been defined to address point 3 and 4, but they will not be used in the scope of this project.
 
-This is more than an academic exercise, as within the catalist consortium:
+This is more than an academic exercise, as within the catalyst consortium:
 1. Pure IBIS does not allow expressing abstract nodes and edges, and is thus insufficient as a "lowest common denominator". 
-2. One of the platforms (Assembl) will allow the creation of generic ideas that initially do not have an IBIS type, but may acquire it later. Client tools may expect generic ideas from this platform, and maybe others.
+2. One of the platforms (Assembl) will allow the creation of generic ideas that initially do not have an IBIS type, but may acquire it later. Client tools should expect generic ideas from this (and maybe other) platforms.
 
 ### The model
 
@@ -235,6 +266,10 @@ This is more than an academic exercise, as within the catalist consortium:
 
 
 ## The IBIS model
+
+The IBIS model has already been translated before into RDF (see appendix), but that implementation has many flaws. In particular, we need links between generic ideas to be first-class objects, so we can vote on them, record their history, etc. Otherwise, we follow the classical IBIS model. 
+
+We have experimented with the notion of criterion, which can be based on an issue and shared between many arguments, but this is unlikely to be used in the scope of this project.
 
 ### The model:
 
@@ -272,33 +307,62 @@ eg_d1:idealink_3_2 a ibis:ArgumentSupportsPosition;
 
 ## SIOC and containers
 
-### The model
+For interoperability purposes, we need to refer to many collective entities as a whole, notably:
+
+1. The notion of discussion: the set of all interactions that a community has around a topic.
+2. The collection of all generic ideas and their links in a discussion
+3. The information relevant to users in a discussion (with controlled access)
+4. The collection of posts, i.e. contributions to the discussion that are not part of the graph of generic ideas: References, comments, etc. Those will be grouped according to the origin of those contributions.
+5. The set of those contribution origins: sources such as social media, mailing lists, etc.
+6. The set of interaction history.
+
+For most of those, we will use the [SIOC](http://sioc-project.org) [ontology](http://rdfs.org/sioc/ns). We will represent contributions (whether or not part of the idea graph) as `sioc:Item` instances, and most of the above collections as instances of `sioc:Collection`, with the exception of the interaction history. In particular, representing the IBIS information as posts allows to naturally indicate user, creation date, etc.
+
+
+### The SIOC model
 
 ![Main sioc classes](../201401_interoperability_presentation_MK/sioc.png)
 
-### Example data
+### The Catalyst core model
+
+```graphviz
+\include{../../catalyst_ontology/catalyst_core.dot}
+```
+
+```n3
+\include{../../catalyst_ontology/catalyst_core.ttl}
+```
+
+### Example data: the main containers
 
 ```turtle
 @prefix eg_site: <http://www.assembl.net/> .
 @prefix eg_d1: <http://www.assembl.net/discussion/1/> .
 
-<http://www.assembl.net/> a sioc:Site ;
+<http://www.assembl.net> a catalyst:Site ;
+    sioc:space_of <http://www.assembl.net/discussion/1/>;
     sioc:host_of eg_d1:forum.
 
-<http://www.assembl.net/discussion/1/> 
-    a assembl:Discussion, sioc:Container.
+<http://www.assembl.net/discussion/1/>
+    a catalyst:Discussion;
+    dcterms:hasPart eg_d1:forum, eg_d1:ideas;
+    catalyst:participants eg_d1:d1_participants;
+    catalyst:uses_source eg_d1:mailingList1;
+    version:history_graph <http://www.assembl.net/discussion/1/archive>.
 
 eg_d1:forum a sioc:Forum ;
-    sioc:part_of eg_site:discussing_ibis .
+    dcterms:isPartOf <http://www.assembl.net/discussion/1/> .
 
-eg_d1:ideas a assembl:Ideas, sioc:Container;
-    sioc:part_of <http://www.assembl.net/discussion/1/> .
+eg_d1:ideas a catalyst:Ideas ;
+    dcterms:isPartOf <http://www.assembl.net/discussion/1/> .
+    # To a non-assembl-aware tool, this is just another sioc:Container.
 
-eg_site:users a sioc:Usergroup;
-    sioc:usergroup_of <http://www.assembl.net>.
+eg_d1:d1_participants a catalyst:Participants.
 
 eg_d1:d1_member a sioc:Role;
     sioc:has_scope <http://www.assembl.net/discussion/1/> .
+
+eg_d1:d1_mailingList1 a assembl:MailingList, sioc:Space.
 ```
 
 ```graphviz
@@ -306,24 +370,30 @@ digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
-    users [label=<eg_site:users a <U>sioc:Usergroup</U>>, color="green"];
-    users->site [label="sioc:usergroup_of", color="green"];
-    forum [label=<eg_d1:forum a <U>sioc:Forum</U>>, color="green"];
-    site [label=<&lt;http://www.assembl.net/&gt; a <U>sioc:Site</U>>, color="green"];
-    forum->site [label="sioc:host_of", color="green", dir="back"];
-    member_role [label=<eg_d1:d1_member a <U>sioc:Role</U>>, color="green"];
-    member_role->discussion [label="sioc:has_scope", color="green"];
-    discussion [label=<&lt;http://www.assembl.net/discussion/1/&gt;<br /> a <U>assembl:Discussion</U>, <U>sioc:Container</U>>, color="green"];
-    forum [label=<eg_d1:forum a <U>sioc:Forum</U>>, color="green"];
-    ideasContainer [label=<eg_d1:ideas a <U>sioc:Container</U>>, color="green"];
-    forum->discussion [label="sioc:part_of", color="green"];
-    ideasContainer->discussion [label="sioc:part_of", color="green"];
+    users [label=<d1_participants:users a <U>catalyst:Participants</U>>];
+    users->discussion [label="catalyst:participants", dir="back"];
+    forum [label=<eg_d1:forum a <U>sioc:Forum</U>>];
+    site [label=<&lt;http://www.assembl.net/&gt; a <U>catalyst:Site</U>>];
+    forum->site [label="sioc:host_of", dir="back"];
+    discussion->site [label="sioc:space_of", dir="back"];
+    member_role [label=<eg_d1:d1_member a <U>sioc:Role</U>>];
+    member_role->discussion [label="sioc:has_scope"];
+    discussion [label=<&lt;http://www.assembl.net/discussion/1/&gt;<br /> a <U>catalyst:Discussion</U>>];
+    forum [label=<eg_d1:forum a <U>sioc:Forum</U>>];
+    ideasContainer [label=<eg_d1:ideas a <U>sioc:Container</U>>];
+    forum->discussion [label="sioc:part_of"];
+    ideasContainer->discussion [label="sioc:part_of"];
 }
 ```
 
 ## FOAF and users
 
-### Example data
+The SIOC model distinguishes between user accounts and the users themselves, which are modeled using the [FOAF](http://www.foaf-project.org/) [ontology](http://xmlns.com/foaf/0.1/). The advantage of this approach is that we may acknowledge that the same person may be at the origin of messages on different platforms, through different accounts. (Of course, this increases the risk of de-anonymization, and has to be handled appropriately.)
+
+As mentioned in the section on [Pseudonymisation support][], we would use randomized information for user lists.
+
+
+### Example data: a post with origin
 
 ```turtle
 eg_d1:idea_1 a ibis:Issue;
@@ -346,6 +416,8 @@ digraph g {
     idea1->ideasContainer [label="sioc:has_container", color="green"];
 }
 ```
+
+### Example data: user information
 
 ```graphviz
 digraph g {
@@ -397,9 +469,8 @@ eg_site:agent_benoitg a foaf:Person;
     foaf:firstName "Benoit".
 ```
 
-### Pseudonymization
 
-## SIOC and posts
+## Example data: posts
 
 ```graphviz
 digraph g {
@@ -862,32 +933,6 @@ These models represent data that are useful for systems in the ecosystem to inte
 ## Attention mediation
 
 ## Analytics configuration?
-
-# Security considerations
-
-Though members of the Catalyst consortium have mostly worked with public conversations, we may have to deal with private conversations and we must ensure that our APIs do not open the door to unauthorized access. In general, access control will be granted to tools on a per-conversation basis.
-
-## Pseudonymisation support
-
-In particular, the Catalyst project has an obligation to ensure that personal information is not transmitted without consent. As large parts of our project deals with social network analysis, this is a non-trivial requirement. One safe route would have been to only deal with public forums, where there is no assumption of anonymity. That said, some of our communities are involved in ongoing discussions, and have not signed research agreements beforehand, and we have to do the best we can to guarantee their privacy against at least the most basic attempts at re-identification.
-
-To that purpose, the various platform should provide each tool they deal with pseudonymized data, that is data where the user identity is replaced by an opaque identity. This conversion must have the following properties:
-
-1. It must be identity preserving, in that two ideas with the same author should be marked as belonging to the same pseudonym.
-2. It must be reversible: if an analytic tool identifies someone as central in the social network, the platform should be able to identify the original user account.
-3. It must not leak personal information (name, email, etc.)
-4. The pseudonyms should vary by conversation unit. In particular, if the same user account is used in a public and private discussion on the same server, it should not be possible to tie those accounts together using the same pseudonym.
-5. Similarly, if two tools are given data different views of the data on the same conversation with different degrees of access to personal information, they should not be given the same pseudonyms. This is only a consideration if we distinguish an intermediate level of access to personal information between "full access" and "no access"; this is very unlikely to be worth the added complexity.
-
-Analysis tools must be granted access to APIs with a key that gives them access to certain discussions at a certain level, and not other discussions. On the other hand, the front-end of each platform will need access to at least some information about other participants in the discussion (at least their nickname), and hence the API access points used by the front-end will have to be secured.
-
-In general, it is easy to create a database table that will associate a unique random URI to a combination of user account, conversation unit, and access level (if used). The SPARQL machinery can use `owl:sameAs` equivalence to associate those identities to user accounts. That equivalence table, as well as all user information, must be off-limit to any query engine (including SPARQL endpoints) that do not have proper access.
-
-*Implementation note*: it would be much safer if all references to user accounts in the RDF model were made through the pseudonymization table, even at the database level. This is possible in new systems, much more difficult to add to existing systems. The alternative is to add a pseudonymizing filter at the exit, which could be bypassed by clever sparql queries. So we would discourage use of unvetted sparql queries for a database with direct reference to user records.
-
-## Credential-passing for platforms
-
-In general, this means that client platforms will have to use some form of authentication to extract data from server platforms. We suggest using the same form of authentication that the users themselves use, such as OAuth.
 
 # Appendices
 
