@@ -76,17 +76,22 @@ Post database server
 Analytics components
 : The analytic components will extract data from the various databases and supply analytic results to the Catalyst platforms, possibly through visual components.
 
-Analytics take several forms, but all take data from the Data Model defined later, and return either:
-
-Pull:
-1. Structured data for futher computation, transformation or visualisation.
-2. Visualisations (possibly interactive) or reports directly usable by a human 
-
-Push:
-1. Attention mediation signals to be processed by some deliberation environment (format to be defined).
-
 Voting components
 : Voting is another good candidate for reusable components: We can define votes in a platform independant fashion. Each voting component would define voting values, store them in their own databases, and provide appropriate aggregates.
+
+Server platforms
+: This term will be used to refer collectively to the server components of the catalyst integration platforms, including the IBIS database, and the Post database server.
+
+Client platforms
+: This term will be used to refer collectively to components that are used by the server platforms to provide services, but generally expect to use data from the server platforms as input. This includes the analytics and visualization components. The voting component is also included here, though its status is less clear-cut.
+
+A note on analytics: analytics take several forms, but all take data from the Data Model defined later, and return either:
+
+1. Pull:
+    1. Structured data for futher computation, transformation or visualisation.
+    2. Visualisations (possibly interactive) or reports directly usable by a human 
+2. Push:
+    1. Attention mediation signals to be processed by some deliberation environment (format to be defined).
 
 # Expected interoperability mechanisms
 
@@ -95,20 +100,24 @@ API endpoints would go into another chapter.
 
 ## Main communication bus between platforms
 
-### Basics RESTful calls and JSON-LD
+### Simple JSON-LD access
 
-Most server components are expected to expose their data through read and write RESTful endpoints. This will be the main point of access for client components. In particular, there will be one main URL for the server configuration that will give the endpoints for collections for all other data types. (To be discussed: We could use a subset of [Hydra](http://www.markus-lanthaler.com/hydra/) to describe endpoints.)
+A simple read-only access to the data should be adequate for many analytics and visualization purposes, and some partners may choose to implement this simple access method. Clients to the platform should be expected to access the data through one of the following mechanisms (choice of mechanism and endpoints to be part of configuration parameters):
 
-At minimum, the main URL will give, for each conversation, an URL for the idea collection, one for each post collection (grouped by origin), and one for the set of users (if available.) Those URLs will return the appropriate object graph as JSON-LD. Each resource must be accessible
+1. Pulling all server data in JSON-LD from a single HTTP address
+2. Pulling all server data relative to one unit of conversation, assuming a given platform server can host many different conversations with disjoint communities. This is necessary as each such conversation may define different access permissions.
+3. Endpoints allowing to access the collection of each main type of resource, with some filtering ability (GET endpoints)
+4. Read/write RESTful endpoints for the collection of each main type of resource (probably one such endpoint per unit of conversation.)
+5. Read-only SPARQL Endpoints with agreed queries.
+6. Read/write SPARQL endpoints.
 
-<!-- benoitg: I think this is still a bit too specific.  I would think the levels (ordered by largest jump of usefullness at each step): 
+Note that some of the social platforms we plan to integrate may not offer RDF data at all. The conversion of some of this data to RDF may be done within the scope of this project, but designing a generic way to do so is outside this scope, and is well handled by such known technologies as [GRDDL](http://www.w3.org/TR/grddl-primer/). Similarly, though some platforms (notably Drupal) will expose their data in RDFa, this still requires a crawling step and Catalyst tools are not expected to implement this. In the specific case of Drupal, we recommend installation of the [SPARQL module](https://drupal.org/project/sparql), or at least the [RESTful Web service module](https://drupal.org/project/restws).
 
-1- one file/endpoint with everything (wastefull, but allows doing everything)
-2- one file/endpoint with only everything recursively relevent to some discussion/conversation/debate (even the concept isn't that clear cut as we move out of assembl-land).  But every system will have some grouping that is natural to it.
-3- one endpoint per basic object type with some filtering.
-4- SPARQL endpoint
+### RESTful access endpoints
 
--->
+Most client components will want to interact with the data on the platform, and this will usually be done through RESTful read/write endpoints (option 4 above), one for each conversation unit and main resource type[^maintype]. Specifying these endpoints in each client's configuration would be tedious, and the client would be configured with a main URL that will yield a document describing all the other endpoints. This document could also be in JSON-LD, or we could use a subset of the [Hydra](http://www.markus-lanthaler.com/hydra/) format to describe endpoints.
+
+[^maintype]: In general, main resource types correspond to abstract superclasses. We would consider IBIS nodes (aka GenericIdeas) to be a resource type, but the subtypes (Issue, Option and Argument) to be subtypes.
 
 #### What you have to know about RDF while using JSON-LD
 
@@ -130,7 +139,7 @@ In accordance with the general principles of linked data, each resource's IRI sh
 
 ### Trusted or vetted SPARQL queries
 
-Some platforms that have this capacity may allow trusted client tools (eg analytics, visualization, or voting modules) to make SPARQL queries directly against their database, as opposed to loading the whole object graph or navigating it in successive REST requests. This obviously allows for more efficient partial requests, in a way that can be independant of the specificities of the underlying abstract model of each platform.
+Some platforms that have this capacity may allow trusted client tools (eg analytics, visualization, or voting modules) to make SPARQL queries or even updates directly against their database, as opposed to loading the whole object graph or navigating it in successive REST requests. This obviously allows for more efficient partial requests, in a way that can be independant of the specificities of the underlying abstract model of each platform.
 
 In a broader ecosystem context, most platforms would not open the SPARQL endpoint to untrusted external tools, if only to avoid denial of service attacks using complex queries. However, a platform may choose to expose a subset of pre-defined sparql queries to unknown tools, and tool builders may propose useful SPARQL queries to platform builders.
 
@@ -166,7 +175,38 @@ The other option is for the widget front-end to exchange those same user events 
 
 # Data model
 
-Location of Ontologies, JSON-LD context, etc.
+The catalyst ontology is provisionally hosted on [Github](https://github.com/catalyst-fp7/ontology/). The URIs for the ontology have been reserved with <http://purl.org/>, as <http://purl.org/catalyst/idea>, etc. The ontology also hosts a simple JSON-LD [context](http://purl.org/catalyst/jsonld)
+
+In the following, there will be instance diagrams and class diagrams. In the latter, we will use the following conventions:
+
+```graphviz
+digraph g {
+graph[rankdir="LR"];
+
+c5 [shape=rect, label="class"];
+c6 [shape=rect, label="class"];
+c5->c6[dir=both, arrowhead=odot, arrowtail=odot, label="equivalent class"];
+
+p4 [shape=oval, label="property"];
+p5 [shape=oval, label="property"];
+p4->p5 [dir=both, arrowhead=crow, arrowtail=crow, label="inverse properties"];
+
+c3 [shape=rect, label="class"];
+c4 [shape=rect, label="class"];
+p3 [shape=oval, label="property"]
+c3->p3 [label="range of", arrowhead=open];
+p3->c4 [label="has domain", arrowhead=open];
+
+p1 [shape=oval, label="subproperty"];
+p2 [shape=oval, label="property"];
+p1->p2[color=blue, arrowhead=empty, label="inheritance"];
+
+c1 [shape=rect, label="subclass"];
+c2 [shape=rect, label="superclass"];
+c1->c2[color=blue, arrowhead=empty, label="inheritance"];
+
+}
+```
 
 ## Generic ideas
 
@@ -183,7 +223,31 @@ This is more than an academic exercise, as within the catalist consortium:
 1. Pure IBIS does not allow expressing abstract nodes and edges, and is thus insufficient as a "lowest common denominator". 
 2. One of the platforms (Assembl) will allow the creation of generic ideas that initially do not have an IBIS type, but may acquire it later. Client tools may expect generic ideas from this platform, and maybe others.
 
+### The model
+
+```graphviz 0.4
+\include{../../catalyst_ontology/idea.dot}
+```
+
+```n3
+\include{../../catalyst_ontology/catalyst_idea.ttl}
+```
+
+
 ## The IBIS model
+
+### The model:
+
+
+```graphviz 0.4
+\include{../../catalyst_ontology/ibis.dot}
+```
+
+```n3
+\include{../../catalyst_ontology/catalyst_ibis.ttl}
+```
+
+### Example data:
 
 ```turtle
 eg_d1:idea_1 a ibis:Issue;
@@ -207,6 +271,12 @@ eg_d1:idealink_3_2 a ibis:ArgumentSupportsPosition;
 ```
 
 ## SIOC and containers
+
+### The model
+
+![Main sioc classes](../201401_interoperability_presentation_MK/sioc.png)
+
+### Example data
 
 ```turtle
 @prefix eg_site: <http://www.assembl.net/> .
@@ -252,6 +322,8 @@ digraph g {
 ```
 
 ## FOAF and users
+
+### Example data
 
 ```turtle
 eg_d1:idea_1 a ibis:Issue;
@@ -381,6 +453,16 @@ eg_d1:message_2 a sioc:Post ;
 
 ## Quotes and annotations
 
+### Use of OpenAnnotation
+
+![openannotation source model](../201401_interoperability_presentation_MK/oa_textposition.png)
+
+![openannotation graph model](../201401_interoperability_presentation_MK/oa_namedgraph.png)
+
+Note that OpenAnnotation recommends to send semantic content using ContentAsText. Named graphs/reification are mentioned as an option, if justified.
+
+### Example data
+
 ```graphviz
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
@@ -458,7 +540,7 @@ eg_d1:annotations_1 a oa:Annotation;
 
 eg_site:annotation_1_target a trig:Graph.
 
-# The annotation body (a named graph) links the text extract to an idea.
+### The annotation body (a named graph) links the text extract to an idea.
 
 eg_site:annotation_1_target = {
     eg_d1:extracts_1 assembl:expressesIdea eg_d1:idea_1.
@@ -467,7 +549,18 @@ eg_site:annotation_1_target = {
 
 ## Voting
 
-### Binary
+### The model
+
+```graphviz 0.4
+\include{../../catalyst_ontology/vote.dot}
+```
+
+```n3
+\include{../../catalyst_ontology/catalyst_vote.ttl}
+```
+
+
+### Binary vote example data
 
 ```graphviz
 digraph g {
@@ -497,7 +590,7 @@ eg_d1:vote1 a vote:BinaryVote;
     vote:positive "true"^^xsd:boolean.
 ```
 
-### Lickert
+### Lickert vote example data
 
 
 ```graphviz
@@ -537,7 +630,7 @@ eg_d1:vote2 a vote:LickertVote;
     vote:lickert_value "8"^^xsd:integer.
 ```
 
-### Ordering
+### Ordering vote example data
 
 ```graphviz
 digraph g {
@@ -682,6 +775,80 @@ Some aspects of this api are still under design, as we believe we can design the
 
 Both those aspects are out of scope for catalyst 1, and this may even be true of the third level of support as a whole. However, designing the API so it does not clash with those ulterior goals in mind is both possible and desirable.
 
+## The model
+
+```graphviz 0.4
+\include{../../catalyst_ontology/version.dot}
+```
+
+```n3
+\include{../../catalyst_ontology/version.ttl}
+```
+
+### Example data
+
+```n3
+<http://www.assembl.net/discussion/1/> version:history_graph <http://www.assembl.net/archive/1/>.
+
+<http://www.assembl.net/archive/1/> = {
+
+    eg_d1:event1
+        a version:Create;
+        version:what eg_d1:message_1;
+        version:who eg_site:user_maparent;
+        version:revision "0"^^xsd:integer;
+        version:when "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
+        version:snapshot [
+            a sioc:Post, version:ObjectSnapshot ;
+            dcterms:created "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
+            dcterms:title "Let's discuss IBIS"@eng;
+            sioc:content """This was the initial text of the post."""@eng;
+            sioc:has_creator eg_site:user_maparent;
+            sioc:has_container eg_d1:forum;
+            version:snapshot_of eg_d1:message_1
+        ].
+    eg_d1:event2
+        a version:Update;
+        version:what eg_d1:message_1;
+        version:who eg_site:user_maparent;
+        version:revision "1"^^xsd:integer;
+        version:when "2013-11-01T09:12:15"^^xsd:dateTimeStamp;
+        version:updated_value [
+            a rdf:Statement;
+            rdf:subject eg_d1:message_1;
+            rdf:predicate dcterms:title;
+            rdf:object "Let's discuss IBIS in RDF"@eng
+        ];
+        version:updated_value [
+            a rdf:Statement;
+            rdf:subject eg_d1:message_1;
+            rdf:predicate sioc:content;
+            rdf:object "A more elaborate description"@eng
+        ].
+    eg_d1:event3
+        a version:ReadStatusChange;
+        version:who eg_site:user_benoitg;
+        version:what eg_d1:message_1;
+        version:revision "2"^^xsd:integer;
+        version:when "2013-11-02T11:00:01"^^xsd:dateTimeStamp.
+    eg_d1:event4
+        a version:Delete;
+        version:who eg_site:user_maparent;
+        version:what eg_d1:message_1;
+        version:revision "3"^^xsd:integer;
+        version:when "2013-11-03T11:00:01"^^xsd:dateTimeStamp;
+        version:tombstone [
+            a sioc:Post, version:Tombstone ;
+            dcterms:created "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
+            dcterms:title "Let's discuss IBIS in RDF"@eng;
+            sioc:content """A more elaborate description"""@eng;
+            sioc:has_creator eg_site:user_maparent;
+            sioc:has_container eg_d1:forum;
+            version:snapshot_of eg_d1:message_1
+        ].
+```
+
+
 # API endpoints
 
 ## The data graph
@@ -690,7 +857,7 @@ Both those aspects are out of scope for catalyst 1, and this may even be true of
 
 # Other data models for system collaboration
 
-These models represent data that are usefull for systems in the ecosystem to interact together, but do not represent the interaction of the participants  
+These models represent data that are useful for systems in the ecosystem to interact together, but do not represent the interaction of the participants.
 
 ## Attention mediation
 
@@ -698,15 +865,29 @@ These models represent data that are usefull for systems in the ecosystem to int
 
 # Security considerations
 
+Though members of the Catalyst consortium have mostly worked with public conversations, we may have to deal with private conversations and we must ensure that our APIs do not open the door to unauthorized access. In general, access control will be granted to tools on a per-conversation basis.
+
 ## Pseudonymisation support
 
-## Levels of access for tools
+In particular, the Catalyst project has an obligation to ensure that personal information is not transmitted without consent. As large parts of our project deals with social network analysis, this is a non-trivial requirement. One safe route would have been to only deal with public forums, where there is no assumption of anonymity. That said, some of our communities are involved in ongoing discussions, and have not signed research agreements beforehand, and we have to do the best we can to guarantee their privacy against at least the most basic attempts at re-identification.
 
-## Personal limits to views
+To that purpose, the various platform should provide each tool they deal with pseudonymized data, that is data where the user identity is replaced by an opaque identity. This conversion must have the following properties:
+
+1. It must be identity preserving, in that two ideas with the same author should be marked as belonging to the same pseudonym.
+2. It must be reversible: if an analytic tool identifies someone as central in the social network, the platform should be able to identify the original user account.
+3. It must not leak personal information (name, email, etc.)
+4. The pseudonyms should vary by conversation unit. In particular, if the same user account is used in a public and private discussion on the same server, it should not be possible to tie those accounts together using the same pseudonym.
+5. Similarly, if two tools are given data different views of the data on the same conversation with different degrees of access to personal information, they should not be given the same pseudonyms. This is only a consideration if we distinguish an intermediate level of access to personal information between "full access" and "no access"; this is very unlikely to be worth the added complexity.
+
+Analysis tools must be granted access to APIs with a key that gives them access to certain discussions at a certain level, and not other discussions. On the other hand, the front-end of each platform will need access to at least some information about other participants in the discussion (at least their nickname), and hence the API access points used by the front-end will have to be secured.
+
+In general, it is easy to create a database table that will associate a unique random URI to a combination of user account, conversation unit, and access level (if used). The SPARQL machinery can use `owl:sameAs` equivalence to associate those identities to user accounts. That equivalence table, as well as all user information, must be off-limit to any query engine (including SPARQL endpoints) that do not have proper access.
+
+*Implementation note*: it would be much safer if all references to user accounts in the RDF model were made through the pseudonymization table, even at the database level. This is possible in new systems, much more difficult to add to existing systems. The alternative is to add a pseudonymizing filter at the exit, which could be bypassed by clever sparql queries. So we would discourage use of unvetted sparql queries for a database with direct reference to user records.
 
 ## Credential-passing for platforms
 
-## Filtering json-ld?
+In general, this means that client platforms will have to use some form of authentication to extract data from server platforms. We suggest using the same form of authentication that the users themselves use, such as OAuth.
 
 # Appendices
 
@@ -714,4 +895,41 @@ These models represent data that are usefull for systems in the ecosystem to int
 
 ### IBIS PA
 
+
+
 ### AIF
+
+
+![AIF Ontology](../201401_interoperability_presentation_MK/aif_argument.png)
+
+Concrete arguments vs descriptions of abstract argument schemes.
+
+Types of schemes:
+
+![AIF Ontology](../201401_interoperability_presentation_MK/aif_onto.png)
+
+Also: Dialogue (including Illocutionary and Transition)
+
+#### AIF vs IBIS vs Informal thinking
+
+* AIF argument nodes emphasize links from premises to conclusions
+* AIF preference has to be between at least two options
+* IBIS Arguments often contain an implicit argument and (unary) preference for the conclusion
+* IBIS Options are not even quite AIF Information nodes (Statements)
+* Informal concepts do not spontaneously fit IBIS, AIF or other schemes, and are often compounds.
+* Sharing between AIF and IBIS requires a more basic common ontology
+
+#### Generic Ideas
+
+* Use AIF core ontology
+* Basic relevance statement
+* Containment
+* Similarity
+* Successive refinement
+
+#### IBIS in AIF
+
+* Relevance Statement in Option->Issue link.
+* Unary preference scheme for IBIS Arguments.
+    *Can be combined into AIF Preference.
+* AIF Argument + Unary preference identified in Argument->Option link.
