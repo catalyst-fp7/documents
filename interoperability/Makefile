@@ -21,14 +21,20 @@
 # git clone https://github.com/drayside/graphviz.sty.git  ~/texmf/tex/latex/graphviz
 # sudo texhash
 
+# Check out 
+ONTOLOGY_DIRECTORY=../../catalyst_ontology
+
 
 all: interoperability.tex
 
+$(ONTOLOGY_DIRECTORY):
+	git clone https://github.com/catalyst-fp7/ontology.git $@
+
 pdf: interoperability.pdf
 
-%.pdf: %.tex
-	pdflatex -shell-escape $<
-	pdflatex -shell-escape $<
+%.pdf: %.tex $(ONTOLOGY_DIRECTORY)
+	TEXINPUT=.:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
+	TEXINPUT=.:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
 
 %.tex: %.md
 	multimarkdown -t latex -f $< | ./convert_latex.py > $@
