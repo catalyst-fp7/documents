@@ -29,6 +29,7 @@ all: interoperability.tex
 
 $(ONTOLOGY_DIRECTORY):
 	git clone https://github.com/catalyst-fp7/ontology.git $@
+	(cd $@; make)
 
 pdf: interoperability.pdf
 

@@ -1,19 +1,37 @@
 #!/usr/bin/python
 import sys
 import re
+import os
 
-begin_expr = re.compile(r'\\begin{lstlisting}\[language=(\w+)\]')
+begin_expr = re.compile(r'\\begin{lstlisting}\[language=(\w+)( [0-9\.]+)?\]')
 end_expr = re.compile(r'\\end{lstlisting}')
+insert_expr = re.compile(r'\\include{(.*)}')
+digraph_start_expr = re.compile(r'\s*(strict\s+)?digraph\s+\{')
+
 
 if __name__ == '__main__':
     state = None
     num = 1
     for line in sys.stdin:
-        if not state and begin_expr.match(line):
+        if insert_expr.match(line):
+            fname = insert_expr.match(line).group(1)
+            if not os.path.exists(fname):
+                sys.stderr.write('Missing: %s\n' % fname)
+                exit(1)
+            with open(fname) as f:
+                data = f.read()
+                if state == 'graphviz':
+                    match = digraph_start_expr.match(data)
+                    assert match
+                    data = data[len(match.group(0)):]
+                    state = 'graphviz1'
+                print data
+        elif not state and begin_expr.match(line):
             m = begin_expr.match(line)
             state = m.group(1)
             if state == 'graphviz':
-                print '\\digraph[scale=0.5]{fig%d}{' % num
+                scale = m.group(2) or '0.5'
+                print '\\digraph[scale=%s]{fig%d}{' % (scale.strip(), num)
                 num += 1
             else:
                 print '\\begin{minted}{%s}' % (state,)

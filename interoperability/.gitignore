@@ -6,5 +6,5 @@
 *.out
 *.toc
 fig*.dot
-fit*.pdf
+fig*.pdf
 tmpmaster.g*
