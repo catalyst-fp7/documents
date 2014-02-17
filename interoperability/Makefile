@@ -27,13 +27,15 @@ ONTOLOGY_DIRECTORY=../../catalyst_ontology
 
 all: interoperability.tex
 
+ontologies: | $(ONTOLOGY_DIRECTORY)
+	$(MAKE) -C $(ONTOLOGY_DIRECTORY)
+
 $(ONTOLOGY_DIRECTORY):
 	git clone https://github.com/catalyst-fp7/ontology.git $@
-	(cd $@; make)
 
 pdf: interoperability.pdf
 
-%.pdf: %.tex $(ONTOLOGY_DIRECTORY)
+%.pdf: %.tex ontologies
 	TEXINPUT=.:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
 	TEXINPUT=.:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
 
