@@ -15,6 +15,10 @@ Format: complete
 
 # Introduction
 
+This document aims to describe the computer to computer interactions of software components inside the catalyst ecosystem.
+
+It is intended to become an actual standard used for components build or deployer by organisations outside the catalyst consortium.
+
 # Prerequisites
 
 This document assumes a basic understanding of the following technologies, which are best described in their respective tutorials.
@@ -57,20 +61,20 @@ digraph g {
 }
 ```
 
-This is a view of components, and their expected interactions. (Letters represent technical partners)
+This is a view of components, and their expected interactions. (Letters represent catalyst technical partners)
 
 IBIS database server
-: The most central component is the IBIS database, which holds most of the information about the main resource graph.
+: The most central component is the IBIS database, which holds most of the information about the concepts and ideas being built and discussed by participants.
 
 Catalyst integration platforms
 : These are the general web platforms that users will interact with: they include Open University's DebateHub, IP's Assembl, MIT's Deliberatorium. They may also include some social and messaging platforms that have facility for integrating plugins.
 
 Social and messaging platforms
 : These are existing social and messaging platforms where users can post messages, such as email, facebook, twitter, blogs, etc. This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.
-<!-- Are we sure?  -->
+<!-- Are we sure? Folding things used (and at least partially controlled) by our community partners with general social networks seems like a bad idea -->
 
 Visualisation components
-: Visualization components show static or dynamic aspects of the IBIS and social graph, and may allow to manipulate it. Some will be integrated in their respective Catalyst information platform, but some will be rewritten as reusable Web components that can be embedded in any of the Catalyst integration platforms, and possibly in some of the most flexible social platforms.
+: Visualization components show static or dynamic aspects of the IBIS and social graph, and may allow to navigate it (but not write to it) Some will be integrated directly in their respective Catalyst information platform, but most written as reusable Web components that can be embedded in any of the Catalyst integration platforms, and possibly in some of the more flexible social platforms.
 
 Post database server
 : This component (and attendant converters) will extract messages from the social and messaging platforms and expose them to the Catalyst integration platforms, directly or through the analytics and voting components. Note that this means the user graph may be distributed between many databases (IBIS, Posts, and eventually voting.)
@@ -975,13 +979,13 @@ These models represent data that are useful for systems in the ecosystem to inte
 ### AIF
 
 
-![AIF Ontology](../201401_interoperability_presentation_MK/aif_argument.png)
+![AIF Ontology](../201401_interoperability_presentation_MK/AIF_argument.png)
 
 Concrete arguments vs descriptions of abstract argument schemes.
 
 Types of schemes:
 
-![AIF Ontology](../201401_interoperability_presentation_MK/aif_onto.png)
+![AIF Ontology](../201401_interoperability_presentation_MK/AIF_onto.png)
 
 Also: Dialogue (including Illocutionary and Transition)
 
