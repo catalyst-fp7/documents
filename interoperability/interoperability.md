@@ -256,7 +256,7 @@ This is more than an academic exercise, as within the catalyst consortium:
 
 ### The model
 
-```graphviz 0.4
+```graphviz 0.3
 \include{../../catalyst_ontology/idea.dot}
 ```
 
@@ -388,64 +388,61 @@ digraph g {
 
 ## FOAF and users
 
-The SIOC model distinguishes between user accounts and the users themselves, which are modeled using the [FOAF](http://www.foaf-project.org/) [ontology](http://xmlns.com/foaf/0.1/). The advantage of this approach is that we may acknowledge that the same person may be at the origin of messages on different platforms, through different accounts. (Of course, this increases the risk of de-anonymization, and has to be handled appropriately.)
+The SIOC model distinguishes between user accounts and the users themselves, which are modeled using the [FOAF](http://www.foaf-project.org/) [ontology](http://xmlns.com/foaf/0.1/). This approach allows the social analytics engines to know that the same person may be at the origin of messages on different platforms, through different accounts. (Of course, this increases the risk of de-anonymization, and has to be handled appropriately.)
 
 As mentioned in the section on [Pseudonymisation support][], we would use randomized information for user lists.
 
 
-### Example data: a post with origin
 
-```turtle
-eg_d1:idea_1 a ibis:Issue;
-    dcterms:title "Stop climate change"@eng;
-    dcterms:description "A longer description "@eng;
-    sioc:has_creator eg_site:user_maparent;
-    dcterms:created "2013-11-02T14:20:04"^^xsd:dateTimeStamp;
-    dcterms:modified "2014-01-02T11:32:17"^^xsd:dateTimeStamp;
-    sioc:has_container eg_d1:ideas.
-```
-
-```graphviz
-digraph g {
-    graph [bgcolor="transparent", rankdir="BT"] ;
-    node [fillcolor=white, style=filled,  shape=record];
-    idea1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'><tr><td>eg_d1:idea_1 a ibis:Issue</td></tr><tr><td>dcterms:title='Stop climate change'@eng</td></tr><tr><td><font color="green">dcterms:created '2013-11-02T14:20:04'^^&lt;xsd:dateTimeStamp&gt;</font></td></tr><tr><td><font color="green">dcterms:modified '2014-01-02T11:32:17'^^&lt;xsd:dateTimeStamp&gt;</font></td></tr></table>>];
-    user1 [label="eg_site:user_maparent a foaf:Person", color="green"];
-    idea1->user1 [label="sioc:has_creator", color="green"];
-    ideasContainer [label="eg_d1:ideas a sioc:Container", color="green"];
-    idea1->ideasContainer [label="sioc:has_container", color="green"];
-}
-```
 
 ### Example data: user information
 
-```graphviz
+```graphviz 0.5
 digraph g {
     graph [bgcolor="transparent", rankdir="LR", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
-    person1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_site:agent_maparent a <U>foaf:Person</U></td></tr>
-        <tr><td>foaf:familyName 'Marc-Antoine'</td></tr>
-        <tr><td>foaf:lastName 'Parent'</td></tr>
-        </table>>];
-    user1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_site:user_maparent a <U>sioc:UserAccount</U></td></tr>
-        <tr><td>sioc:email "maparent@acm.org"</td></tr>
-        </table>>, color="green"];
-    user1->person1 [label="sioc:account_of", color="green"];
-    user1->users [label="sioc:member_of", color="green"];
-    user1->member_role [label="sioc:has_function", color="green"];
+    site [label=<&lt;http://www.assembl.net/&gt; a <U>catalyst:Site</U>>];
+    site->discussion [label="sioc:has_space"];
+    discussion [label=<&lt;http://www.assembl.net/discussion/1/&gt;<br /> a <U>catalyst:Discussion</U>>];
+    site->user1 [label="catalyst:user_graph", lhead="cluster_users"];
+    subgraph cluster_users {
+        graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
+            label=<eg_site:users a <U>trig:Graph</U>>, fontsize=10];
+        person1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
+            <tr><td>eg_site:agent_maparent a <U>foaf:Person</U></td></tr>
+            <tr><td>foaf:familyName 'Marc-Antoine'</td></tr>
+            <tr><td>foaf:lastName 'Parent'</td></tr>
+            </table>>];
+        user1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
+            <tr><td>eg_site:user_maparent a <U>sioc:UserAccount</U></td></tr>
+            <tr><td>sioc:email "maparent@acm.org"</td></tr>
+            </table>>];
+        user1->person1 [label="sioc:account_of"];
+    }
+    discussion->user1p [label="catalyst:pseudonymization_graph", lhead="cluster_pseudo"];
+    subgraph cluster_pseudo {
+        graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
+            label=<eg_discussion:pseudonymization_graph a <U>trig:Graph</U>>, fontsize=10];
+        person1p [label=<eg_d1:pseudo_21d... a <U>foaf:Person</U>>];
+        user1p [label=<eg_d1:pseudo_262... a <U>sioc:UserAccount</U>>];
+        user1p->person1p [label="sioc:account_of"];
+    }
+
+    user1->users [label="sioc:member_of"];
+    //user1->member_role [label="sioc:has_function"];
     users [label=<eg_site:users a <U>sioc:Usergroup</U>>];
-    users->site [label="sioc:usergroup_of"];
-    forum [label=<eg_d1:forum a <U>sioc:Forum</U>>];
-    site [label=<&lt;http://www.assembl.net/&gt; a <U>sioc:Site</U>>];
-    forum->site [label="sioc:host_of", dir="back"];
-    member_role [label=<eg_d1:d1_member a <U>sioc:Role</U>>];
-    member_role->discussion [label="sioc:has_scope"];
-    discussion [label=<&lt;http://www.assembl.net/discussion/1/&gt;<br /> a <U>assembl:Discussion</U>, <U>sioc:Container</U>>];
-    forum->discussion [label="sioc:part_of", color="green"];
-    ideasContainer->discussion [label="sioc:part_of", color="green"];
+    users->discussion [label="sioc:usergroup_of"];
+    user1p->user1 [label="owl:sameAs", arrowhead="odot", arrowtail="odot", dir="both"];
+    person1p->person1 [label="owl:sameAs", arrowhead="odot", arrowtail="odot", dir="both"];
+
+    discussion->idea [label="catalyst:pseudonymization_graph", lhead="cluster_data"];
+    subgraph cluster_data {
+        graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
+            label=<eg_discussion:data a <U>trig:Graph</U>>, fontsize=10];
+        idea [label=<eg_d1:idea1 a <U>catalyst:Idea</U>>];
+    }
+    idea->user1p [label="sioc:has_creator"];
 }
 ```
 
@@ -454,20 +451,38 @@ digraph g {
 @prefix eg_site: <http://www.assembl.net/> .
 @prefix eg_d1: <http://www.assembl.net/discussion/1/> .
 
-eg_site:agent_maparent a foaf:Person;
-    foaf:familyName "Marc-Antoine";
-    foaf:firstName "Parent".
+<http://www.assembl.net/> catalyst:user_graph <http://www.assembl.net/users/>.
 
-eg_site:user_maparent a sioc:UserAccount;
-    sioc:account_of eg_site:agent_maparent;
-    sioc:has_function eg_d1:d1_member;
-    sioc:member_of eg_site:users;
-    sioc:email "maparent@acm.org".
+<http://www.assembl.net/users/> = {
+    eg_site:agent_maparent a foaf:Person;
+        foaf:familyName "Marc-Antoine";
+        foaf:firstName "Parent".
 
-eg_site:agent_benoitg a foaf:Person;
-    foaf:familyName "Gregoire";
-    foaf:firstName "Benoit".
+    eg_site:user_maparent a sioc:UserAccount;
+        sioc:account_of eg_site:agent_maparent;
+        sioc:email "maparent@acm.org".
+}
+
+<http://www.assembl.net/discussion/1/> a catalyst:Discussion;
+    catalyst:pseudonymization_graph <http://www.assembl.net/discussion/1/pseudonyms>;
+    catalyst:data_graph <http://www.assembl.net/discussion/1/data>.
+
+<http://www.assembl.net/discussion/1/data> = {
+    eg_d1:idea_1 a ibis:Issue;
+        sioc:has_creator eg_d1:pseudo_262d2e2ecb6696c0bfdc482ac6273b5b88c56ed2.
+}
+
+### This graph would not be public
+<http://www.assembl.net/discussion/1/pseudonyms> = {
+    eg_d1:pseudo_21ddd0f62e22ddab75c6e9fa92fda056e65dc0ac a foaf:Person;
+        owl:sameAs eg_site:agent_maparent.
+    eg_d1:pseudo_262d2e2ecb6696c0bfdc482ac6273b5b88c56ed2 a sioc:UserAccount;
+        sioc:account_of eg_d1:pseudo_21ddd0f62e22ddab75c6e9fa92fda056e65dc0ac;
+        owl:sameAs eg_site:user_maparent.
+}
+
 ```
+
 
 
 ## Example data: posts
@@ -491,17 +506,17 @@ digraph g {
         <tr><td>dcterms:title "Climate change is a real problem"@eng</td></tr>
         <tr><td>sioc:content "We need to reduce CO2 levels."@eng</td></tr>
         <tr><td>sioc:addressed_to "discussion1@assembl.net"</td></tr>
-    </table>>, color="green"];
-    post1->user1 [label="sioc:has_creator", color="green"];
-    post1->forum [label="sioc:has_container", color="green"];
+    </table>>];
+    post1->user1 [label="sioc:has_creator"];
+    post1->forum [label="sioc:has_container"];
     post2 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
         <tr><td>eg_d1:message_2 a <U>sioc:Post</U></td></tr>
         <tr><td>dcterms:title "Telecommuting might help"@eng</td></tr>
-    </table>>, color="green"];
-    post2->user2 [label="sioc:has_creator", color="green"];
-    post2->user1 [label="sioc:addressed_to", color="green"];
-    post2->forum [label="sioc:has_container", color="green"];
-    post2->post1 [label="sioc:reply_of", color="green"];
+    </table>>];
+    post2->user2 [label="sioc:has_creator"];
+    post2->user1 [label="sioc:addressed_to"];
+    post2->forum [label="sioc:has_container"];
+    post2->post1 [label="sioc:reply_of"];
 }
 ```
 
@@ -522,6 +537,20 @@ eg_d1:message_2 a sioc:Post ;
     sioc:reply_of eg_d1:message_1.
 ```
 
+### Example data: a post with origin
+
+
+```graphviz
+digraph g {
+    graph [bgcolor="transparent", rankdir="BT"] ;
+    node [fillcolor=white, style=filled,  shape=record];
+    idea1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'><tr><td>eg_d1:idea_1 a ibis:Issue</td></tr><tr><td>dcterms:title='Stop climate change'@eng</td></tr><tr><td>dcterms:created '2013-11-02T14:20:04'^^&lt;xsd:dateTimeStamp&gt;</td></tr><tr><td>dcterms:modified '2014-01-02T11:32:17'^^&lt;xsd:dateTimeStamp&gt;</td></tr></table>>];
+    user1 [label="eg_site:user_maparent a foaf:Person"];
+    idea1->user1 [label="sioc:has_creator"];
+    ideasContainer [label="eg_d1:ideas a sioc:Container"];
+    idea1->ideasContainer [label="sioc:has_container"];
+}
+```
 ## Quotes and annotations
 
 ### Use of OpenAnnotation
@@ -534,7 +563,7 @@ Note that OpenAnnotation recommends to send semantic content using ContentAsText
 
 ### Example data
 
-```graphviz
+```graphviz 0.65
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -545,19 +574,19 @@ digraph g {
         <tr><td>sioc:content "We need to reduce CO2 levels."@eng</td></tr>
         <tr><td>sioc:addressed_to "discussion1@assembl.net"</td></tr>
     </table>>];
-    extract1 [label=<eg_d1:extracts_1 a <U>oa:SpecificResource</U>>, color="green"];
+    extract1 [label=<eg_d1:extracts_1 a <U>oa:SpecificResource</U>>];
     selection1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
         <tr><td>_ a <U>oa:TextPositionSelector</U></td></tr>
         <tr><td>oa:start "18"^^&lt;xsd:integer&gt;</td></tr>
         <tr><td>oa:end "28"^^&lt;xsd:integer&gt;</td></tr>
         <tr><td>oa:exact "CO2 levels"</td></tr>
-    </table>>, color="green"];
-    extract1->selection1 [label="oa:hasSelector", color="green"];
-    extract1->post1 [label="oa:hasSource", color="green"];
-    annotation1 [label=<eg_d1:annotations_1 a <U>oa:Annotation</U>>, color="green"];
-    annotation1->extract1 [label="oa:hasTarget", color="green"];
-    annotation1->cluster_ann1 [label="oa:hasBody", color="green"];
-    cluster_ann1 [label=<eg_site:annotation_1_target a <U>trig:Graph</U>>, color="green"];
+    </table>>];
+    extract1->selection1 [label="oa:hasSelector"];
+    extract1->post1 [label="oa:hasSource"];
+    annotation1 [label=<eg_d1:annotations_1 a <U>oa:Annotation</U>>];
+    annotation1->extract1 [label="oa:hasTarget"];
+    annotation1->cluster_ann1 [label="oa:hasBody"];
+    cluster_ann1 [label=<eg_site:annotation_1_target a <U>trig:Graph</U>>];
 }
 ```
 
@@ -590,16 +619,16 @@ digraph g {
     extract1->post1 [label="oa:hasSource"];
     annotation1 [label=<eg_d1:annotations_1 a <U>oa:Annotation</U>>];
     annotation1->extract1 [label="oa:hasTarget"];
-    annotation1->idea1_alias [label="oa:hasBody", color="green", lhead="cluster_ann1"];
+    annotation1->idea1_alias [label="oa:hasBody", lhead="cluster_ann1"];
     subgraph cluster_ann1 {
         graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
             label=<eg_site:annotation_1_target a <U>trig:Graph</U>>, fontsize=10];
-        idea1_alias [label="eg_d1:idea_1", style="dotted", color="green"];
-        extract1_alias [label="eg_d1:extracts_1", style="dotted", color="green"];
-        extract1_alias -> idea1_alias [label="assembl:expressesIdea", color="green"];
+        idea1_alias [label="eg_d1:idea_1", style="dotted"];
+        extract1_alias [label="eg_d1:extracts_1", style="dotted"];
+        extract1_alias -> idea1_alias [label="assembl:expressesIdea"];
     }
-    idea1->idea1_alias [style="dotted", arrowhead="none", color="green"];
-    extract1->extract1_alias [style="dotted", arrowhead="none", color="green"];
+    idea1->idea1_alias [style="dotted", arrowhead="none"];
+    extract1->extract1_alias [style="dotted", arrowhead="none"];
     idea1 [label=<eg_d1:idea_1 a <U>ibis:Issue</U>>];
 }
 ```
@@ -646,9 +675,9 @@ digraph g {
     vote1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
         <tr><td>eg_d1:vote1 a <U>vote:BinaryVote</U></td></tr>
         <tr><td>vote:positive "true"^^&lt;xsd:boolean&gt;</td></tr>
-    </table>>, color="green"];
-    vote1->idea3 [label="vote:subject", color="green"];
-    vote1->user2 [label="vote:voter", color="green"];
+    </table>>];
+    vote1->idea3 [label="vote:subject"];
+    vote1->user2 [label="vote:voter"];
 }
 ```
 
@@ -677,15 +706,15 @@ digraph g {
     vote2 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
         <tr><td>eg_d1:vote2 a <U>vote:LickertVote</U></td></tr>
         <tr><td>vote:value "8"^^&lt;xsd:integer&gt;</td></tr>
-    </table>>, color="green"];
+    </table>>];
     vote_range [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
         <tr><td>eg_d1:vote_range a <U>vote:LickertRange</U></td></tr>
         <tr><td>vote:min "1"^^&lt;xsd:integer&gt;</td></tr>
         <tr><td>vote:max "10"^^&lt;xsd:integer&gt;</td></tr>
-    </table>>, color="green"];
-    vote2->idea3 [label="vote:subject", color="green"];
-    vote2->user2 [label="vote:voter", color="green"];
-    vote2->vote_range [label="vote:lickert_in_range", color="green"];
+    </table>>];
+    vote2->idea3 [label="vote:subject"];
+    vote2->user2 [label="vote:voter"];
+    vote2->vote_range [label="vote:lickert_in_range"];
 }
 ```
 
@@ -703,7 +732,7 @@ eg_d1:vote2 a vote:LickertVote;
 
 ### Ordering vote example data
 
-```graphviz
+```graphviz 0.35
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -717,13 +746,13 @@ digraph g {
         </table>>];
     vote3 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
         <tr><td>eg_d1:vote3 a <U>vote:OrderingVote</U></td></tr>
-    </table>>, color="green"];
-    vote3->idea3 [label="vote:subject", color="green"];
-    vote3->idea4 [label="vote:subject", color="green"];
-    vote3->idea5 [label="vote:subject", color="green"];
-    vote3->user2 [label="vote:voter", color="green"];
-    vote_seq1 [label=<_ a <U>rdf:Seq</U>>, color="green"];
-    vote3->vote_seq1 [label="vote:ordered_ideas", color="green"];
+    </table>>];
+    vote3->idea3 [label="vote:subject"];
+    vote3->idea4 [label="vote:subject"];
+    vote3->idea5 [label="vote:subject"];
+    vote3->user2 [label="vote:voter"];
+    vote_seq1 [label=<_ a <U>rdf:Seq</U>>];
+    vote3->vote_seq1 [label="vote:ordered_ideas"];
     vote_seq1->idea3 [label="_1"];
     vote_seq1->idea5 [label="_2"];
     vote_seq1->idea4 [label="_3"];
@@ -859,7 +888,8 @@ Both those aspects are out of scope for catalyst 1, and this may even be true of
 ### Example data
 
 ```n3
-<http://www.assembl.net/discussion/1/> version:history_graph <http://www.assembl.net/archive/1/>.
+<http://www.assembl.net/discussion/1/>
+    version:history_graph <http://www.assembl.net/archive/1/>.
 
 <http://www.assembl.net/archive/1/> = {
 
