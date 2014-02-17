@@ -44,3 +44,4 @@ pdf: interoperability.pdf
 
 clean:
 	rm -f interoperability.pdf interoperability.aux interoperability.glo interoperability.idx interoperability.ist interoperability.log interoperability.out interoperability.pdf interoperability.tex
+	rm -f fig*.pdf fig*.dot
