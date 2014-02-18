@@ -69,6 +69,10 @@ The main problem here is not the lack of standards, but the number of incompatib
 
 This specification will take a pragmatic approach, to attempt to at least provide a common denominator that is sufficient for our narrow field, technology independent, and allows the minimal number of requirements for sharing widgets OUTSIDE the ecosystem (on web forums, web sites, social networks, etc.)
 
+## End-user platforms
+
+Most participants are expected interact on social and communication platforms, while community moderators and harvesters would use catalyst integration platforms to distill structured discussion from those platforms. The results of the structured discussions (visualization, synthesis, attention mediation) will be sent back to the communication platforms as messages. Some functionality such as dynamic visualization, creativity widgets and voting should be integrated into those communication platforms which have appropriate integration mechanisms. In some cases, some participants may choose to migrate to the integration platforms for their richer environment; in general, this should only be a requirement for harvesters and moderators.
+
 # Architectural components
 
 ```graphviz
@@ -181,7 +185,8 @@ JSON-LD is meant to mostly look like just another JSON format, where many of the
 
 *Inheritance*: the `@type` argument in JSON-LD corresponds to a RDF class. It may be a subclass of the RDF class you expect. Similarly, every property may be a subproperty of the RDF property you expect. The JSON-LD `@context` will give you the ontology specifications; a RDF database can use the ontologies to answer sparql queries specified using known superclasses. 
 
-However, one goal of this specification is that tools should participate in the ecosystem without RDF machinery. So compliant tools SHOULD give multiple values for the `@type` parameters when appropriate, so that at least one comes from the catalyst classes specified in this document. This does not, however, solve the problem of subproperties; these should be avoided for this reason.
+However, one goal of this specification is that tools should participate in the ecosystem without RDF machinery. So compliant tools SHOULD give multiple values for the `@type` parameters when appropriate, so that at least one comes from the catalyst classes specified in this document.
+However, since there is no syntactical support for multiple property names directly in JSON-LD data, external tool developers should avoid introducing subproperties that are not part of this specification.
 
 *Inverses*: Some RDF properties define inverses: for example `sioc:creator_of owl:inverseOf sioc:has_creator` (in other words, the fact that some user is the author of a Post in SIOC can be defined inside the Post object, or inside the user object). Some of those inverse are not specified in the ontology, such as `dcterms:isPartOf` and `dcterms:hasPart`. (We will define a subproperty to specify this.) The list of such inverses is short, and well specified in the ontology documents. Tools that receive JSON-LD from a catalyst platform are expected to interpret either of those relationships as implying the other.
 
@@ -612,6 +617,8 @@ digraph g {
 }
 ```
 ## Quotes and annotations
+
+<!-- start for examples.. too abstract -->
 
 All contributions, whether posts or generic ideas, can be commented on. Those comments may be tied to a quoted segment of the original contribution, or to the contribution as a whole. We will use [OpenAnnotation](http://www.openannotation.org/) for that purpose: it defines an annotation as composed of a target, which may be a text range (or even a time range in media resources), and an annotation body, which may be literal content or a RDF graph. It would be convenient to attach the target to a contribution directly, but we can do so within the target graph with moderate inconvenience.
 
