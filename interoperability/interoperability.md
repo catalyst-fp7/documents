@@ -197,7 +197,7 @@ In accordance with the general principles of linked data, each resource's IRI sh
 
 Some platforms that have this capacity may allow trusted client tools (eg analytics, visualization, or voting modules) to make SPARQL queries or even updates directly against their database, as opposed to loading the whole object graph or navigating it in successive REST requests. This obviously allows for more efficient partial requests, in a way that can be independant of the specificities of the underlying abstract model of each platform.
 
-The best way to implement this would be to use a native RDF database such as [Jena](https://jena.apache.org/‎) for development. However, most technical partners already have data in relational database. To expose this data through a SPARQL endpoint, the main options are either: 
+The best way to implement this would be to use a native RDF database such as [Jena](https://jena.apache.org/) for development. However, most technical partners already have data in relational database. To expose this data through a SPARQL endpoint, the main options are either: 
 
 1. Use a hybrid relational-semantic database such as [Openlink Virtuoso](http://virtuoso.openlinksw.com/) with its [linked data views](http://docs.openlinksw.com/virtuoso/rdfviewsrdbms.html). This approach has been chosen by IP for Assembl.
 2. Use tool that can expose a relational database through a sparql through a correspondance specification, such as [D2RQ](http://d2rq.org), or [Antidot](http://www.antidot.net)'s [db2triples](https://github.com/antidot/db2triples/), which is based on the W3C standard [R2RML](http://www.w3.org/TR/r2rml/). The disadvantage of such translation layers is that they will have poorer performance than a native sparql database.
