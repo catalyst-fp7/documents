@@ -1,13 +1,13 @@
 Latex Input: mmd-memoir-header
 Latex Input: extra-packages
 Base Header Level: 2
-Email: maparent@acm.org, benoitg@coeus.ca
+Email: maparent@acm.org, benoitg@i4p.org
 BibTex: catalystinterop
 MainLanguage: english
 Title: Catalyst interoperability operation
 Subtitle: PRELIMINARY DOCUMENT
 Revision: 0.01
-Author: Marc-Antoine Parent, Benoît Grégoire
+Author: Marc-Antoine Parent, Benoit Grégoire
 Affiliation: Imagination for people
 Latex Footer: mmd-memoir-footer
 Latex Input: mmd-memoir-begin-doc
@@ -15,9 +15,124 @@ Format: complete
 
 # Introduction
 
-This document aims to describe the computer to computer interactions of software components inside the catalyst ecosystem.
+Many tools have been built to try to solve various problems in online collective intelligence.  This consortium believes that the lack of shared standards to allow such tools to exchange data with each other and share results on standard Internet tools has prevented them to build upon one-another and greatly hurt the broader adoption of specialized collective intelligence tools in Internet discussions.
 
-It is intended to become an actual standard used for components build or deployer by organisations outside the catalyst consortium.
+This document attempts to describe and standardize the most common interactions of software tools applicable to this field to foster reuse, experimentation and adoption.  It is build upon the belief that at this stage in the adoption curve of software intelligence tools, a "lowest common denominator" approach will allow the best chance that multiple tools outside the catalyst consortium will adopt the standard.
+
+# Requirements
+
+## Sharing raw concept maps
+
+Most collective intelligence tools allow organizing ideas in some sort of structure (a concept map in the broadest sense).  How to represent the following in a systems-independent way while  preserving as much semantic as practical, is the core of this specification:
+
+ * The concepts of the concept map
+ * The people interacting with them
+ * Their interactions (Posts, comments, votes, etc.)
+
+It is interesting to share such representations between tools to enable:
+
+ * Developing reusable analytics
+ * Developing reusable Visualization
+
+The type and amount of structure can vary greatly between systems, but there are some useful levels of "shared semantics" that are achievable relatively easily. 
+
+The first and most basic is sharing the raw structure of the map (nodes, edges) with very basic information (such as node title).  This allows several visualizations tools to be applied, as well as a significant number of metrics.
+
+The second is to share more semantics as about the nature of the concepts identified.  It was felt by the consortium that using IBIS (Issue-Based Information System) as a common baseline would help foster building initial tooling.  While it has significant limitations, IBIS is a good choice because:
+
+ 1. It's widely used by collective intelligence software
+ 2. Many systems not using IBIS could transform at least a subset of their data into meaningful IBIS.
+
+## Re-usable analytics
+
+Analytics take several forms, but all take data from the Data Model defined later, perform some computation and return either:
+
+1. Pull:
+    1. Structured data for further computation, transformation or visualization.
+    2. Visualizations (possibly interactive) or reports directly usable by a human 
+2. Push:
+    1. Attention mediation signals to be processed by some deliberation environment (format to be defined).
+
+## Re-usable visualizations
+
+Visualization components take as input a some subset of a concept map, and transform it into a representation suitable for humans.  Some are static (images), some dynamic (widgets).  Some allow entering additional data in the representation, or navigating the concept map.  But all have a need to be shared on the wider Internet for maximum impact (social networks, emails or even print.).
+
+## Obtaining and representing raw contributions from messaging platforms
+
+A variety of tools and social networks allow participants to exchange messages on the Internet.  Sadly, they are all in different formats, making the user, reuse and analytics of those interactions needlessly painful.  The catalyst ecosystem standardized on SIOC (Semantically-Interlinked Online Communities) as a data model, and will write tools to make several other formats available as SIOC.  This way, analytics and annotation environments have only one format to process. 
+
+## Re-usable interactive widgets
+One example of of field of Collective Intelligence that is quite mature, is voting.  How to avoid many common voting biases is well known in academia, has been for years, but adequate tools are not widely used on the Internet.  In fact such tools, in reusable form, are simply not available on the Internet, and the same is true of ideation facilitation or collective action tools.
+
+The main problem here is not the lack of standards, but the number of incompatible, not widely deployed standards.
+
+This specification will take a pragmatic approach, to attempt to at least provide a common denominator that is sufficient for our narrow field, technology independent, and allows the minimal number of requirements for sharing widgets OUTSIDE the ecosystem (one web forums, web sites, social networks, etc.)
+
+# Architectural components
+
+```graphviz
+digraph g {
+    graph [bgcolor="transparent", rankdir="BT"] ;
+    node [fillcolor=white, style=filled,  shape=rectangle];
+    comm [label="Social & messaging platforms"];
+    dash [label="Dashboard"];
+    plat [label="Catalyst integrated platforms [I O Z]"];
+    viz [label="Visualizations [I O W]"];
+    widgets [label="Voting, creativity widgets [I]"];
+    ibisdb [label="IBIS database [I O Z]"];
+    postdb [label="post database [I]"];
+    analytics [label="analytics engine [Z W]"];
+    gred [label="IBIS editor"];
+    comm->ibisdb [label="bookmarklets"];
+    comm->postdb [label="data converters [I]"];
+    viz->comm [label="embed"];
+    widgets->comm [label="embed"];
+    gred->plat [label="embed"];
+    viz->plat [label="embed"];
+    widgets->plat [label="embed"];
+    dash->plat [label="embed"];
+    analytics->dash [label="report results"];
+    analytics->viz [label="report results"];
+    analytics->gred [label="report results"];
+    ibisdb->viz;
+    ibisdb->widgets;
+    ibisdb->gred [dir=both];
+    ibisdb->analytics;
+    postdb->analytics;
+    postdb->plat [label="embed [I]"];
+}
+```
+
+This is a view of components, and their expected interactions. (Letters represent catalyst technical partners expected to develop at least one such a component)
+
+<!-- TODO Graph above and description below are out of sync -->
+
+IBIS database
+: The most central component is the IBIS database, which holds most of the information about the concepts and ideas being built and discussed by participants.
+
+Catalyst integrated platforms
+: These are the general web platforms that users interact with that fully exploit the data model: they include Open University's DebateHub, IP's Assembl, MIT's Deliberatorium.
+
+Social and messaging platforms
+: These are existing social and messaging platforms where users can post messages, such as email, facebook, twitter, blogs, etc. This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.  How deeply they can integrate catalyst services depend on their facility for integrating plugins.
+
+Visualisation components
+: Visualization components show static or dynamic aspects of the IBIS and social graph, and may allow to navigate it (but not write to it) Some will be integrated directly in their respective Catalyst information platform, but most written as reusable Web components that can be embedded in social and messaging platforms.
+
+Post database
+: This component (and attendant converters) will extract messages from the social and messaging platforms and expose them to the Catalyst integration platforms, directly or through the analytics and voting components. Note that this means the user graph may be distributed between many databases (IBIS, Posts, and eventually voting.)
+
+Analytics components
+: The analytic components will extract data from the various databases and supply analytic results to the Catalyst platforms, possibly through visual components.
+
+Voting components
+: Voting is another good candidate for reusable components: We can define votes in a platform independent fashion. Each voting component would define voting values, store them in their own databases, and provide appropriate aggregates.
+
+Server platforms
+: This term will be used to refer collectively to the server components of the catalyst integration platforms, including the IBIS database, and the Post database server.
+
+Client platforms
+: This term will be used to refer collectively to components that are used by the server platforms to provide services, but generally expect to use data from the server platforms as input. This includes the analytics and visualization components. The voting component is also included here, though its status is less clear-cut.
 
 # Prerequisites
 
@@ -29,75 +144,6 @@ This document assumes a basic understanding of the following technologies, which
 * [JSON-LD](json-ld.org/spec/latest/json-ld/)
 * [SPARQL 1.1](http://www.w3.org/TR/sparql11-overview/) ([tutorial](http://www.cambridgesemantics.com/semantic-university/sparql-by-example))
 
-# Architectural components
-
-```graphviz
-digraph g {
-    graph [bgcolor="transparent", rankdir="BT"] ;
-    node [fillcolor=white, style=filled,  shape=rectangle];
-    comm [label="Social & messaging platforms"];
-    dash [label="Dashboard"];
-    plat [label="Catalyst integration platforms [I O Z]"];
-    viz [label="Visualization Module [I O W]"];
-    ibisdb [label="IBIS database [I O Z]"];
-    postdb [label="post database [I]"];
-    analytics [label="analytics engine [Z W]"];
-    gred [label="ibis graph editor"];
-    comm->ibisdb [label="bookmarklets"];
-    comm->postdb [label="data converters [I]"];
-    viz->comm [label="embed"];
-    gred->plat [label="embed"];
-    viz->plat [label="embed"];
-    dash->plat [label="embed"];
-    analytics->dash [label="report results"];
-    analytics->comm [label="report results?"];
-    analytics->viz [label="report results"];
-    analytics->gred [label="report results"];
-    ibisdb->viz;
-    ibisdb->gred [dir=both];
-    ibisdb->analytics;
-    postdb->analytics;
-    postdb->plat [label="embed [I]"];
-}
-```
-
-This is a view of components, and their expected interactions. (Letters represent catalyst technical partners)
-
-IBIS database server
-: The most central component is the IBIS database, which holds most of the information about the concepts and ideas being built and discussed by participants.
-
-Catalyst integration platforms
-: These are the general web platforms that users will interact with: they include Open University's DebateHub, IP's Assembl, MIT's Deliberatorium. They may also include some social and messaging platforms that have facility for integrating plugins.
-
-Social and messaging platforms
-: These are existing social and messaging platforms where users can post messages, such as email, facebook, twitter, blogs, etc. This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.
-<!-- Are we sure? Folding things used (and at least partially controlled) by our community partners with general social networks seems like a bad idea -->
-
-Visualisation components
-: Visualization components show static or dynamic aspects of the IBIS and social graph, and may allow to navigate it (but not write to it) Some will be integrated directly in their respective Catalyst information platform, but most written as reusable Web components that can be embedded in any of the Catalyst integration platforms, and possibly in some of the more flexible social platforms.
-
-Post database server
-: This component (and attendant converters) will extract messages from the social and messaging platforms and expose them to the Catalyst integration platforms, directly or through the analytics and voting components. Note that this means the user graph may be distributed between many databases (IBIS, Posts, and eventually voting.)
-
-Analytics components
-: The analytic components will extract data from the various databases and supply analytic results to the Catalyst platforms, possibly through visual components.
-
-Voting components
-: Voting is another good candidate for reusable components: We can define votes in a platform independant fashion. Each voting component would define voting values, store them in their own databases, and provide appropriate aggregates.
-
-Server platforms
-: This term will be used to refer collectively to the server components of the catalyst integration platforms, including the IBIS database, and the Post database server.
-
-Client platforms
-: This term will be used to refer collectively to components that are used by the server platforms to provide services, but generally expect to use data from the server platforms as input. This includes the analytics and visualization components. The voting component is also included here, though its status is less clear-cut.
-
-A note on analytics: analytics take several forms, but all take data from the Data Model defined later, and return either:
-
-1. Pull:
-    1. Structured data for futher computation, transformation or visualisation.
-    2. Visualisations (possibly interactive) or reports directly usable by a human 
-2. Push:
-    1. Attention mediation signals to be processed by some deliberation environment (format to be defined).
 
 # Expected interoperability mechanisms
 

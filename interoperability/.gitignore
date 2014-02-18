@@ -7,4 +7,6 @@
 *.toc
 fig*.dot
 fig*.pdf
+interoperability.tex
+interoperability.pdf
 tmpmaster.g*
