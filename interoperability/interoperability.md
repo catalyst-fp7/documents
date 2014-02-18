@@ -197,6 +197,12 @@ In accordance with the general principles of linked data, each resource's IRI sh
 
 Some platforms that have this capacity may allow trusted client tools (eg analytics, visualization, or voting modules) to make SPARQL queries or even updates directly against their database, as opposed to loading the whole object graph or navigating it in successive REST requests. This obviously allows for more efficient partial requests, in a way that can be independant of the specificities of the underlying abstract model of each platform.
 
+The best way to implement this would be to use a native RDF database such as [Jena](https://jena.apache.org/‎) for development. However, most technical partners already have data in relational database. To expose this data through a SPARQL endpoint, the main options are either: 
+
+1. Use a hybrid relational-semantic database such as [Openlink Virtuoso](http://virtuoso.openlinksw.com/) with its [linked data views](http://docs.openlinksw.com/virtuoso/rdfviewsrdbms.html). This approach has been chosen by IP for Assembl.
+2. Use tool that can expose a relational database through a sparql through a correspondance specification, such as [D2RQ](http://d2rq.org), or [Antidot](http://www.antidot.net)'s [db2triples](https://github.com/antidot/db2triples/), which is based on the W3C standard [R2RML](http://www.w3.org/TR/r2rml/). The disadvantage of such translation layers is that they will have poorer performance than a native sparql database.
+3. Take snapshots of the relational database (probably using a JSON-LD view, as defined above) and feed it to a native RDF database. This has the downside of being less timely, but may be less ressource-intensive than the previous option.
+
 In a broader ecosystem context, most platforms would not open the SPARQL endpoint to untrusted external tools, if only to avoid denial of service attacks using complex queries. However, a platform may choose to expose a subset of pre-defined sparql queries to unknown tools, and tool builders may propose useful SPARQL queries to platform builders.
 
 ### Example: Platforms and analytics
@@ -1009,12 +1015,28 @@ Both those aspects are out of scope for catalyst 1, and this may even be true of
         ].
 ```
 
+## Analytics queries and results
 
-# API endpoints
+We expect a great variety of analytic tools to be developed, but though we aim to standardize how the analytics platform can obtain data from the catalyst discussion platforms, the specific utilization of the analytics output by these platforms will be intimately tied to either the discussion platform itself or one of its visualization. For that reason, it is not a realistic goal to standardize an exhaustive list of possible analytic semantics, and maybe even syntax. The utilization of analytics data will always be mostly ad-hoc.
 
-## The data graph
+However, some basic principles can be agreed upon: First, analytic results should refer to resources by their RDF identifier; second, we could develop a syntax for the most common cases, based on JSON-LD; and third, we have to agree on a protocol for making analytics queries, distinguishing between continuous and batch processes.
 
-## The history graph
+### Analytics dataflow
+
+#### Batch requests
+
+The most common usage scenario for analytics involves a batch request from a catalyst platform to an analytics server. In the simplest case, the catalyst platform would POST to the analytics server a request with relevant data (which may include a JSON-LD payload, or the URL of endpoints whence such data can be pulled); the analytics platform would respond with the analytics data. However, if the amount of data is significant, it may be better to turn this into an asynchronous request. Two ways exist to do this: the caller (the catalyst platform) could provide a callback endpoint, or the analytics platform could instead return a "future", i.e. a URI representing the task as a resource, from where the analytics data can later be pulled. The call for results to the analytics server can block until the data is ready.
+
+The advantage of using a callback is a more timely result; but the advantage of the latter option is that the address of the results could be passed as a URL to one (or many) visualization modules that could use them. (Otherwise the catalyst platform will have to cache the analytics results for the visualization widgets.) Ideally, both approaches could be combined, with a callback to say when data is available; but this adds complexity and can be postponed. So we propose that task results should become addressable endpoints in the analytics platform.
+
+#### Continuous analytics
+
+Another usage scenario involves an analytics engine watching over the changes in a Catalyst deliberation platform. In the most general case, this requires intimate knowledge of the requirements on both ends and will not be standardized. However, the most common case of attention mediation events could be defined. In either case, the history events would be pulled from the catalyst platform by the analytics engine as a flux. (This may still be a RESTful endpoint, or a more traditional socket if timeliness is an issue.)
+
+In the specific case of attention mediation, data payloads (or URLs to data) could be posted by the analytics platform on an agreed upon endpoint in the catalyst platform. The issue of translating those payloads to human-readable messages is non-trivial, since the catalyst integration platforms are the ones which are aware of the participant's functional languages. Ideally, both platforms would agree on a vocabulary of attention signals, and the localization of those signals would be performed by the catalyst discussion platform.
+
+### Data model
+
 
 # Other data models for system collaboration
 
