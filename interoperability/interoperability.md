@@ -25,7 +25,7 @@ This document attempts to describe and standardize the most common interactions 
 
 Most collective intelligence tools allow organizing ideas in some sort of structure (a concept map in the broadest sense).  How to represent the following in a systems-independent way while  preserving as much semantic as practical, is the core of this specification:
 
- * The concepts of the concept map
+ * The concepts of the concept map and their links
  * The people interacting with them
  * Their interactions (Posts, comments, votes, etc.)
 
@@ -62,11 +62,12 @@ Visualization components take as input a some subset of a concept map, and trans
 A variety of tools and social networks allow participants to exchange messages on the Internet.  Sadly, they are all in different formats, making the user, reuse and analytics of those interactions needlessly painful.  The catalyst ecosystem standardized on SIOC (Semantically-Interlinked Online Communities) as a data model, and will write tools to make several other formats available as SIOC.  This way, analytics and annotation environments have only one format to process. 
 
 ## Re-usable interactive widgets
-One example of of field of Collective Intelligence that is quite mature, is voting.  How to avoid many common voting biases is well known in academia, has been for years, but adequate tools are not widely used on the Internet.  In fact such tools, in reusable form, are simply not available on the Internet, and the same is true of ideation facilitation or collective action tools.
+
+Voting is one example of the field of Collective Intelligence that is quite mature.  How to avoid many common voting biases is well known in academia, has been for years, but adequate tools are not widely used on the Internet.  In fact such tools, in reusable form, are simply not available on the Internet, and the same is true of ideation facilitation or collective action tools.
 
 The main problem here is not the lack of standards, but the number of incompatible, not widely deployed standards.
 
-This specification will take a pragmatic approach, to attempt to at least provide a common denominator that is sufficient for our narrow field, technology independent, and allows the minimal number of requirements for sharing widgets OUTSIDE the ecosystem (one web forums, web sites, social networks, etc.)
+This specification will take a pragmatic approach, to attempt to at least provide a common denominator that is sufficient for our narrow field, technology independent, and allows the minimal number of requirements for sharing widgets OUTSIDE the ecosystem (on web forums, web sites, social networks, etc.)
 
 # Architectural components
 
@@ -117,7 +118,10 @@ Social and messaging platforms
 : These are existing social and messaging platforms where users can post messages, such as email, facebook, twitter, blogs, etc. This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.  How deeply they can integrate catalyst services depend on their facility for integrating plugins.
 
 Visualisation components
-: Visualization components show static or dynamic aspects of the IBIS and social graph, and may allow to navigate it (but not write to it) Some will be integrated directly in their respective Catalyst information platform, but most written as reusable Web components that can be embedded in social and messaging platforms.
+: Visualization components show static or dynamic aspects of the IBIS and social graph, and may allow to navigate it (but not write to it.) Some will be integrated directly in their respective Catalyst information platform, but most written as reusable Web components that can be embedded in social and messaging platforms.
+
+IBIS editors
+: Tools, closely integrated within the platforms, that allow edition of the IBIS graph. Creating reusable components that allow graph edition is a long term goal, but may not be in scope for this project.
 
 Post database
 : This component (and attendant converters) will extract messages from the social and messaging platforms and expose them to the Catalyst integration platforms, directly or through the analytics and voting components. Note that this means the user graph may be distributed between many databases (IBIS, Posts, and eventually voting.)
@@ -603,7 +607,11 @@ digraph g {
 ```
 ## Quotes and annotations
 
+All contributions, whether posts or generic ideas, can be commented on. Those comments may be tied to a quoted segment of the original contribution, or to the contribution as a whole. We will use [OpenAnnotation](http://www.openannotation.org/) for that purpose: it defines an annotation as composed of a target, which may be a text range (or even a time range in media resources), and an annotation body, which may be literal content or a RDF graph. It would be convenient to attach the target to a contribution directly, but we can do so within the target graph with moderate inconvenience.
+
 ### Use of OpenAnnotation
+
+These diagrams are taken from the OpenAnnotation [1.0 specification](http://www.openannotation.org/spec/core/20130208/index.html). They show parts of the basic data model that we intend to use.
 
 ![openannotation source model](../201401_interoperability_presentation_MK/oa_textposition.png)
 
@@ -690,7 +698,7 @@ eg_d1:annotations_1 a oa:Annotation;
 
 eg_site:annotation_1_target a trig:Graph.
 
-### The annotation body (a named graph) links the text extract to an idea.
+### The annotation body links the text extract to an idea in a named graph.
 
 eg_site:annotation_1_target = {
     eg_d1:extracts_1 assembl:expressesIdea eg_d1:idea_1.
@@ -698,6 +706,8 @@ eg_site:annotation_1_target = {
 ```
 
 ## Voting
+
+Here, we are proposing a very simple voting model that allows to express binary votes (like/dislike), lickert (N-out-of-M) and ranking of options. This is not meant to be exhaustive, or to constrain user interaction, but should cover a range of reporting usage. 
 
 ### The model
 
