@@ -18,27 +18,28 @@ Format: complete
 
 # Introduction
 
-Many tools have been built to try to solve various problems in online collective intelligence.
-This consortium believes that the lack of shared standards to allow such tools to exchange data with each other and share results on standard Internet tools has prevented them to build upon one-another and greatly hurt the broader adoption of specialized collective intelligence tools in Internet discussions.
+Many tools have been built to try to solve various problems in online collective intelligence (CI).
+This consortium believes that the lack of shared standards to allow such tools to exchange data with each other and share results on standard Internet platforms has prevented these tools to build upon one-another's strengths and greatly hurt the broader adoption of specialized CI tools in Internet discussions.
 
-This document attempts to describe and standardize the most common interactions of software tools applicable to this field to foster reuse, experimentation and adoption.
-It is build upon the belief that at this stage in the adoption curve of software intelligence tools, a "lowest common denominator" approach will allow the best chance that multiple tools outside the catalyst consortium will adopt the standard.
+This document attempts to describe and standardize the most common interactions of software tools applicable to the CI field to foster reuse, experimentation and adoption.
+It is build upon the belief that at this stage in the adoption curve of CI tools, a "lowest common denominator" approach will allow the best chance that multiple tools outside the catalyst consortium will adopt the standard.
 
 # Requirements
 
 ## Sharing raw concept maps
 
-Most collective intelligence tools allow organizing ideas in some sort of structure (a concept map in the broadest sense).
-How to represent the following in a systems-independent way while  preserving as much semantic as practical, is the core of this specification:
+Most collective intelligence tools allow organizing ideas in some sort of structure (a concept map in the very broadest sense).
+Creating a Data Model to represent the following in a systems-independent way while preserving as much semantic as practical, is the core of this specification:
 
  * The concepts of the concept map and their links
  * The people interacting with them
- * Their interactions (Posts, comments, votes, etc.)
+ * The interactions these people have (Messages, comments, votes, etc.)
 
-It is interesting to share such representations between tools to enable:
+It is critical to share such representations between tools to enable:
 
  * Developing reusable analytics
  * Developing reusable Visualization
+ * Perform research on those datasets
 
 The type and amount of structure can vary greatly between systems, but there are some useful levels of "shared semantics" that are achievable relatively easily. 
 
@@ -54,20 +55,63 @@ While it has significant limitations, IBIS is a good choice because:
 
 ## Re-usable analytics
 
-Analytics take several forms, but all take data from the Data Model defined later, perform some computation and return either:
+Analytics vary greatly, but all take data from the Data Model defined later, perform some computation and return either:
 
-1. Pull:
     1. Structured data for further computation, transformation or visualization.
     2. Visualizations (possibly interactive) or reports directly usable by a human 
-2. Push:
-    1. Attention mediation signals to be processed by some deliberation environment (format to be defined).
+    3. Attention mediation signals to be processed by some deliberation environment.
 
 ## Re-usable visualizations
 
-Visualization components take as input a some subset of a concept map, and transform it into a representation suitable for humans.
+Visualization here is understood in a broad sense:  any transformation of raw data to present a final representation more understandable to humans.
+
 Some are static (images), some dynamic (widgets).
 Some allow entering additional data in the representation, or navigating the concept map.
-But all have a need to be shared on the wider Internet for maximum impact (social networks, emails or even print.).
+All have a need to be shared on the wider Internet for maximum impact (social networks, emails or even print).
+
+These components take as input one or both of:
+
+ * Some subset of a the Data Model
+ * The results of analytics
+
+The form of those inputs, and how to transmit them to the visializations is covered by this specification.
+
+Once it has the data, the visualisation can optionally:
+ * performs some transformation or filtering of the data
+ * gather additional data from a human in it's interface (ex: select a variant of the visualisation, have a human add textual context to the data, etc.) or use previously gathered data in a specific CI tool.
+ * contact one or more remote servers
+
+If and how a specific visualisation does so is an implementation detail that is outside this specification.
+
+Finally, the visualisation generates one or more final output, in a format that can be made directly available on the web, in a form that is appropriate to the nature of the output.  This is covered by this specification.
+
+"Re-usable" Visualisation here means both that:
+ * The code of the widget can be re-used by any systems providing the data meant to be visualized in the Data Model defined by this specification.
+ * That the final output of the visualisation (typically:  a URL to an image, an embeedable web widget, a downloadable pdf, etc.) can be displayed easily outside the context of the system that runs the visualisation code simply by linking a URL or including an iframe or a small piece of javascript as appropriate.
+
+ <!-- Best practices, for another section
+Passing data
+  Reference in URLs
+  Data input in widget
+  Stored thru some outside process.
+
+
+Self contained:  Should not display complete menus, only those necessary for the visualisations.
+-->
+
+## Re-usable interactive widgets
+
+Voting is one example of the field of Collective Intelligence that is quite mature, but where tooling isn't widely made available on the Internet.
+How to avoid many common voting biases is well known in academia, and has been for years.
+
+Making such tools (voting, ideation facilitation, collective action, etc.) available online, in reusable form, is one of the goals of this effort.
+
+The difference between this and the visualisations above is that these widgets always store data to some backend, and manipulating this stored data is expected to be done by end user (not moderators, harversters, etc.).
+
+The main problem here is not the lack of standards, but the number of incompatible, not widely deployed standards.  One actually has direct applicability, and some significant traction:  OpenSocial (http://opensocial.org/).
+Sadly, it's required tooling for deployment is significant and overkill in some cases.
+
+This specification will take a pragmatic approach, to attempt to at least provide a common denominator that is sufficient for our narrow field, technology independent, and allows the minimal number of requirements for sharing CI widgets OUTSIDE the ecosystem (on web forums, web sites, social networks, etc.)
 
 ## Obtaining and representing raw contributions from messaging platforms
 
@@ -76,18 +120,9 @@ Sadly, they are all in different formats, making the user, reuse and analytics o
 The catalyst ecosystem standardized on SIOC (Semantically-Interlinked Online Communities) as a data model, and will write tools to make several other formats available as SIOC.
 This way, analytics and annotation environments have only one format to process. 
 
-## Re-usable interactive widgets
-
-Voting is one example of the field of Collective Intelligence that is quite mature.
-How to avoid many common voting biases is well known in academia, has been for years, but adequate tools are not widely used on the Internet.
-In fact such tools, in reusable form, are simply not available on the Internet, and the same is true of ideation facilitation or collective action tools.
-
-The main problem here is not the lack of standards, but the number of incompatible, not widely deployed standards.
-
-This specification will take a pragmatic approach, to attempt to at least provide a common denominator that is sufficient for our narrow field, technology independent, and allows the minimal number of requirements for sharing widgets OUTSIDE the ecosystem (on web forums, web sites, social networks, etc.)
 
 ## End-user platforms
-
+<!-- TODO:  Move this -->
 Most participants are expected interact on social and communication platforms, while community moderators and harvesters would use catalyst integration platforms to distill structured discussion from those platforms.
 The artefacts derived from the structured discussions, such as visualization, synthesis, attention mediation signals from the analytics, will be sent back (as content or as references) to the communication platforms, in the form of messages native to that platform (tweets, emails, facebook wall posts, etc.) 
 Some functionality such as dynamic visualization, creativity widgets and voting should be integrated into those communication platforms which have appropriate integration mechanisms.
