@@ -710,11 +710,14 @@ digraph g {
     idea1->ideasContainer [label="sioc:has_container"];
 }
 ```
-## Quotes and annotations
+## Comments to contributions or to Quotes
 
-<!-- start for examples.. too abstract -->
+Not all contributions to a debate are structured. 
+Assembl, like communication platforms, starts with unstructured contributions (posts) and harvesters identify generic ideas within those; 
+the other catalyst platforms (deliberatorium and debatehub) start with structured contributions but allow unstrucured comments to those structured contributions. 
 
-All contributions, whether posts or generic ideas, can be commented on.
+In both cases, we have links between structured and unstructured contributions. 
+If we take the commenting case as typical, we see that comments (and here we will assimilate posts to comments) can be applied to any contribution, whether an idea or another post/comment. 
 Those comments may be tied to a quoted segment of the original contribution, or to the contribution as a whole.
 We will use [OpenAnnotation](http://www.openannotation.org/) for that purpose: it defines an annotation as composed of a target, which may be a text range (or even a time range in media resources), and an annotation body, which may be literal content or a RDF graph.
 It would be convenient to attach the target to a contribution directly, but we can do so within the target graph with moderate inconvenience.
@@ -1201,10 +1204,11 @@ These models represent data that are useful for systems in the ecosystem to inte
 
 ### IBIS PA
 
-
+```n3
+\include{../../catalyst_ontology/catalyst_paibis.ttl}
+```
 
 ### AIF
-
 
 ![AIF Ontology](../201401_interoperability_presentation_MK/AIF_argument.png)
 
@@ -1239,3 +1243,7 @@ Also: Dialogue (including Illocutionary and Transition)
 * Unary preference scheme for IBIS Arguments.
     *Can be combined into AIF Preference.
 * AIF Argument + Unary preference identified in Argument->Option link.
+
+```n3
+\include{../../catalyst_ontology/catalyst_aif.ttl}
+```
