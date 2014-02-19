@@ -8,6 +8,9 @@ Title: Catalyst interoperability operation
 Subtitle: PRELIMINARY DOCUMENT
 Revision: 0.01
 Author: Marc-Antoine Parent, Benoit Grégoire
+html header:    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
+    <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 Affiliation: Imagination for people
 Latex Footer: mmd-memoir-footer
 Latex Input: mmd-memoir-begin-doc

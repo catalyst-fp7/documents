@@ -24,6 +24,8 @@
 # Check out 
 ONTOLOGY_DIRECTORY=../../catalyst_ontology
 
+DOTFILES=$(wildcard fig*.dot)
+PNGFILES=$(patsubst %.dot,%.png,$(DOTFILES))
 
 all: interoperability.tex
 
@@ -34,6 +36,7 @@ $(ONTOLOGY_DIRECTORY):
 	git clone https://github.com/catalyst-fp7/ontology.git $@
 
 pdf: interoperability.pdf
+html: interoperability.html $(PNGFILES)
 
 %.pdf: %.tex ontologies
 	TEXINPUT=.:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
@@ -45,3 +48,9 @@ pdf: interoperability.pdf
 clean:
 	rm -f interoperability.pdf interoperability.aux interoperability.glo interoperability.idx interoperability.ist interoperability.log interoperability.out interoperability.pdf interoperability.tex
 	rm -f fig*.pdf fig*.dot tmpmaster.g*
+
+%.html: %.md %.pdf $(PNGFILES)
+	multimarkdown -t html -f $< | ./convert_html.py > $@
+
+%.png: %.dot
+	dot -Tpng -o $@ $<
