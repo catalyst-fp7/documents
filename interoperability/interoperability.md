@@ -89,7 +89,7 @@ This specification will take a pragmatic approach, to attempt to at least provid
 ## End-user platforms
 
 Most participants are expected interact on social and communication platforms, while community moderators and harvesters would use catalyst integration platforms to distill structured discussion from those platforms.
-The results of the structured discussions (visualization, synthesis, attention mediation) will be sent back to the communication platforms as messages.
+The artefacts derived from the structured discussions, such as visualization, synthesis, attention mediation signals from the analytics, will be sent back (as content or as references) to the communication platforms, in the form of messages native to that platform (tweets, emails, facebook wall posts, etc.) 
 Some functionality such as dynamic visualization, creativity widgets and voting should be integrated into those communication platforms which have appropriate integration mechanisms.
 In some cases, some participants may choose to migrate to the integration platforms for their richer environment; in general, this should only be a requirement for harvesters and moderators.
 
