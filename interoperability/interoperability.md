@@ -24,24 +24,34 @@ This consortium believes that the lack of shared standards to allow such tools t
 This document attempts to describe and standardize the most common interactions of software tools applicable to the CI field to foster reuse, experimentation and adoption.
 It is built upon the belief that at this stage in the adoption curve of CI tools, a "lowest common denominator" approach will allow the best chance that multiple tools outside the catalyst consortium will adopt the standard.
 
+## Context
+
+Online community managers are natural users of specialized CI tools (if they know about them).  However, most participants in an online discussion are expected to be initially exposed to the CI tools thru sharing their outputs, or making subsets of their functionnality directly available on popular social and communication platforms.  Interested participants can progressively move to the richer tools, and hopefully in time assume leadership roles themselves.
+
+In this model, moderators or participants can directly create structured representations of discussion in integrated CI platforms, or use the CI platform to distill structured representations from contributions made on more general purpose online discussion platforms and social networks (harvesting).
+
+The artefacts derived from the structured discussions by the CI tools, such as visualization, synthesis, reports and attention mediation signals from computer analytics, will be sent back (as content or as references) to the discussion platforms, in the form of messages native to that platform (tweets, emails, facebook wall posts, etc.).
+For communication platforms which have appropriate integration mechanisms, javascript widgets can expose richer functionnality such as dynamic visualizations, creativity widgets, or voting widgets.
+In some cases, some participants may choose to migrate to the integration platforms for their richer environment; in general, this should only be a requirement for harvesters and moderators.
+
 # Requirements
 
 ## Sharing raw concept maps
 
 Most collective intelligence tools allow organizing ideas in some sort of structure that reflects the discussion back to the participants (a concept map in the very broadest sense).
-Creating a Data Model to represent the following in a systems-independent way while preserving as much semantic as practical, is the core of this specification:
+The core of this specification is a Data Model to represent the following in a systems-independent way while preserving as much semantics as practical: 
 
- * The concepts of the concept map and their links
- * The people interacting with them
- * The interactions these people have (Messages, comments, votes, etc.)
+* The concepts of the concept map and their links
+* The people interacting with them
+* The interactions these people have (Messages, comments, votes, etc.)
 
 It is critical to share such representations between tools to enable:
 
- * Developing reusable analytics
- * Developing reusable Visualization
- * Perform research on those datasets
+* Developing reusable computer analytics
+* Developing reusable computer or human assisted visualizations
+* Perform research on those datasets
 
-The type and amount of structure can vary greatly between systems, but there are some useful levels of "shared semantics" that are achievable relatively easily. 
+The type and amount of structure can vary greatly between systems, but we believe there are some useful levels of "shared semantics" that are achievable relatively easily. 
 
 The first and most basic is sharing the raw structure of the map (nodes, edges) with very basic information (such as node title).
 This allows several visualizations tools to be applied, as well as a significant number of metrics.
@@ -50,8 +60,8 @@ The second is to share more semantics about the nature of the concepts identifie
 The consortium agreed that using IBIS (Issue-Based Information System) as a common baseline would help foster building initial tooling.
 While it has significant limitations, IBIS is a good choice because:
 
- 1. It's widely used by collective intelligence software
- 2. Many systems not using IBIS could transform at least a subset of their data into meaningful IBIS.
+1. It's widely used by existing collective intelligence software
+2. Many systems not using IBIS could transform at least a subset of their data into meaningful IBIS.
 
 ## Re-usable analytics
 
@@ -59,7 +69,7 @@ Analytics vary greatly, but all take data from the Data Model defined later, per
 
 1. Structured data for further computation, transformation or visualization.
 2. Visualizations (possibly interactive) or reports directly usable by a human 
-3. Attention mediation signals to be processed by some deliberation environment.
+3. Attention mediation signals to be processed by some deliberation environment to focus a user's attention to a sections of the map where something interesting happened.
 
 ## Re-usable visualizations
 
@@ -71,25 +81,25 @@ All have a need to be shared on the wider Internet for maximum impact (social ne
 
 These components take as input one or both of:
 
- * Some subset of a the Data Model
- * The results of analytics
+* Some subset of a the Data Model
+* The results of analytics
 
-The form of those inputs, and how to transmit them to the visializations is covered by this specification.
+The form of those inputs, and how to transmit them to the visualizations is covered by this specification.
 
 Once it has the data, the visualisation can optionally:
 
- * performs some transformation or filtering of the data
- * gather additional data from a human in it's interface (ex: select a variant of the visualisation, have a human add textual context to the data, etc.) or use previously gathered data in a specific CI tool.
- * contact one or more remote servers
+* performs some transformation or filtering of the data
+* gather additional data from a human in it's interface (ex: select a variant of the visualisation, have a human add textual context to the data, etc.) or use previously gathered data in a specific CI tool.
+* contact one or more remote servers
 
 If and how a specific visualisation does so is an implementation detail that is outside this specification.
 
-Finally, the visualisation generates one or more final output, in a format that can be made directly available on the web, in a form that is appropriate to the nature of the output.  This is covered by this specification.
+Finally, the visualisation generates one or more final outputs, in a format that can be made directly available on the web, in a form that is appropriate to the nature of the output.  This is covered by this specification.
 
 "Re-usable" Visualisation here means both that:
 
- * The code of the widget can be re-used by any systems providing the data meant to be visualized in the Data Model defined by this specification.
- * That the final output of the visualisation (typically:  a URL to an image, an embeedable web widget, a downloadable pdf, etc.) can be displayed easily outside the context of the system that runs the visualisation code simply by linking a URL or including an iframe or a small piece of javascript as appropriate.
+* The code of the visualisation can be directly re-used by any system providing the data meant to be visualized in the Data Model defined by this specification.
+* That the final output of the visualisation (typically:  a URL to an image, an embeedable web widget, a downloadable pdf, etc.) can be displayed easily outside the context of the system that runs the visualisation code simply by linking a URL or including an iframe or a small piece of javascript as appropriate.
 
 <!-- Best practices, for another section
 Passing data
@@ -118,19 +128,10 @@ This specification will take a pragmatic approach, to attempt to at least provid
 ## Obtaining and representing raw contributions from messaging platforms
 
 A variety of tools and social networks allow participants to exchange messages on the Internet.
-Sadly, they are all in different formats, making the user, reuse and analytics of those interactions needlessly painful.
+Sadly, they are all in different formats, making the use, reuse and analytics of those interactions needlessly painful.
 The catalyst ecosystem agreed to standardize on SIOC (Semantically-Interlinked Online Communities) as a data model, and will write tools to make several other formats available as SIOC.
 This way, analytics and annotation environments have only one format to process. 
 
-
-## End-user platforms
-
-<!-- TODO:  Move this -->
-
-Most participants are expected to interact on social and communication platforms, while community moderators and harvesters would use catalyst integration platforms to distill structured discussion from those platforms.
-The artefacts derived from the structured discussions, such as visualization, synthesis, attention mediation signals from the analytics, will be sent back (as content or as references) to the communication platforms, in the form of messages native to that platform (tweets, emails, facebook wall posts, etc.) 
-Some functionality such as dynamic visualization, creativity widgets and voting should be integrated into those communication platforms which have appropriate integration mechanisms.
-In some cases, some participants may choose to migrate to the integration platforms for their richer environment; in general, this should only be a requirement for harvesters and moderators.
 
 # Architectural components
 
@@ -246,11 +247,11 @@ Annotation services
 API endpoints would go into another chapter.
 -->
 
-Processing components (visualizations, analytics, vote, etc. including some components that are part of the catalyst platforms) will expect to get their data from the databases and also from each other. 
-For example, visualization components might want to display various nodes of the concept graph with size proportional to votes, or to per-node analytics signals. 
+Processing components (visualizations, analytics, vote, etc. including some components that are part of the integrated catalyst platforms) will expect to get their data from the databases and also from each other. 
+For example, visualization components might want to display various nodes of the concept graph with a size proportional to votes, or to per-node analytics signals. 
 An important part of the specification will thus concern the means by which components can request data from each other, and the format of that data.
 
-Other parts will concern integration of visual components in the catalyst platforms or in social and platforms, etc.
+Other parts will concern integration of visual components in the catalyst integrated platforms or web forums and social networks and web dashboards.
 
 ## Data access
 
@@ -267,19 +268,20 @@ This part of the document assumes a basic understanding of the following technol
 ### Simple JSON-LD access
 
 A simple read-only access to the data should be adequate for many analytics and visualization purposes, and some partners may choose to implement this simple access method.
-Clients to the platform should be expected to access the data through one of the following mechanisms (choice of mechanism and endpoints to be part of configuration parameters):
+Clients to the platform should be expected to access the data through one of the following mechanisms (choice of mechanism and endpoints to be part of configuration parameters). 
+As a system makes more sophisticated acces methods available, he can expect better services from the ecosystem:
 
-1. Pulling all server data in JSON-LD from a single HTTP address
-2. Pulling all server data relative to one unit of conversation, assuming a given platform server can host many different conversations with disjoint communities.
+1. Pulling all server data relative to one unit of conversation, assuming a given platform server can host many different conversations with disjoint communities, in a single request as JSON-LD.
 This is necessary as each such conversation may define different access permissions.
-3. Endpoints allowing to access the collection of each main type of resource, with some filtering ability (GET endpoints)
+This is the minimal plumbing required to participate to the catalyst ecosystem
+2. Endpoints allowing to access the collection of each main type of resource, with some filtering ability (GET endpoints)
+3. Read-only SPARQL Endpoints with agreed queries.
 4. Read/write RESTful endpoints for the collection of each main type of resource (probably one such endpoint per unit of conversation.)
-5. Read-only SPARQL Endpoints with agreed queries.
-6. Read/write SPARQL endpoints.
+5. Read/write SPARQL endpoints.
 
-Note that some of the social platforms we plan to integrate may not offer RDF data at all.
+Note that some of the social platforms we plan to integrate with may not offer RDF data at all.
 The conversion of some of this data to RDF may be done within the scope of this project, but designing a generic way to do so is outside this scope, and is well handled by such known technologies as [GRDDL](http://www.w3.org/TR/grddl-primer/).
-Similarly, though some platforms (notably Drupal) will expose their data in RDFa, this still requires a crawling step and Catalyst tools are not expected to implement this.
+Similarly, though some platforms (notably Drupal) will expose their data in RDFa, this still requires a crawling step and Catalyst tools are not expected to implement this themselves.
 In the specific case of Drupal, we recommend installation of the [SPARQL module](https://drupal.org/project/sparql), or at least the [RESTful Web service module](https://drupal.org/project/restws).
 
 ### RESTful access endpoints
