@@ -136,34 +136,46 @@ In some cases, some participants may choose to migrate to the integration platfo
 
 ```graphviz
 digraph g {
-    graph [bgcolor="transparent", rankdir="BT"] ;
-    node [fillcolor=white, style=filled,  shape=rectangle];
-    comm [label="Social & messaging platforms"];
-    dash [label="Dashboard"];
-    plat [label="Catalyst integrated platforms [I O Z]"];
-    viz [label="Visualizations [I O W]"];
-    widgets [label="Voting, creativity widgets [I]"];
-    ibisdb [label="IBIS database [I O Z]"];
-    postdb [label="post database [I]"];
-    analytics [label="analytics engine [Z W]"];
-    gred [label="IBIS editor"];
-    comm->ibisdb [label="bookmarklets"];
-    comm->postdb [label="data converters [I]"];
-    viz->comm [label="embed"];
-    widgets->comm [label="embed"];
-    gred->plat [label="embed"];
-    viz->plat [label="embed"];
-    widgets->plat [label="embed"];
-    dash->plat [label="embed"];
-    analytics->dash [label="report results"];
-    analytics->viz [label="report results"];
-    analytics->gred [label="report results"];
-    ibisdb->viz;
-    ibisdb->widgets;
-    ibisdb->gred [dir=both];
-    ibisdb->analytics;
-    postdb->analytics;
-    postdb->plat [label="embed [I]"];
+    graph [bgcolor="transparent", rankdir="BT", compound="true"];
+    node [fillcolor=white, style=filled,  shape=record, fontsize=9];
+    edge [fontsize=8];
+    subgraph cluster_catalyst {
+        graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
+            label="catalyst integrated platforms [I O Z]", fontsize=10];
+        subgraph cluster_frontend {
+            graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
+                label="frontend [I O Z]", fontsize=10];
+            viz_widget [label="visualization widget [I O]"];
+            vot_widget [label="voting widget [I]"];
+            crea_widget [label="creativity widgets [I]"];
+            dash [label="Dashboard"];
+        }
+        subgraph cluster_db {
+            graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
+                label="database [I O Z]", fontsize=10];
+        ibisdb [label="IBIS database"];
+        comments [label="comments database"];
+        users [label="users database"];
+        }
+    }
+comm [label="Social & messaging platforms [I W]"];
+viz [label="Visualization server [I O W]"];
+postdb [label="post database [I]"];
+analytics [label="analytics engine [Z]"];
+voting [label="voting service [I]"];
+
+ibisdb->analytics [ltail="cluster_db"];
+ibisdb->voting [ltail="cluster_db"];
+ibisdb->viz [ltail="cluster_db"];
+voting->analytics;
+viz->analytics [dir=both];
+analytics->comm [label="attention mediation"];
+analytics->dash; viz_widget->dash;
+comm->postdb [label="data converters [I]"];
+postdb->analytics;
+viz->viz_widget;
+voting->vot_widget [dir=both];
+ibisdb->viz_widget [ltail="cluster_db", lhead="cluster_frontend", dir="both"];
 }
 ```
 
