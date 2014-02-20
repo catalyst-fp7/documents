@@ -134,7 +134,7 @@ In some cases, some participants may choose to migrate to the integration platfo
 
 # Architectural components
 
-```graphviz 0.56
+```graphviz 0.38
 digraph g {
     graph [bgcolor="transparent", rankdir="BT", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -425,7 +425,7 @@ The ontology also hosts a simple JSON-LD [context](http://purl.org/catalyst/json
 In the following, there will be instance diagrams and class diagrams.
 In the latter, we will use the following conventions:
 
-```graphviz 0.66
+```graphviz 0.63
 digraph g {
 graph[rankdir="LR"];
 
@@ -483,7 +483,7 @@ Client tools should expect generic ideas from this (and maybe other) platforms.
 
 ### The model
 
-```graphviz 0.25
+```graphviz 0.24
 \include{../../catalyst_ontology/idea.dot}
 ```
 
@@ -503,7 +503,7 @@ We have experimented with the notion of criterion, which can be based on an issu
 ### The model:
 
 
-```graphviz 0.3
+```graphviz 0.30
 \include{../../catalyst_ontology/ibis.dot}
 ```
 
@@ -557,7 +557,7 @@ In particular, representing the IBIS information as posts allows to naturally in
 
 ### The Catalyst core model
 
-```graphviz 0.25
+```graphviz 0.24
 \include{../../catalyst_ontology/catalyst_core.dot}
 ```
 
@@ -597,7 +597,7 @@ eg_d1:d1_member a sioc:Role;
 eg_d1:d1_mailingList1 a assembl:MailingList, sioc:Space.
 ```
 
-```graphviz
+```graphviz 0.52
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -720,7 +720,7 @@ digraph g {
 
 ## Example data: posts
 
-```graphviz 0.58
+```graphviz 0.56
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -773,7 +773,7 @@ eg_d1:message_2 a sioc:Post ;
 ### Example data: a post with origin
 
 
-```graphviz 0.7
+```graphviz 0.73
 digraph g {
     graph [bgcolor="transparent", rankdir="BT"] ;
     node [fillcolor=white, style=filled,  shape=record];
@@ -810,7 +810,7 @@ Named graphs/reification are mentioned as an option, if justified.
 
 ### Example data
 
-```graphviz 0.65
+```graphviz 0.67
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -856,7 +856,7 @@ eg_d1:annotations_1 a oa:Annotation;
 ### Relating the comment to the idea
 
 
-```graphviz 0.6
+```graphviz 0.59
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=10];
@@ -901,7 +901,7 @@ This is not meant to be exhaustive, or to constrain user interaction, but should
 
 ### The model
 
-```graphviz 0.48
+```graphviz 0.46
 \include{../../catalyst_ontology/vote.dot}
 ```
 
@@ -912,7 +912,7 @@ This is not meant to be exhaustive, or to constrain user interaction, but should
 
 ### Binary vote example data
 
-```graphviz 1
+```graphviz 0.99
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -943,7 +943,7 @@ eg_d1:vote1 a vote:BinaryVote;
 ### Lickert vote example data
 
 
-```graphviz 0.6
+```graphviz 0.64
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -982,7 +982,7 @@ eg_d1:vote2 a vote:LickertVote;
 
 ### Ordering vote example data
 
-```graphviz 0.56
+```graphviz 0.54
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1157,7 +1157,7 @@ However, designing the API so it does not clash with those ulterior goals in min
 
 ## The model
 
-```graphviz 0.2
+```graphviz 0.18
 \include{../../catalyst_ontology/version.dot}
 ```
 
