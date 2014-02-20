@@ -7,7 +7,11 @@ begin_expr = re.compile(r'<pre><code class="(\w+)( [0-9\.]+)?">')
 end_expr = re.compile(r'</code></pre>')
 insert_expr = re.compile(r'\\include{(.*)}')
 digraph_start_expr = re.compile(r'\s*(strict\s+)?digraph\s+\{')
+escapables = re.compile(r'[<>&]')
+escapes = {'<':'&lt;', '>':'&gt;', '&':'&amp;'}
 
+def escape(escmatch):
+    return escapes[escmatch.group(0)]
 
 if __name__ == '__main__':
     state = None
@@ -31,11 +35,13 @@ if __name__ == '__main__':
                 exit(1)
             with open(fname) as f:
                 data = f.read()
-                print data
+                print escapables.sub(escape, data)
             line = line[m.end():]
         elif state and end_expr.match(line):
             if state != 'graphviz':
                 print line,
             state = None
         elif state != 'graphviz':
+            if state:
+                line = escapables.sub(escape, line)
             print line,
