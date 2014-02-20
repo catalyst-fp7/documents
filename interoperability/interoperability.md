@@ -22,13 +22,13 @@ Many tools have been built to try to solve various problems in online collective
 This consortium believes that the lack of shared standards to allow such tools to exchange data with each other and share results on standard Internet platforms has prevented these tools to build upon one-another's strengths and greatly hurt the broader adoption of specialized CI tools in Internet discussions.
 
 This document attempts to describe and standardize the most common interactions of software tools applicable to the CI field to foster reuse, experimentation and adoption.
-It is build upon the belief that at this stage in the adoption curve of CI tools, a "lowest common denominator" approach will allow the best chance that multiple tools outside the catalyst consortium will adopt the standard.
+It is built upon the belief that at this stage in the adoption curve of CI tools, a "lowest common denominator" approach will allow the best chance that multiple tools outside the catalyst consortium will adopt the standard.
 
 # Requirements
 
 ## Sharing raw concept maps
 
-Most collective intelligence tools allow organizing ideas in some sort of structure (a concept map in the very broadest sense).
+Most collective intelligence tools allow organizing ideas in some sort of structure that reflects the discussion back to the participants (a concept map in the very broadest sense).
 Creating a Data Model to represent the following in a systems-independent way while preserving as much semantic as practical, is the core of this specification:
 
  * The concepts of the concept map and their links
@@ -46,8 +46,8 @@ The type and amount of structure can vary greatly between systems, but there are
 The first and most basic is sharing the raw structure of the map (nodes, edges) with very basic information (such as node title).
 This allows several visualizations tools to be applied, as well as a significant number of metrics.
 
-The second is to share more semantics as about the nature of the concepts identified.
-It was felt by the consortium that using IBIS (Issue-Based Information System) as a common baseline would help foster building initial tooling.
+The second is to share more semantics about the nature of the concepts identified.
+The consortium agreed that using IBIS (Issue-Based Information System) as a common baseline would help foster building initial tooling.
 While it has significant limitations, IBIS is a good choice because:
 
  1. It's widely used by collective intelligence software
@@ -57,9 +57,9 @@ While it has significant limitations, IBIS is a good choice because:
 
 Analytics vary greatly, but all take data from the Data Model defined later, perform some computation and return either:
 
-    1. Structured data for further computation, transformation or visualization.
-    2. Visualizations (possibly interactive) or reports directly usable by a human 
-    3. Attention mediation signals to be processed by some deliberation environment.
+1. Structured data for further computation, transformation or visualization.
+2. Visualizations (possibly interactive) or reports directly usable by a human 
+3. Attention mediation signals to be processed by some deliberation environment.
 
 ## Re-usable visualizations
 
@@ -77,6 +77,7 @@ These components take as input one or both of:
 The form of those inputs, and how to transmit them to the visializations is covered by this specification.
 
 Once it has the data, the visualisation can optionally:
+
  * performs some transformation or filtering of the data
  * gather additional data from a human in it's interface (ex: select a variant of the visualisation, have a human add textual context to the data, etc.) or use previously gathered data in a specific CI tool.
  * contact one or more remote servers
@@ -86,30 +87,31 @@ If and how a specific visualisation does so is an implementation detail that is 
 Finally, the visualisation generates one or more final output, in a format that can be made directly available on the web, in a form that is appropriate to the nature of the output.  This is covered by this specification.
 
 "Re-usable" Visualisation here means both that:
+
  * The code of the widget can be re-used by any systems providing the data meant to be visualized in the Data Model defined by this specification.
  * That the final output of the visualisation (typically:  a URL to an image, an embeedable web widget, a downloadable pdf, etc.) can be displayed easily outside the context of the system that runs the visualisation code simply by linking a URL or including an iframe or a small piece of javascript as appropriate.
 
- <!-- Best practices, for another section
+<!-- Best practices, for another section
 Passing data
   Reference in URLs
   Data input in widget
   Stored thru some outside process.
-
 
 Self contained:  Should not display complete menus, only those necessary for the visualisations.
 -->
 
 ## Re-usable interactive widgets
 
-Voting is one example of the field of Collective Intelligence that is quite mature, but where tooling isn't widely made available on the Internet.
-How to avoid many common voting biases is well known in academia, and has been for years.
+Many components of the purposed ecosystem can be isolated and shared within platforms. 
+One example from the field of Collective Intelligence that is quite mature is voting; how to avoid many common voting biases is well known in academia, and has been for years. However, reusable voting tools haven't been made widely available on the Internet.
 
 Making such tools (voting, ideation facilitation, collective action, etc.) available online, in reusable form, is one of the goals of this effort.
 
-The difference between this and the visualisations above is that these widgets always store data to some backend, and manipulating this stored data is expected to be done by end user (not moderators, harversters, etc.).
+The difference between this and the visualisations above is that these widgets always store data of their own to some backend, and manipulating this stored data is expected to be done by end user (not moderators, harversters, etc.).
 
-The main problem here is not the lack of standards, but the number of incompatible, not widely deployed standards.  One actually has direct applicability, and some significant traction:  OpenSocial (http://opensocial.org/).
-Sadly, it's required tooling for deployment is significant and overkill in some cases.
+The main problem here is not the lack of standards, but the number of incompatible standards which are not widely deployed.  
+One actually has direct applicability, and some significant traction:  OpenSocial (http://opensocial.org/).
+Sadly, the tooling required for its deployment is significant, and quite probably overkill in our case.
 
 This specification will take a pragmatic approach, to attempt to at least provide a common denominator that is sufficient for our narrow field, technology independent, and allows the minimal number of requirements for sharing CI widgets OUTSIDE the ecosystem (on web forums, web sites, social networks, etc.)
 
@@ -117,13 +119,15 @@ This specification will take a pragmatic approach, to attempt to at least provid
 
 A variety of tools and social networks allow participants to exchange messages on the Internet.
 Sadly, they are all in different formats, making the user, reuse and analytics of those interactions needlessly painful.
-The catalyst ecosystem standardized on SIOC (Semantically-Interlinked Online Communities) as a data model, and will write tools to make several other formats available as SIOC.
+The catalyst ecosystem agreed to standardize on SIOC (Semantically-Interlinked Online Communities) as a data model, and will write tools to make several other formats available as SIOC.
 This way, analytics and annotation environments have only one format to process. 
 
 
 ## End-user platforms
+
 <!-- TODO:  Move this -->
-Most participants are expected interact on social and communication platforms, while community moderators and harvesters would use catalyst integration platforms to distill structured discussion from those platforms.
+
+Most participants are expected to interact on social and communication platforms, while community moderators and harvesters would use catalyst integration platforms to distill structured discussion from those platforms.
 The artefacts derived from the structured discussions, such as visualization, synthesis, attention mediation signals from the analytics, will be sent back (as content or as references) to the communication platforms, in the form of messages native to that platform (tweets, emails, facebook wall posts, etc.) 
 Some functionality such as dynamic visualization, creativity widgets and voting should be integrated into those communication platforms which have appropriate integration mechanisms.
 In some cases, some participants may choose to migrate to the integration platforms for their richer environment; in general, this should only be a requirement for harvesters and moderators.
@@ -204,7 +208,13 @@ Client platforms
 This includes the analytics and visualization components.
 The voting component is also included here, though its status is less clear-cut.
 
-# Prerequisites
+# Interoperability mechanisms
+
+<!-- name technology involved on the bus between any two connected components.
+API endpoints would go into another chapter.
+ -->
+
+## Prerequisites
 
 This document assumes a basic understanding of the following technologies, which are best described in their respective tutorials.
 
@@ -213,12 +223,6 @@ This document assumes a basic understanding of the following technologies, which
 * [Turtle syntax](http://www.w3.org/TR/turtle/)
 * [JSON-LD](json-ld.org/spec/latest/json-ld/)
 * [SPARQL 1.1](http://www.w3.org/TR/sparql11-overview/) ([tutorial](http://www.cambridgesemantics.com/semantic-university/sparql-by-example))
-
-
-# Expected interoperability mechanisms
-
-name technology involved on the bus between any two connected components.
-API endpoints would go into another chapter.
 
 ## Main communication bus between platforms
 
