@@ -140,42 +140,53 @@ digraph g {
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
     subgraph cluster_catalyst {
-        graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
-            label="catalyst integrated platforms [I O Z]", fontsize=10];
+        graph [bgcolor="transparent", rankdir="TB", compound="true", 
+            label="Catalyst Integrated Platforms [I O Z]", fontsize=10];
         subgraph cluster_frontend {
             graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
-                label="frontend [I O Z]", fontsize=10];
-            viz_widget [label="visualization widget [I O]"];
-            vot_widget [label="voting widget [I]"];
-            crea_widget [label="creativity widgets [I]"];
+                label="Frontend [I O Z]", fontsize=10];
+            viz_widget [label="Visualization widget [I O]"];
+            vot_widget [label="Voting widget [I]"];
+            crea_widget [label="Creativity widgets [I]"];
             dash [label="Dashboard"];
         }
         subgraph cluster_db {
             graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
-                label="database [I O Z]", fontsize=10];
-        ibisdb [label="IBIS database"];
-        comments [label="comments database"];
-        users [label="users database"];
+                label="Databases [I O Z]", fontsize=10];
+            ibisdb [label="Concept graph db"];
+            comments [label="Comments db"];
+            users [label="Users db"];
         }
     }
-comm [label="Social & messaging platforms [I W]"];
-viz [label="Visualization server [I O W]"];
-postdb [label="post database [I]"];
-analytics [label="analytics engine [Z]"];
-voting [label="voting service [I]"];
+#comm [label="Social & messaging platforms [I W]"];
+viz [label="Visualization service [I O W]"];
+postdb [label="Message db [I]"];
+analytics [label="Analytics service [Z]"];
+voting [label="Voting service [I]"];
+annotation [label="Annotation services [O I]"];
 
-ibisdb->analytics [ltail="cluster_db"];
-ibisdb->voting [ltail="cluster_db"];
-ibisdb->viz [ltail="cluster_db"];
+subgraph cluster_comm {
+    graph [bgcolor="transparent", rankdir="TB", compound="true", 
+        label="Social & messaging platforms [I W]", fontsize=10];
+    widgets2 [label="Embedded widgets (?)"];
+}
+viz->widgets2;
+
+
+annotation->comments;
+ibisdb:e->analytics [ltail="cluster_db"];
+ibisdb:e->voting [ltail="cluster_db"];
+ibisdb:e->viz [ltail="cluster_db"];
 voting->analytics;
 viz->analytics [dir=both];
-analytics->comm [label="attention mediation"];
+analytics->widgets2 [label="attention mediation", lhead="cluster_comm"];
 analytics->dash; viz_widget->dash;
-comm->postdb [label="data converters [I]"];
+widgets2->postdb [label="data converters [I]", ltail="cluster_comm"];
 postdb->analytics;
 viz->viz_widget;
+postdb->annotation;
 voting->vot_widget [dir=both];
-ibisdb->viz_widget [ltail="cluster_db", lhead="cluster_frontend", dir="both"];
+users->viz_widget [ltail="cluster_db", lhead="cluster_frontend", dir="both"];
 }
 ```
 
@@ -183,42 +194,51 @@ This is a view of components, and their expected interactions. (Letters represen
 
 <!-- TODO Graph above and description below are out of sync -->
 
-IBIS database
-: The most central component is the IBIS database, which holds most of the information about the concepts and ideas being built and discussed by participants.
-
 Catalyst integrated platforms
 : These are the general web platforms that users interact with that fully exploit the data model: they include Open University's DebateHub, IP's Assembl, MIT's Deliberatorium.
+
+Databases of Catalyst platforms
+: These databases, in the backend of the catalyst platform, hold the deliberation data. The data will be made accessible to other services and widgets through RESTful and SPARQL endpoints, defined below.
+
+Concept graph db
+: Holds the concept graph of IBIS nodes and links.
+
+Users db
+: Holds the social graph of those participants to a conversation which use the Catalyst platform.
+
+Comments db
+: Holds contributions to the discussion which are not strictly IBIS concepts: quotes, comments, etc.
+
+Frontend of Catalyst platforms
+: The user-facing side of each catalyst platform will be tied closely to its respective database, and specifying that interaction is a non-goal. However, it will integrate information from other services, either as (Pulled) json data, or as embedded widgets.
+
+Embedded Widgets (creativity, visualization, voting, etc.)
+: Embedded Widgets are pieces of user-facing Web code that can be embedded in another platform. They may be static javascript that talks only to the back-end of the process it is embedded in, or it may need to communicate with its own server component.
+
+Visualization widgets
+: In particular, these are dynamic web views which allow to view and maybe navigate the idea or social graphs, but not to edit it. Some of those widgets will be written as integrated components of their respective Catalyst platform, but many will be written as embedded widgets, i.e. reusable Web components which can be embedded in catalyst platforms, and maybe some social and messaging platforms.
 
 Social and messaging platforms
 : These are existing social and messaging platforms where users can post messages, such as email, facebook, twitter, blogs, etc.
 This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.
-How deeply they can integrate catalyst services depend on their facility for integrating plugins.
+How deeply they can integrate catalyst services (eg widgets) depend on their facility for integrating plugins.
 
-Visualisation components
-: Visualization components show static or dynamic aspects of the IBIS and social graph, and may allow to navigate it (but not write to it.) Some will be integrated directly in their respective Catalyst information platform, but most written as reusable Web components that can be embedded in social and messaging platforms.
+Message db
+: Converter components will extract messages (and attendant social graph information) from the social and messaging platforms and expose them as SIOC data to other components, including analytics, visualization, voting services and the catalyst platforms.
+Note that this means the user graph will be distributed between many databases (Catalyst databases, Message db, and Voting services.)
 
-IBIS editors
-: Tools, closely integrated within the platforms, that allow edition of the IBIS graph.
-Creating reusable components that allow graph edition is a long term goal, but may not be in scope for this project.
+Analytics services
+: The analytic components will extract data from the various databases and supply analytic results back to various components. It will also be the origin of some attention mediation messages that will be fed back into the messaging and social platforms.
 
-Post database
-: This component (and attendant converters) will extract messages from the social and messaging platforms and expose them to the Catalyst integration platforms, directly or through the analytics and voting components.
-Note that this means the user graph may be distributed between many databases (IBIS, Posts, and eventually voting.)
+Visualisation services
+: Visualization services generate static or dynamic visualizations of various aspects of the data: IBIS and social graph, augmented with votes or the results of analytic services. 
 
-Analytics components
-: The analytic components will extract data from the various databases and supply analytic results to the Catalyst platforms, possibly through visual components.
+Voting services
+: Voting is a good candidate for reusable components: We can define votes in a platform independent fashion.
+Each voting component would define voting values, store them in their own databases, and provide appropriate aggregates to other components. It needs to access data from the Catalyst platform to identify the voting users and the voted ideas.
 
-Voting components
-: Voting is another good candidate for reusable components: We can define votes in a platform independent fashion.
-Each voting component would define voting values, store them in their own databases, and provide appropriate aggregates.
-
-Server platforms
-: This term will be used to refer collectively to the server components of the catalyst integration platforms, including the IBIS database, and the Post database server.
-
-Client platforms
-: This term will be used to refer collectively to components that are used by the server platforms to provide services, but generally expect to use data from the server platforms as input.
-This includes the analytics and visualization components.
-The voting component is also included here, though its status is less clear-cut.
+Annotation services
+: These services (bookmarklets etc.) will allow to extract quotes from Web pages or Messages and push them to the Comments db as evidence for the concept graph.
 
 # Interoperability mechanisms
 
