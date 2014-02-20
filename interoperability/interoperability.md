@@ -244,19 +244,25 @@ Annotation services
 
 <!-- name technology involved on the bus between any two connected components.
 API endpoints would go into another chapter.
- -->
+-->
 
-## Prerequisites
+Processing components (visualizations, analytics, vote, etc. including some components that are part of the catalyst platforms) will expect to get their data from the databases and also from each other. 
+For example, visualization components might want to display various nodes of the concept graph with size proportional to votes, or to per-node analytics signals. 
+An important part of the specification will thus concern the means by which components can request data from each other, and the format of that data.
 
-This document assumes a basic understanding of the following technologies, which are best described in their respective tutorials.
+Other parts will concern integration of visual components in the catalyst platforms or in social and platforms, etc.
+
+## Data access
+
+### Prerequisites
+
+This part of the document assumes a basic understanding of the following technologies, which are best described in their respective tutorials.
 
 * [REST](http://rest.elkstein.org/)
 * [RDF](http://www.w3.org/2007/02/turtle/primer/)
 * [Turtle syntax](http://www.w3.org/TR/turtle/)
 * [JSON-LD](json-ld.org/spec/latest/json-ld/)
 * [SPARQL 1.1](http://www.w3.org/TR/sparql11-overview/) ([tutorial](http://www.cambridgesemantics.com/semantic-university/sparql-by-example))
-
-## Main communication bus between platforms
 
 ### Simple JSON-LD access
 
@@ -334,7 +340,33 @@ This has the downside of being less timely, but may be less ressource-intensive 
 In a broader ecosystem context, most platforms would not open the SPARQL endpoint to untrusted external tools, if only to avoid denial of service attacks using complex queries.
 However, a platform may choose to expose a subset of pre-defined sparql queries to unknown tools, and tool builders may propose useful SPARQL queries to platform builders.
 
-### Example: Platforms and analytics
+
+## Analytics processing
+
+Catalyst platforms will request the analytics to perform long-running calculations. 
+The results of those calculations should be made available by the analytics component on an URL when the calculation is done.
+This allows the platform to shared those results for further exploitation by other components (such as a visualization component).
+The URL may be protected by some form of access control, such as an access token, if necessary.
+
+### Batch requests
+
+The most common usage scenario involves a batch request from a catalyst platform to an analytics server.
+In the simplest case, the catalyst platform would POST to the analytics server a request with relevant data (which may include a JSON-LD payload, or the URL of endpoints whence such data can be pulled); the analytics platform would respond with an URL to the analytics computation results.
+
+If the operation is really long-running, we could consider asynchronous call mechanisms, such as the caller providing a callback (RESTful) endpoint.
+This will be specified when and if the need arises.
+
+### Continuous analytics
+
+Another usage scenario involves an analytics engine watching over the changes in a Catalyst deliberation platform.
+In the most general case, this requires intimate knowledge of the requirements on both ends and will not be standardized.
+However, the most common case of attention mediation events could be defined.
+In either case, the history events would be pulled from the catalyst platform by the analytics engine as a flux.
+(This may still be a RESTful endpoint, or a more traditional socket if timeliness is an issue.)
+
+In the specific case of attention mediation, data payloads (or URLs to data) could be posted by the analytics platform on an agreed upon endpoint in the catalyst platform.
+The issue of translating those payloads to human-readable messages is non-trivial, since the catalyst integration platforms are the ones which are aware of the participant's functional languages.
+Ideally, both platforms would agree on a vocabulary of attention signals, and the localization of those signals would be performed by the catalyst discussion platform.
 
 ## Platform and visualizations
 
@@ -346,9 +378,10 @@ Instead of trying to find (or worse, define) a universal standard, we will defin
 
 The simplest widget would have a server component, which could receive a request on a known endpoint, and return visualization data.
 The server would have to get the graph data that is to be visualized: either the json-ld graph could be part of the request, or the location of a REST or SPARQL endpoint on the platform server where the visualization server could get the data.
+This raises classical cross-origin data issues: If the widget code is hosted on the visualization server, it would require an authorization token to access the platform data, and vice-versa.
 
 In the simplest case, the server would simply return an image; in some more elaborate cases, the visualization widget would have its own HTML snippet and attendant javascript to lay out and interact with the visualization data.
-This raises classical cross-origin data issues: If the widget code is hosted on the visualization server, it would require an authorization token to access the platform data, and vice-versa.
+The best practice involves sending back a shareable URL where the image or HTML can be retrieved by other components.
 Those problems have known solutions.
 
 ### Fully client-side widgets
@@ -364,7 +397,7 @@ Such a widget would need to receive a configuration from the platform, giving th
 ### Deep interoperability with events
 
 In the most complex case, the widget would not only read the platform's data model, but also allow to edit it, or at least to tell the platform front-end about a user action initiated in the widget, such as node selection.
-This requires deep interoperability between the widget and the platform, presumably through sharing high-level change events between the widget and the platform. 
+This requires deep interoperability between the widget and the platform, presumably through sharing high-level change events between the widget and the platform.
 
 There are two ways to do this: The widget front-end may either communicate directly with a rich platform front-end, or indirectly through endpoints on the platform back-end. 
 
@@ -375,6 +408,23 @@ The other option is for the widget front-end to exchange those same user events 
 The advantage is that the widget front end needs to understand less about the platform backend endpoints; the disadvantage is that event passing between web components has not yet been standardized properly.
 We are left either with ad-hoc architectures, solutions that are heavily dependent on a specific front-end framework, or very heavy architectures such as [OpenSocial](http://opensocial.org/).
 This is going to be an area of further exploration for us.
+
+## Attention mediation
+
+
+## Unspecified interactions
+
+Some interactions between components will not be the subject of specfication, because they are self-contained, highly specific and knowledge of their internal function is not useful to the ecosystem as a whole. Those include:
+
+1. Importation of messages from the server platforms to the message database. 
+The output of that operation needs to follow this specification, but its process is self-contained.
+2. Client-server interactions in complex visualizations: There are too many different ways to do this to impose a single one.
+3. Asynchronous visualization tasks: The specifics can be handled by an appropriate widget.
+4. Quotes: Importation of quotes into the comments database may vary. The resulting quote data will be made in OpenAnnotation, as described later.
+5. Graph edition: Each platform will implement its own mechanisms for communication between front-end and back-end, such as edition of graph data.
+In general, such mechanisms tend to be tightly coupled to the internal data model.
+Trying to agree on this is possible, but probably too much effort for the real benefits.
+6. Configuration mechanisms: Each platform will have its own configuration mechanisms. Endpoints will have to be normalized, of course.
 
 # Security considerations
 
@@ -1235,42 +1285,14 @@ We expect a great variety of analytic tools to be developed, but though we aim t
 For that reason, it is not a realistic goal to standardize an exhaustive list of possible analytic semantics, and maybe even syntax.
 The utilization of analytics data will always be mostly ad-hoc.
 
-However, some basic principles can be agreed upon: First, analytic results should refer to resources by their RDF identifier; second, we could develop a syntax for the most common cases, based on JSON-LD; and third, we have to agree on a protocol for making analytics queries, distinguishing between continuous and batch processes.
+However, some basic principles can be agreed upon: First, analytic results should refer to resources by their RDF identifier; second, we could develop a syntax for the most common cases, based on JSON-LD; and third, we have to agree on basic API endpoints.
 
-### Analytics dataflow
+### Analytics results sample data
 
-#### Batch requests
+TODO
 
-The most common usage scenario for analytics involves a batch request from a catalyst platform to an analytics server.
-In the simplest case, the catalyst platform would POST to the analytics server a request with relevant data (which may include a JSON-LD payload, or the URL of endpoints whence such data can be pulled); the analytics platform would respond with the analytics data.
-However, if the amount of data is significant, it may be better to turn this into an asynchronous request.
-Two ways exist to do this: the caller (the catalyst platform) could provide a callback endpoint, or the analytics platform could instead return a "future", i.e. a URI representing the task as a resource, from where the analytics data can later be pulled.
-The call for results to the analytics server can block until the data is ready.
+## Endpoints and configuration
 
-The advantage of using a callback is a more timely result; but the advantage of the latter option is that the address of the results could be passed as a URL to one (or many) visualization modules that could use them. (Otherwise the catalyst platform will have to cache the analytics results for the visualization widgets.) Ideally, both approaches could be combined, with a callback to say when data is available; but this adds complexity and can be postponed.
-So we propose that task results should become addressable endpoints in the analytics platform.
-
-#### Continuous analytics
-
-Another usage scenario involves an analytics engine watching over the changes in a Catalyst deliberation platform.
-In the most general case, this requires intimate knowledge of the requirements on both ends and will not be standardized.
-However, the most common case of attention mediation events could be defined.
-In either case, the history events would be pulled from the catalyst platform by the analytics engine as a flux. (This may still be a RESTful endpoint, or a more traditional socket if timeliness is an issue.)
-
-In the specific case of attention mediation, data payloads (or URLs to data) could be posted by the analytics platform on an agreed upon endpoint in the catalyst platform.
-The issue of translating those payloads to human-readable messages is non-trivial, since the catalyst integration platforms are the ones which are aware of the participant's functional languages.
-Ideally, both platforms would agree on a vocabulary of attention signals, and the localization of those signals would be performed by the catalyst discussion platform.
-
-### Data model
-
-
-# Other data models for system collaboration
-
-These models represent data that are useful for systems in the ecosystem to interact together, but do not represent the interaction of the participants.
-
-## Attention mediation
-
-## Analytics configuration?
 
 # Appendices
 
