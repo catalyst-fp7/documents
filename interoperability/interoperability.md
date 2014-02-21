@@ -135,13 +135,13 @@ This way, analytics and annotation environments have only one format to process.
 
 # Architectural components
 
-```graphviz 0.51
+```graphviz 0.40
 digraph g {
-    graph [bgcolor="transparent", rankdir="LR", compound="true"];
+    graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
     subgraph cluster_catalyst {
-        graph [rankdir="TB", label="Catalyst Collective Intelligence Platforms [I O Z]", fontsize=10];
+        graph [rankdir="LR", label="Catalyst Collective Intelligence Platforms [I O Z]", fontsize=10];
         subgraph cluster_frontend {
             graph [rankdir="TB", style="dotted",
                 label="Frontend", fontsize=10];
@@ -152,8 +152,8 @@ digraph g {
         database [label=<Databases<br/>Concepts, comments,<br/>messages, users<br/>internal data...>];
     }
     subgraph cluster_components {
-        graph [color="transparent", rankdir="TB", label=""];
-    
+        graph [color="transparent", rankdir="LR", label=""];
+
         analytics [label="Analytics [Z]"];
         viz [label="Reusable Visualizations [O I W]"];
         widgets [label=<Reusable CI widgets [I O]<br/>voting, pledging, creativity>];
@@ -162,7 +162,7 @@ digraph g {
         sioc [label="SIOC transducer [I]"];
     }
     subgraph cluster_external {
-        graph [color="transparent", rankdir="TB", label=""];
+        graph [color="transparent", rankdir="LR", label=""];
             subgraph cluster_comm {
                 graph [color="black", label="Social & messaging platforms [I W]", fontsize=10];
                 subgraph cluster_msg {
@@ -180,10 +180,6 @@ digraph g {
             }
     }
 
-    # fake links
-    database->analytics [ltail="cluster_catalyst",lhead="cluster_components", color="transparent"];
-    viz->display3 [ltail="cluster_external",ltail="cluster_components", color="transparent"];
-
     # data links
     analytics->viz;
     analytics->internalUI [lhead="cluster_catalyst"];
@@ -195,7 +191,6 @@ digraph g {
 
     analytics->display2 [label="attention mediation", lhead="cluster_msg", color="blue", fontcolor="blue"];
 
-
     # viz links
     edge [color="green"];
     viz->display1;viz->display2;viz->display4;
@@ -204,10 +199,16 @@ digraph g {
     # unspecified
     edge [color="orange"];
     display3->annotation [ltail="cluster_web"];
-    database->internalUI [lhead="cluster_frontend", dir="both"];
+    internalUI->database [ltail="cluster_frontend", dir="both"];
     viz->viz_db [dir="both"];
     widgets->widget_db [dir="both"];
     display2->sioc [ltail="cluster_comm"];
+
+    # fake links
+    edge [color="transparent"];
+    #database->analytics [ltail="cluster_catalyst",lhead="cluster_components"];
+    #viz->display3 [ltail="cluster_external",ltail="cluster_components"];
+    display4->display2->display3;
 }
 ```
 
