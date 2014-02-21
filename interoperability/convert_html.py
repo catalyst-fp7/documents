@@ -35,13 +35,13 @@ if __name__ == '__main__':
                 exit(1)
             with open(fname) as f:
                 data = f.read()
-                print escapables.sub(escape, data)
+                print data #escapables.sub(escape, data)
             line = line[m.end():]
         elif state and end_expr.match(line):
             if state != 'graphviz':
                 print line,
             state = None
         elif state != 'graphviz':
-            if state:
-                line = escapables.sub(escape, line)
+            # if state:
+            #     line = escapables.sub(escape, line)
             print line,
