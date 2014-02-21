@@ -101,13 +101,14 @@ Finally, the visualisation generates one or more final outputs, in a format that
 * The code of the visualisation can be directly re-used by any system providing the data meant to be visualized in the Data Model defined by this specification.
 * That the final output of the visualisation (typically:  a URL to an image, an embeedable web widget, a downloadable pdf, etc.) can be displayed easily outside the context of the system that runs the visualisation code simply by linking a URL or including an iframe or a small piece of javascript as appropriate.
 
-<!-- Best practices, for another section
-Passing data
-  Reference in URLs
-  Data input in widget
-  Stored thru some outside process.
-
-Self contained:  Should not display complete menus, only those necessary for the visualisations.
+<!-- 
+%Best practices, for another section
+%Passing data
+%  Reference in URLs
+%  Data input in widget
+%  Stored thru some outside process.
+%
+%Self contained:  Should not display complete menus, only those necessary for the visualisations.
 -->
 
 ## Re-usable interactive widgets
@@ -214,7 +215,7 @@ digraph g {
 
 This is a view of components, and their expected interactions. (Letters represent catalyst technical partners expected to develop at least one such a component)
 
-<!-- TODO Graph above and description below are out of sync -->
+<!-- %TODO Graph above and description below are out of sync -->
 
 Catalyst integrated platforms
 : These are the general web platforms that users interact with that fully exploit the data model: they include Open University's DebateHub, IP's Assembl, MIT's Deliberatorium.
@@ -264,8 +265,8 @@ Annotation services
 
 # Interoperability mechanisms
 
-<!-- name technology involved on the bus between any two connected components.
-API endpoints would go into another chapter.
+<!-- %name technology involved on the bus between any two connected components.
+%API endpoints would go into another chapter.
 -->
 
 Processing components (visualizations, analytics, vote, etc. including some components that are part of the integrated catalyst platforms) will expect to get their data from the databases and also from each other. 
@@ -332,7 +333,7 @@ However, since there is no syntactical support for multiple property names direc
 Some of those inverse are not specified in the ontology, such as `dcterms:isPartOf` and `dcterms:hasPart`. (We will define a subproperty to specify this.) The list of such inverses is short, and well specified in the ontology documents.
 Tools that receive JSON-LD from a catalyst platform are expected to interpret either of those relationships as implying the other.
 
-<!-- todo: specify a subproperty of hasPart -->
+<!-- %todo: specify a subproperty of hasPart -->
 
 *Multiple identity*: URIs do not have to be unique in general, and a given object may have multiple identities.
 This would be marked with the `owl:sameAs`. 
@@ -532,7 +533,7 @@ c1->c2[color=blue, arrowhead=empty, label="inheritance"];
 Though we have chosen to focus on the semantics of IBIS within the Catalyst consortium, the general problem of discourse visualization has been approached through a variety of different models: formal logic and its varieties (modal, etc.); rhetorical tropes; argumentation schemes; decision theory; defeasability, etc.
 In all cases, we can distinguish the following principles:
 
-<!-- todo: References -->
+<!-- %todo: References -->
 
 1. Networked context: Many ideas take their full meaning from the network of its associations with other ideas.
 In the case of IBIS, for example, an Argument's meaning can be hard to interpret without knowing what Option it bolsters.
@@ -557,11 +558,11 @@ Client tools should expect generic ideas from this (and maybe other) platforms.
 ### The model
 
 ```graphviz 0.27
-\include{../../catalyst_ontology/idea.dot}
+{{../../catalyst_ontology/idea.dot}}
 ```
 
 ```n3
-\include{../../catalyst_ontology/catalyst_idea.ttl}
+{{../../catalyst_ontology/catalyst_idea.ttl}}
 ```
 
 
@@ -577,11 +578,11 @@ We have experimented with the notion of criterion, which can be based on an issu
 
 
 ```graphviz 0.34
-\include{../../catalyst_ontology/ibis.dot}
+{{../../catalyst_ontology/ibis.dot}}
 ```
 
 ```n3
-\include{../../catalyst_ontology/catalyst_ibis.ttl}
+{{../../catalyst_ontology/catalyst_ibis.ttl}}
 ```
 
 ### Example data:
@@ -631,11 +632,11 @@ In particular, representing the IBIS information as posts allows to naturally in
 ### The Catalyst core model
 
 ```graphviz 0.27
-\include{../../catalyst_ontology/catalyst_core.dot}
+{{../../catalyst_ontology/catalyst_core.dot}}
 ```
 
 ```n3
-\include{../../catalyst_ontology/catalyst_core.ttl}
+{{../../catalyst_ontology/catalyst_core.ttl}}
 ```
 
 ### Example data: the main containers
@@ -975,11 +976,11 @@ This is not meant to be exhaustive, or to constrain user interaction, but should
 ### The model
 
 ```graphviz 0.52
-\include{../../catalyst_ontology/vote.dot}
+{{../../catalyst_ontology/vote.dot}}
 ```
 
 ```n3
-\include{../../catalyst_ontology/catalyst_vote.ttl}
+{{../../catalyst_ontology/catalyst_vote.ttl}}
 ```
 
 
@@ -1231,11 +1232,11 @@ However, designing the API so it does not clash with those ulterior goals in min
 ## The model
 
 ```graphviz 0.21
-\include{../../catalyst_ontology/version.dot}
+{{../../catalyst_ontology/version.dot}}
 ```
 
 ```n3
-\include{../../catalyst_ontology/version.ttl}
+{{../../catalyst_ontology/version.ttl}}
 ```
 
 ### Example data
@@ -1312,7 +1313,7 @@ However, some basic principles can be agreed upon: First, analytic results shoul
 
 ### Analytics results sample data
 
-TODO
+<!-- %TODO -->
 
 ## Endpoints and configuration
 
@@ -1324,7 +1325,7 @@ TODO
 ### IBIS PA
 
 ```n3
-\include{../../catalyst_ontology/catalyst_paibis.ttl}
+{{../../catalyst_ontology/catalyst_paibis.ttl}}
 ```
 
 ### AIF
@@ -1364,5 +1365,5 @@ Also: Dialogue (including Illocutionary and Transition)
 * AIF Argument + Unary preference identified in Argument->Option link.
 
 ```n3
-\include{../../catalyst_ontology/catalyst_aif.ttl}
+{{../../catalyst_ontology/catalyst_aif.ttl}}
 ```
