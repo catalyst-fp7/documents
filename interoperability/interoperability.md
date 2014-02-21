@@ -456,6 +456,7 @@ This is going to be an area of further exploration for us.
 ## Attention mediation
 
 
+
 ## Unspecified interactions
 
 Some interactions between components will not be the subject of specfication, because they are self-contained, highly specific and knowledge of their internal function is not useful to the ecosystem as a whole. Those include:
@@ -1343,6 +1344,21 @@ However, some basic principles can be agreed upon: First, analytic results shoul
 
 ## Endpoints and configuration
 
+Though it should be possible to develop new components in the ecosystem without modifying the code of the ecosystem components, each component will have to be made aware of other components through configuration. 
+Each component will have its own configuration mechanism, and it is not a goal to normalize configuration formats, but it is a goal to specify how much information will be included in the configuration to enable interoperability.
+
+Basically, any component (including platforms) that has to push to or pull from another component needs to know about that component first RESTful endpoint.
+This initial SPARQL endpoint should return JSON-LD information that specifies the type of the component, or more specifically a set of capabilities.
+Each capability will take the form of a RESTful endpoint for one of the SIOC endpoints, as described in the section on [SIOC and containers][]. 
+It would also return a pointer to a SPARQL endpoint, if there is one.
+
+More important, the components will have to agree on appropriate levels of data access. 
+We propose that this should be done through the platform defining a pseudo-user for the component, with the appropriate permissions.
+The component will have to be configured to identify itself with the appropriate pseudo-user and password, using OAuth over a secure channel.
+This requires that the platform either acts as a OAuth server, or uses an external one.
+In some cases, it may be necessary for the platform to assign a user to the component at runtime, rather than at configuration time; this will be specified later if necessary.
+Also, in some more complex cases, the component may want to assign a permission level to the platform, and the interaction will then have to be reversed.
+Again, we will specify this symmetric case if the need arises.
 
 # Appendices
 
