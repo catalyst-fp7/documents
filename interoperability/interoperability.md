@@ -306,6 +306,12 @@ The conversion of some of this data to RDF may be done within the scope of this 
 Similarly, though some platforms (notably Drupal) will expose their data in RDFa, this still requires a crawling step and Catalyst tools are not expected to implement this themselves.
 In the specific case of Drupal, we recommend installation of the [SPARQL module](https://drupal.org/project/sparql), or at least the [RESTful Web service module](https://drupal.org/project/restws).
 
+An explicit goal of this specification is that a third player can offer a new component that will interoperate with the other components of the ecosystem, without the other components needing to adapt to the new component.
+In particular, the new component cannot expect endpoints tailored to the exact subset of data it requires, and it may have to obtain more data than it needs for its purposes.
+The RESTful endpoints thus err on the side of exhaustivity, as opposed to efficiency.
+Efficient, targeted requests may be defined in SPARQL, but not all catalyst components will offer generic, open SPARQL endpoints; and some authors of new component may not be familiar with SPARQL and RDF.
+Thus the choice of RESTful, JSON-LD endpoints as lowest common denominator.
+
 ### RESTful access endpoints
 
 Most client components will want to interact with the data on the platform, and this will usually be done through RESTful read/write endpoints (option 4 above), one for each conversation unit and main resource type[^maintype].
@@ -412,7 +418,7 @@ Those problems have known solutions.
 
 A different scenario is that of a purely client-side visualization widget, simply a snippet of HTML with javascript.
 This can be done using [W3C Web widgets](http://www.w3.org/standards/techs/widgets) or maybe the emerging [W3C Web components](http://www.w3.org/TR/components-intro/), as described [here](http://www.html5rocks.com/en/tutorials/webcomponents/imports/).
-Such a widget would need to receive a configuration from the platform, giving the initial REST or SPARQL endpoint; it would then get its data by navigating the object graph from that endpoint.
+Such a widget would need to receive a configuration from the platform, giving the initial REST and/or SPARQL endpoint; it would then get its data by navigating the object graph from that endpoint.
 
 ### Example: voting
 
@@ -608,7 +614,14 @@ eg_d1:idealink_3_2 a ibis:ArgumentSupportsPosition;
     ibis:position_supported eg_d1:idea_2.
 ```
 
-## SIOC and containers
+## SIOC 
+
+The [SIOC](http://sioc-project.org) [ontology](http://rdfs.org/sioc/ns) will be used to expose (or re-expose, as the case may be) most contributions of participants to the conversation, including the generic ideas in the concept graph, messages on social platforms, comments on the generic ideas (which will be treated as ideas), etc. 
+These will all be represented as `sioc:Item` instances. 
+In particular, representing the IBIS information as posts allows to naturally indicate user, creation date, etc. 
+Unless the social platform exposes its information as SIOC itself (as Drupal does), IP will develop "SIOC transducers" that will obtain the message information and expose it as SIOC to other catalyst components (with the appropriate authorization.)
+
+### SIOC and containers
 
 For interoperability purposes, we need to refer to many collective entities as a whole, notably:
 
@@ -620,10 +633,7 @@ Those will be grouped according to the origin of those contributions.
 5. The set of those contribution origins: sources such as social media, mailing lists, etc.
 6. The set of interaction history.
 
-For most of those, we will use the [SIOC](http://sioc-project.org) [ontology](http://rdfs.org/sioc/ns).
-We will represent contributions (whether or not part of the idea graph) as `sioc:Item` instances, and most of the above collections as instances of `sioc:Collection`, with the exception of the interaction history.
-In particular, representing the IBIS information as posts allows to naturally indicate user, creation date, etc.
-
+Most of those collections (with the notable exception of interaction history) will be represented as instances of `sioc:Collection`.
 
 ### The SIOC model
 
@@ -699,7 +709,9 @@ This approach allows the social analytics engines to know that the same person m
 
 As mentioned in the section on [Pseudonymisation support][], we would use randomized information for user lists.
 
-
+Otherwise, user account information will include users being parts of certain groups or having certain roles (such as "moderators"), for the purposes of visualizations that need this information (as shown by Wikitalia.) 
+Those can and should be expressed in SIOC, where groups and roles are opaque resources.
+There does not seem to be a need for the components to understand the semantics of the roles and groups, so this will fall outside the scope of this specification.
 
 
 ### Example data: user information
