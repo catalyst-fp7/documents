@@ -1227,23 +1227,26 @@ This is not to say that such operations are not recorded in an application that 
 So here is the list of fundamental operations:
 
 * Create (target, original_context?)
+    * Annotate an object with a public link to another full-fledged object (created link as target)
+        * Quotes
+        * Posts
+        * Comments
+        * Tags
 * Delete (target)
 * Update generic property (target, property_names[^genericprop]*)
-* Change Read status (target, valence, strength?[^readstatus])
-* Annotate an object with a per-user[^peruser] property (target, property_name, value)
-    * Trouble tags (spam, etc.)
-    * Vote
-    * Rating[^rating]
-    * Bookmarks
-    * Tags
-* Annotate an object with a public link to another full-fledged object (targetted link)
-    * Quotes
-    * Posts
-    * Comments
-    * Tags
-* Change of object status
-    * Moderator approval (target)
-    * Moderator rejection (target, reason)
+    * Class change (target, new_rdf_class)
+    * Change in a per-user[^peruser] property (target, property_name, value)
+        * Trouble tags (spam, etc.)
+        * Vote
+        * Rating[^rating]
+        * Bookmarks
+        * Tags
+    * Change of object status
+        * Moderator approval (target)
+        * Moderator rejection (target, reason)
+    * Per-user change status
+        * Change Read status (target, valence, strength?[^readstatus])
+
 
 [^genericprop]: We are still considering whether the the name of the properties that were affected by an update operation should be included in the first level of support.
 In particular, some implementers might change a row in a database without knowing which columns are affected.
@@ -1261,7 +1264,7 @@ However, those signals are owned by the user, in that my vote is independent of 
 [^tags]: Tags may either be shared or belong to a user.
 We should allow both options.
 
-A few other operations are more complex, and we are hesitating to include them.
+A few other operations are more complex, and we are not convinced that it would be benificial to include them.
 
 * Move: corresponds to updates to link objects, which may be expressed as link creation/deletion.
 * Clone: create an object with a structural reference (`dcterms:source`) to its origin.
@@ -1280,7 +1283,7 @@ At the first level of support, a query for the deleted object may return a HTTP 
 3. Presuming links are first-class objects in the implementation, a user operation corresponding to a node move can manifest either as a combination of link destruction and creation, or as a link update (of either its source or target property.) This is implementation dependent, though we would recommend the latter.
 As a consequence, the affected links given as parameters to the move operation in layer 2 support could be tombstones.
 
-4. Objects are often created within a context.
+4. Some types of objects are generally created with an inherent link to a "parent" object.
 This is especially true of dependent objects, such as comments.
 As this context may be lost with further update or move operations, a platform may give the original context in the change objects, as a partial implementation of level 2 support.
 
