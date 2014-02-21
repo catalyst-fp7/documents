@@ -301,7 +301,7 @@ This is the minimal plumbing required to participate to the catalyst ecosystem
 4. Read/write RESTful endpoints for the collection of each main type of resource (probably one such endpoint per unit of conversation.)
 5. Read/write SPARQL endpoints.
 
-Note that some of the social platforms we plan to integrate with may not offer RDF data at all.
+Note that some of the social platforms we plan to integrate with do not offer RDF data at all.
 The conversion of some of this data to RDF may be done within the scope of this project, but designing a generic way to do so is outside this scope, and is well handled by such known technologies as [GRDDL](http://www.w3.org/TR/grddl-primer/).
 Similarly, though some platforms (notably Drupal) will expose their data in RDFa, this still requires a crawling step and Catalyst tools are not expected to implement this themselves.
 In the specific case of Drupal, we recommend installation of the [SPARQL module](https://drupal.org/project/sparql), or at least the [RESTful Web service module](https://drupal.org/project/restws).
@@ -318,8 +318,10 @@ Most client components will want to interact with the data on the platform, and 
 Specifying these endpoints in each client's configuration would be tedious, and the client would be configured with a main URL that will yield a document describing all the other endpoints.
 This document could also be in JSON-LD, or we could use a subset of the [Hydra](http://www.markus-lanthaler.com/hydra/) format to describe endpoints.
 
+<!-- Doesn't that assume an awfull lot:  1- That we standardize REST crud on the general Data Model 2- That platforms actually use this for their internal stuff, otherwise what case do we have for this if we are not building common map editors?  -->
+
 [^maintype]: In general, main resource types correspond to abstract superclasses.
-We would consider IBIS nodes (aka GenericIdeas) to be a resource type, but the subtypes (Issue, Option and Argument) to be subtypes.
+We would consider IBIS nodes (aka GenericIdeas) to be a resource type, but the subtypes (Issue, Option and Argument) to be subtypes. <!-- I don't understand this (well, I do, but I don't understand why it's here.  We haven't even introduced JSON-LD itself yet -->
 
 #### What you have to know about RDF while using JSON-LD
 
@@ -348,7 +350,7 @@ This would be marked with the `owl:sameAs`.
 
 In accordance with the general principles of linked data, each resource's IRI should be dereferencable as a URL.
 However, most client applications will need to access aggregates of resources, to allow for more efficient access.
-This requires those aggregates to also be named resources.
+This requires those aggregates to also be named resources.  <!-- Example please -->
 Also, from a RESTful point of view, aggregates need to exist as target to PUT operations.
 
 ### Trusted or vetted SPARQL queries
@@ -380,7 +382,8 @@ The URL may be protected by some form of access control, such as an access token
 
 ### Batch requests
 
-The most common usage scenario involves a batch request from a catalyst platform to an analytics server.
+The most common usage scenario involves a batch request from a catalyst platform to an analytics server.    
+<!-- I still think the most common scenario is a synchronous call, with caching a concern of the client --> 
 In the simplest case, the catalyst platform would POST to the analytics server a request with relevant data (which may include a JSON-LD payload, or the URL of endpoints whence such data can be pulled); the analytics platform would respond with an URL to the analytics computation results.
 
 If the operation is really long-running, we could consider asynchronous call mechanisms, such as the caller providing a callback (RESTful) endpoint.
@@ -406,7 +409,7 @@ Instead of trying to find (or worse, define) a universal standard, we will defin
 
 ### Widgets with a server component
 
-The simplest widget would have a server component, which could receive a request on a known endpoint, and return visualization data.
+The simplest <!-- Isn't the next one the simplest case?  This is actually quite involved! --> widget would have a server component, which could receive a request on a known endpoint, and return visualization data.
 The server would have to get the graph data that is to be visualized: either the json-ld graph could be part of the request, or the location of a REST or SPARQL endpoint on the platform server where the visualization server could get the data.
 This raises classical cross-origin data issues: If the widget code is hosted on the visualization server, it would require an authorization token to access the platform data, and vice-versa.
 
@@ -425,7 +428,7 @@ Such a widget would need to receive a configuration from the platform, giving th
 Going through the interactions expected of a reusable voting component can illustrate a large part of the workflow in this architecture. This is intended to be a full example, and therefore fairly complex; most components would only need a subset of this interaction.
 
 0. As part of the Catalyst platform's configuration, there will be an endpoint to a voting component. The catalyst platform will send a message to the voting component with initial configuration.
-1. The voting component will receieve a basic RESTful endpoint for the catalyst platform. From there it would obtain each collection's endpoint.
+1. The voting component will receieve a basic RESTful endpoint for one of the catalyst integrated platforms. From there it would obtain each collection's endpoint.
 2. It would use those other endpoints to obtain the concept graph and pseudonymized user graph from the catalyst platform.
 3. Optional: It may be directed to obtain the pseudonymized user graph of a social platform separately, through the endpoint of a Message-SIOC converter. That step is unlikely, as the social user graph will often be cached by the catalyst platforms.
 4. Optional: Configuration information sent to the voting component may have information about user groups or roles that are allowed to vote. (Those groups will otherwise be opaque SIOC entities from the voting platform's standpoint) (This configuration information would have to be defined at a later stage.)
