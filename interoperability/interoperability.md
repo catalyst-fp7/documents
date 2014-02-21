@@ -1362,6 +1362,97 @@ Again, we will specify this symmetric case if the need arises.
 
 # Appendices
 
+## Example SPARQL queries
+
+#### how many positive arguments?
+
+```sparql
+SELECT COUNT(DISTINCT ?arg) WHERE {
+    ?asp a ibis:ArgumentSupportsPosition .
+    ?asp ibis:argument_supporting ?arg
+}
+```
+
+`=> 1`
+
+#### Who contributed most ideas?
+
+```sparql
+DEFINE input:inference <http://www.assembl.net/Rules>
+PREFIX idea: <http://purl.org/catalyst/idea#>
+PREFIX ibis: <http://purl.org/catalyst/ibis#>
+SELECT ?u WHERE {
+    ?i sioc:has_creator ?u .
+    ?i a idea:GenericIdea
+}
+ORDER BY DESC(COUNT(?i)) LIMIT 1
+```
+
+Virtuoso note: we use a named Ruleset to use the fact that 
+
+```n3
+ibis:Issue rdfs:subClassOf idea:GenericIdea
+```
+
+#### Most replied-to post
+
+```sparql
+DEFINE input:inference <http://www.assembl.net/Rules>
+SELECT ?post WHERE {
+    ?post a sioc:Post .
+    ?post sioc:has_reply+ ?reply
+} ORDER BY DESC(COUNT(?reply)) LIMIT 1
+```
+
+Note the use of 
+
+```turtle
+sioc:has_reply owl:inferseOf sioc:reply_to
+```
+
+#### Whose content illustrates an idea?
+
+```sparql
+DEFINE input:inference <http://www.assembl.net/Rules>
+SELECT ?person WHERE {
+        ?person sioc:creator_of ?post .
+        ?extract oa:hasSource ?post .
+        ?annotation oa:hasTarget ?extract .
+        ?annotation oa:hasBody ?subgraph .
+        GRAPH ?subgraph {
+            ?extract assembl:expressesIdea eg_d1:idea_1
+        }
+} ORDER BY DESC(COUNT(?extract)) LIMIT 1
+```
+
+Fortunately, searching in subgraphs is quite doable.
+
+#### are you a negative voter?
+
+```sparql
+DEFINE input:inference <http://www.assembl.net/Rules>
+PREFIX vote: <http://purl.org/catalyst/vote#>
+SELECT ?person WHERE {
+    SELECT ?person (COUNT(?lickert_vote) AS ?total)
+           (COUNT(?negVote) AS ?negatives) 
+    WHERE {
+        ?lickert_vote vote:voter ?person .
+        ?lickert_vote a vote:LickertVote .
+        OPTIONAL {
+            ?negVote vote:voter ?person .
+            ?negVote a vote:LickertVote .
+            ?negVote vote:lickert_in_range ?range .
+            ?negVote vote:lickert_value ?vote_val .
+            ?range vote:min ?lickertMin .
+            ?range vote:max ?lickertMax .
+            BIND ((?vote_val - ?lickertMin + 0.0)/
+                  (?lickertMax/?lickertMin) AS ?lickertNorm).
+            FILTER (?vote_val > 0.5)
+        }
+    } 
+}  ORDER BY DESC (?negatives / ?total) LIMIT 1
+```
+
 ## Relation to other vocabularies
 
 ### IBIS PA
