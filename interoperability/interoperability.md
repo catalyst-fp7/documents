@@ -135,59 +135,79 @@ This way, analytics and annotation environments have only one format to process.
 
 # Architectural components
 
-```graphviz 0.43
+```graphviz 0.51
 digraph g {
-    graph [bgcolor="transparent", rankdir="BT", compound="true"];
+    graph [bgcolor="transparent", rankdir="LR", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
     subgraph cluster_catalyst {
-        graph [bgcolor="transparent", rankdir="TB", compound="true", 
-            label="Catalyst Integrated Platforms [I O Z]", fontsize=10];
+        graph [rankdir="TB", label="Catalyst Collective Intelligence Platforms [I O Z]", fontsize=10];
         subgraph cluster_frontend {
-            graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
-                label="Frontend [I O Z]", fontsize=10];
-            viz_widget [label="Visualization widget [I O]"];
-            vot_widget [label="Voting widget [I]"];
-            crea_widget [label="Creativity widgets [I]"];
-            dash [label="Dashboard"];
+            graph [rankdir="TB", style="dotted",
+                label="Frontend", fontsize=10];
+            display1 [label=<Display widgets<br/>&amp; documents>];
+            internalUI[label=<Internal UI, map editors, etc.>];
         }
-        subgraph cluster_db {
-            graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
-                label="Databases [I O Z]", fontsize=10];
-            ibisdb [label="Concept graph db"];
-            comments [label="Comments db"];
-            users [label="Users db"];
-        }
+        annotation [label="Web annotation services [O I]", style="dashed"];
+        database [label=<Databases<br/>Concepts, comments,<br/>messages, users<br/>internal data...>];
     }
-#comm [label="Social & messaging platforms [I W]"];
-viz [label="Visualization service [I O W]"];
-postdb [label="Message db [I]"];
-analytics [label="Analytics service [Z]"];
-voting [label="Voting service [I]"];
-annotation [label="Annotation services [O I]"];
+    subgraph cluster_components {
+        graph [color="transparent", rankdir="TB", label=""];
+    
+        analytics [label="Analytics [Z]"];
+        viz [label="Reusable Visualizations [O I W]"];
+        widgets [label=<Reusable CI widgets [I O]<br/>voting, pledging, creativity>];
+        viz_db [label="Visualization backend & storage", style="dashed"];
+        widget_db [label="Widget backend & storage"];
+        sioc [label="SIOC transducer [I]"];
+    }
+    subgraph cluster_external {
+        graph [color="transparent", rankdir="TB", label=""];
+            subgraph cluster_comm {
+                graph [color="black", label="Social & messaging platforms [I W]", fontsize=10];
+                subgraph cluster_msg {
+                    graph [label="Messages"];
+                    display2 [label=<Display widgets<br/>&amp; documents>, style="dashed"];
+                }
+            }
+            subgraph cluster_web {
+                graph [color="black", label="Web page", fontsize=10];
+                    display3 [label=<Display widgets<br/>&amp; documents>, style="dashed"];
+            }
+            subgraph cluster_dash {
+                graph [color="black", label="Dashboard [O I]", fontsize=10];
+                    display4 [label=<Display widgets<br/>&amp; documents>];
+            }
+    }
 
-subgraph cluster_comm {
-    graph [bgcolor="transparent", rankdir="TB", compound="true", 
-        label="Social & messaging platforms [I W]", fontsize=10];
-    widgets2 [label="Embedded widgets (?)"];
-}
-viz->widgets2;
+    # fake links
+    database->analytics [ltail="cluster_catalyst",lhead="cluster_components", color="transparent"];
+    viz->display3 [ltail="cluster_external",ltail="cluster_components", color="transparent"];
+
+    # data links
+    analytics->viz;
+    analytics->internalUI [lhead="cluster_catalyst"];
+    database->analytics;
+    database->viz;
+    database->widgets;
+    sioc->analytics;
+    sioc->database [lhead="cluster_catalyst"];
+
+    analytics->display2 [label="attention mediation", lhead="cluster_msg", color="blue", fontcolor="blue"];
 
 
-annotation->comments;
-ibisdb:e->analytics [ltail="cluster_db"];
-ibisdb:e->voting [ltail="cluster_db"];
-ibisdb:e->viz [ltail="cluster_db"];
-voting->analytics;
-viz->analytics [dir=both];
-analytics->widgets2 [label="attention mediation", lhead="cluster_comm"];
-analytics->dash; viz_widget->dash;
-widgets2->postdb [label="data converters [I]", ltail="cluster_comm"];
-postdb->analytics;
-viz->viz_widget;
-postdb->annotation;
-voting->vot_widget [dir=both];
-users->viz_widget [ltail="cluster_db", lhead="cluster_frontend", dir="both"];
+    # viz links
+    edge [color="green"];
+    viz->display1;viz->display2;viz->display4;
+    widgets->display1;widgets->display2;widgets->display3;
+
+    # unspecified
+    edge [color="orange"];
+    display3->annotation [ltail="cluster_web"];
+    database->internalUI [lhead="cluster_frontend", dir="both"];
+    viz->viz_db [dir="both"];
+    widgets->widget_db [dir="both"];
+    display2->sioc [ltail="cluster_comm"];
 }
 ```
 
