@@ -422,7 +422,21 @@ Such a widget would need to receive a configuration from the platform, giving th
 
 ### Example: voting
 
+Going through the interactions expected of a reusable voting component can illustrate a large part of the workflow in this architecture. This is intended to be a full example, and therefore fairly complex; most components would only need a subset of this interaction.
 
+0. As part of the Catalyst platform's configuration, there will be an endpoint to a voting component. The catalyst platform will send a message to the voting component with initial configuration.
+1. The voting component will receieve a basic RESTful endpoint for the catalyst platform. From there it would obtain each collection's endpoint.
+2. It would use those other endpoints to obtain the concept graph and pseudonymized user graph from the catalyst platform.
+3. Optional: It may be directed to obtain the pseudonymized user graph of a social platform separately, through the endpoint of a Message-SIOC converter. That step is unlikely, as the social user graph will often be cached by the catalyst platforms.
+4. Optional: Configuration information sent to the voting component may have information about user groups or roles that are allowed to vote. (Those groups will otherwise be opaque SIOC entities from the voting platform's standpoint) (This configuration information would have to be defined at a later stage.)
+5. Voting will have to convey to the catalyst platform which of the types of  voting information it expects (boolean, lickert or ordering) and the catalyst platform will provide an appropriate representation. This information could also be part of the catalyst configuration.
+    * Another mechanism to achieve the same purpose would be for the voting component to provide a HTML snippet to be embedded with each idea in the appropriate view. (This would use the same mechanisms as widget display.) We will determine whether this more complex route is necessary.
+6. User action in the snippet will trigger a `POST` action with the voting information (in JSON-LD) on an appropriate RESTful endpoint set in the configuration.
+    * This endpoint will usually be part of the voting component service, which will store votes itself.
+    * In a catalyst platform with full read/write SPARQL endpoints, the catalyst platform could store the voting data itself, if configured to do so. This limits the applicability of the voting service to a subset of catalyst platforms; but it also simplifies the design of the voting component. We expect the balance of costs and benefits to favour the first option.
+7. On demand, with appropriate configured endpoints, the voting component can provide raw voting information to the catalyst platform. (Or vice-versa if the Catalyst platform stores the voting information.) The voting information will be a separate SIOC collection.
+8. On demand, with appropriate configured endpoints, the voting component will provide aggregate voting information to the catalyst platform. The interpretation of this information is not yet specified, and in general it will depend on an agreement between components. However, some aggregates will be defined in a subsequent version of this specification, as we discover the most common usage patterns.
+9. On demand, with appropriate configured endpoints, the voting component will provide visualization of aggregate voting information. This will use the usual visualization widget interface as defined above.
 
 ### Deep interoperability with events
 
@@ -436,7 +450,7 @@ The advantage of that approach is that it uses mechanisms we have already define
 
 The other option is for the widget front-end to exchange those same user events with the platform front-end.
 The advantage is that the widget front end needs to understand less about the platform backend endpoints; the disadvantage is that event passing between web components has not yet been standardized properly.
-We are left either with ad-hoc architectures, solutions that are heavily dependent on a specific front-end framework, or very heavy architectures such as [OpenSocial](http://opensocial.org/).
+We are left either with ad-hoc architectures such as [Aura](http://aurajs.com/), solutions that are heavily dependent on a specific front-end framework such as [Marionette](http://marionettejs.com/), or very heavy architectures such as [OpenSocial](http://opensocial.org/).
 This is going to be an area of further exploration for us.
 
 ## Attention mediation
