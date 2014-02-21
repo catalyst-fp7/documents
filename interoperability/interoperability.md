@@ -88,7 +88,7 @@ The form of those inputs, and how to transmit them to the visualizations is cove
 
 Once it has the data, the visualisation can optionally:
 
-* performs some transformation or filtering of the data
+* perform some transformation or filtering of the data
 * gather additional data from a human in it's interface (ex: select a variant of the visualisation, have a human add textual context to the data, etc.) or use previously gathered data in a specific CI tool.
 * contact one or more remote servers
 
@@ -291,15 +291,16 @@ This part of the document assumes a basic understanding of the following technol
 
 A simple read-only access to the data should be adequate for many analytics and visualization purposes, and some partners may choose to implement this simple access method.
 Clients to the platform should be expected to access the data through one of the following mechanisms (choice of mechanism and endpoints to be part of configuration parameters). 
-As a system makes more sophisticated acces methods available, he can expect better services from the ecosystem:
+As a system makes more sophisticated acces methods available, it can expect better services from the ecosystem:
 
 1. Pulling all server data relative to one unit of conversation, assuming a given platform server can host many different conversations with disjoint communities, in a single request as JSON-LD.
 This is necessary as each such conversation may define different access permissions.
 This is the minimal plumbing required to participate to the catalyst ecosystem
-2. Endpoints allowing to access the collection of each main type of resource, with some filtering ability (GET endpoints)
-3. Read-only SPARQL Endpoints with agreed queries.
-4. Read/write RESTful endpoints for the collection of each main type of resource (probably one such endpoint per unit of conversation.)
-5. Read/write SPARQL endpoints.
+2. Exposing a well-defined, agreed-upon subset of data to a component at a given URL.
+3. Endpoints allowing to access the collection of each main type of resource, with some filtering ability (GET endpoints)
+4. Read-only SPARQL Endpoints with agreed queries.
+5. Read/write RESTful endpoints for the collection of each main type of resource (probably one such endpoint per unit of conversation.)
+6. Read/write SPARQL endpoints.
 
 Note that some of the social platforms we plan to integrate with do not offer RDF data at all.
 The conversion of some of this data to RDF may be done within the scope of this project, but designing a generic way to do so is outside this scope, and is well handled by such known technologies as [GRDDL](http://www.w3.org/TR/grddl-primer/).
@@ -314,7 +315,7 @@ Thus the choice of RESTful, JSON-LD endpoints as lowest common denominator.
 
 ### RESTful access endpoints
 
-Most client components will want to interact with the data on the platform, and this will usually be done through RESTful read endpoints (option 4 above), one for each conversation unit and meaningful collection of resources, as defined later in [SIOC and containers][].
+Most client components will want to interact with the data on the platform, and this will usually be done through RESTful read endpoints (option 4 above), one for each conversation unit and meaningful collection of resources, as defined later in [Endpoints and configuration][].
 A small subset of these endpoints will also have full CRUD access (an example is given in the voting section.)
 Specifying these endpoints in each client's configuration would be tedious, and the client would be configured with a main URL that will yield a JSON-LD document describing all the other endpoints.
 This document could also be in JSON-LD, or we could use a subset of the [Hydra](http://www.markus-lanthaler.com/hydra/) format to describe endpoints.
@@ -344,9 +345,10 @@ This would be marked with the `owl:sameAs`.
 
 #### Aggregates and individual resources
 
-In accordance with the general principles of linked data, each resource's IRI should be dereferencable as a URL.
-However, most client applications will need to access aggregates of resources, to allow for more efficient access.
-This requires those aggregates to also be named resources. (See [SIOC and containers][])
+In accordance with the general principles of linked data, each resource's IRI should ideally be dereferencable as a URL.
+However, this will rarely happen: Most client applications will prefer to access aggregates of resources, to minimize queries.
+This requires those aggregates to also be named resources. 
+These names may also correspond to RESTful endpoints, when those exist.
 Also, from a RESTful point of view, aggregates need to exist as target to PUT operations in the rare cases where interoperability requires this.
 
 ### Trusted or vetted SPARQL queries
@@ -368,6 +370,77 @@ This has the downside of being less timely, but may be less ressource-intensive 
 In a broader ecosystem context, most platforms would not open the SPARQL endpoint to untrusted external tools, if only to avoid denial of service attacks using complex queries.
 However, a platform may choose to expose a subset of pre-defined sparql queries to unknown tools, and tool builders may propose useful SPARQL queries to platform builders.
 
+## Endpoints and configuration
+
+Though it should be possible to develop new components in the ecosystem without modifying the code of the ecosystem components, each component will have to be made aware of other components through configuration. 
+Each component will have its own configuration mechanism, and it is not a goal to normalize configuration formats, but it is a goal to specify how much information will be included in the configuration to enable interoperability.
+
+Basically, any component (including platforms) that has to push to or pull from another component needs to know about that component's available endpoints.
+This initial configuration will take the form of a dictionary (JSON-LD or even plain javascript object) with the URL of endpoints given for any available endpoint type. This initial configuration data may be passed as value or as a URL reference, and may be a static file for a given component.
+
+The configuration for any server component (especially platforms) can include the following:
+
+1. A global read REST enpoint for all data that is to be made available to the other component, or for an appropriate subset thereof. (Mandatory)
+2. Optional: provide read (or optionally read/write) endpoints for each major data type.
+3. Optional: provide the URL of a read-only (or read/write) SPARQL endpoint.
+
+The platforms may elect to provide rich endpoints, with full create/update/delete features, and filters as query arguments. 
+Query filters, in particular, are not part of the specification and not expected.
+
+The list of endpoints other than the global endpoints is meant to correspond to meaningful subsets of data, notably:
+
+For interoperability purposes, we need to refer to many collective entities as a whole, notably:
+
+1. The notion of discussion: the set of all interactions that a community has around a topic.
+2. The collection of all generic ideas and their links in a discussion
+3. The information relevant to users in a discussion (with controlled access)
+4. The collection of posts, i.e. contributions to the discussion that are not part of the graph of generic ideas: References, comments, etc.
+Those will be grouped according to the origin of those contributions.
+5. The set of those contribution origins: sources such as social media, mailing lists, etc.
+6. The set of interaction history.
+
+So the most minimal, static view of the data for one conversation (which we define as the unit of data access, and some servers may have only one such unit) could be as simple as this:
+
+```json
+{'conversations':[{'data': 'http://catalyst.platform.server/api/conversation/1/all-data/'}]}
+```
+
+A given widget may also recieve a dynamic subset by reference, like this:
+
+```json
+{'conversations':[{'dataSelection': 'http://catalyst.platform.server/api/conversation/1/datasubet/widget0336'}]}
+```
+
+But a full-fledged server's configuration could look like this. Note that the keys of a conversation dictionary are agreed upon, but the URLs are expected to be opaque. More important, all the endpoints except the first are optional, and may be ommitted even if they are meaningful for your platform.
+
+```json
+{
+    '@context': 'http://purl.org/catalyst/jsonld',
+    'users': 'http://catalyst.platform.server/api/userinfo/',
+    'conversations':[{
+        '@id': 'http://catalyst.platform.server/api/conversation/1',
+        '@type': 'Conversation',
+        'allData': 'http://catalyst.platform.server/api/all_data/',
+        'ideas': 'http://catalyst.platform.server/api/conversation/1/ideas/',
+        'users': 'http://catalyst.platform.server/api/conversation/1/users/',
+        'messages': 'http://catalyst.platform.server/api/conversation/1/messages/',
+        'messageSources': 'http://catalyst.platform.server/api/conversation/1/sources/',
+        'votes_write': 'http://catalyst.platform.server/api/conversation/1/votes/',
+        'history': 'http://catalyst.platform.server/api/conversation/1/history/',
+        'sparql_write': 'http://catalyst.platform.server/sparql/'
+    }, 
+    {@id: 'another conversation...'}
+    ]
+}
+```
+
+This would expose endpoints for most of the server's data, but the components will also have to agree on appropriate levels of data access. 
+We propose that this should be done through the platform defining a pseudo-user for the component, with the appropriate permissions.
+The component will have to be configured to identify itself with the appropriate pseudo-user and password, using OAuth over a secure channel.
+This requires that the platform either acts as a OAuth server, or uses an external one.
+In some cases, it may be necessary for the platform to assign a user to the component at runtime, rather than at configuration time; this will be specified later if necessary.
+Also, in some more complex cases, the component may want to assign a permission level to the platform, and the interaction will then have to be reversed.
+Again, we will specify this symmetric case if the need arises.
 
 ## Analytics processing
 
@@ -650,19 +723,10 @@ These will all be represented as `sioc:Item` instances.
 In particular, representing the IBIS information as posts allows to naturally indicate user, creation date, etc. 
 Unless the social platform exposes its information as SIOC itself (as Drupal does), IP will develop "SIOC transducers" that will obtain the message information and expose it as SIOC to other catalyst components (with the appropriate authorization.)
 
-### SIOC and containers
+### SIOC containers
 
-For interoperability purposes, we need to refer to many collective entities as a whole, notably:
-
-1. The notion of discussion: the set of all interactions that a community has around a topic.
-2. The collection of all generic ideas and their links in a discussion
-3. The information relevant to users in a discussion (with controlled access)
-4. The collection of posts, i.e. contributions to the discussion that are not part of the graph of generic ideas: References, comments, etc.
-Those will be grouped according to the origin of those contributions.
-5. The set of those contribution origins: sources such as social media, mailing lists, etc.
-6. The set of interaction history.
-
-Most of those collections (with the notable exception of interaction history) will be represented as instances of `sioc:Collection`.
+For interoperability purposes, we need to refer to many collective entities as a whole, including all those defined in the [Endpoints and configuration][] section. Most of those collections (with the notable exception of interaction history) will be represented as instances of `sioc:Collection`. 
+The URI of the collection will correspond to the URL of the corresponding endpoint, in the case where the latter is defined.
 In general, collections are defined so that `sioc:Items` in this collection share an (other) RDF superclass.
 For example, we would consider IBIS nodes (aka GenericIdeaNodes) to be a superclass, but the subtypes (Issue, Option and Argument) to be subclasses: 
 So they would naturally belong to one collection.
@@ -1360,23 +1424,6 @@ However, some basic principles can be agreed upon: First, analytic results shoul
 
 <!-- %TODO -->
 
-## Endpoints and configuration
-
-Though it should be possible to develop new components in the ecosystem without modifying the code of the ecosystem components, each component will have to be made aware of other components through configuration. 
-Each component will have its own configuration mechanism, and it is not a goal to normalize configuration formats, but it is a goal to specify how much information will be included in the configuration to enable interoperability.
-
-Basically, any component (including platforms) that has to push to or pull from another component needs to know about that component first RESTful endpoint.
-This initial SPARQL endpoint should return JSON-LD information that specifies the type of the component, or more specifically a set of capabilities.
-Each capability will take the form of a RESTful endpoint for one of the SIOC endpoints, as described in the section on [SIOC and containers][]. 
-It would also return a pointer to a SPARQL endpoint, if there is one.
-
-More important, the components will have to agree on appropriate levels of data access. 
-We propose that this should be done through the platform defining a pseudo-user for the component, with the appropriate permissions.
-The component will have to be configured to identify itself with the appropriate pseudo-user and password, using OAuth over a secure channel.
-This requires that the platform either acts as a OAuth server, or uses an external one.
-In some cases, it may be necessary for the platform to assign a user to the component at runtime, rather than at configuration time; this will be specified later if necessary.
-Also, in some more complex cases, the component may want to assign a permission level to the platform, and the interaction will then have to be reversed.
-Again, we will specify this symmetric case if the need arises.
 
 # Appendices
 
