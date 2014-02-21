@@ -536,16 +536,54 @@ This requires deep interoperability between the widget and the platform, presuma
 There are two ways to do this: The widget front-end may either communicate directly with a rich platform front-end, or indirectly through endpoints on the platform back-end. 
 
 Let's first examine contact through the back-end: this can be done easily through RESTful editing commands on the data itself (POST and PUT), or through POSTing high-level user events (node selected, etc.) that would correspond to those stored in the audit history.
-The advantage of that approach is that it uses mechanisms we have already defined; the disadvantage is that, in most architectures, it is difficult for the platform server to push changes back to the platform front-end. (Assembl being an exception.)
+The advantage of that approach is that it uses mechanisms we have already defined, and that it can work even if the widget is displayed on another web page somewhere on the internet;
+the disadvantage is that, in most architectures, it is difficult for the platform server to push changes back to the platform front-end. (Assembl being an exception.)
 
 The other option is for the widget front-end to exchange those same user events with the platform front-end.
-The advantage is that the widget front end needs to understand less about the platform backend endpoints; the disadvantage is that event passing between web components has not yet been standardized properly.
-We are left either with ad-hoc architectures such as [Aura](http://aurajs.com/), solutions that are heavily dependent on a specific front-end framework such as [Marionette](http://marionettejs.com/), or very heavy architectures such as [OpenSocial](http://opensocial.org/).
-This is going to be an area of further exploration for us.
+The advantage is that the widget front end needs to understand less about the platform backend endpoints;
+the disadvantage is that event passing between web components has not yet been standardized properly.
+We are left either with:
 
-## Attention mediation
+* completely ad-hod solutions, where the widget and frontent would document the elements and javascript events that can be sent to them.
+* structured ad-hoc architectures such as [Aura](http://aurajs.com/), that are light to integrate (no server component) but are unlikely to be already used on integration platform it is't UI isn't widget based.
+* solutions that are heavily dependent on a specific front-end framework such as [Marionette](http://marionettejs.com/)
+* heavy architectures such as [OpenSocial](http://opensocial.org/).
 
+The main problem is that unlike the reusable widget case above, both the existing integration platfom's frontend AND the widget must pick the same standard.
 
+This is going to be an area of further exploration for us before we commit to a choice.
+
+## Analytics intermediate results and attention mediation
+
+A common case of analytics for sending intermediate results is to "annotate" the nodes of the concept map with aggregate values
+
+    * node (GenericIdea, User, Post, etc.)
+     * metric_aggregate_name (EX:  NUM_COMMENTER, NUN_DIRECT_COMMENTS, NUM_TOTAL_POSTS, LEVEL_OF_DISAGREMENT)
+      * value (typically a scalar value, but may be a structure, such as a list of participants)
+
+The meaning of aggregate names and format (and interpretation) of the value, for metrics that do not provide their own visualisations, is done thru shared knowledge.
+A metric will typically generate more than one aggregate per node.
+Definition for common metrics will eventually be listed in an annex to this specification. 
+
+### Attention mediation
+The case of attention mediation deserves special mention, because it is expected that the end user will recieve actual notifications by email, or in some user interface of a catalyst integrated platform.
+The actual text of this notification depends on information only the integrated platform can realistically generate:  URL where the user can/should take action, language the user speaks, context of the notification (summarizing the context, such as a description of the nodes)
+
+    * node (User)
+     * ATTENTION_MEDIATION_VOTE_MAJORITY_CHANGE
+      * strength: (In this case 0 or 1)
+      * node: (GenericIdea)
+      * mediationReason: VOTED_FOR_IDEA 
+     * ATTENTION_MEDIATION_INCREASING_CONFLICT
+      * strength: (In this case a value between 0 and 1)
+      * node: (GenericIdea)
+      * mediationReason: VOTED_FOR_IDEA, POSTED_ON_SUB_IDEA 
+     * ATTENTION_MEDIATION_RENEWED_ACTIVITY
+      * strength: (In this case a value between 0 and 1, probably a function of the number of duration of the dip in activity * recent posts/total posts)
+      * node: (GenericIdea)
+      * mediationReason: VOTED_FOR_IDEA, POSTED_ON_IDEA 
+
+The catalyst integrated platform will decide if, how, and how frequently it will notify the user for each attention mediation.
 
 ## Unspecified interactions
 
