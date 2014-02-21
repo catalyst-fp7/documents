@@ -380,9 +380,10 @@ This initial configuration will take the form of a dictionary (JSON-LD or even p
 
 The configuration for any server component (especially platforms) can include the following:
 
-1. A global read REST enpoint for all data that is to be made available to the other component, or for an appropriate subset thereof. (Mandatory)
+1. A global read REST endpoint returning a self-contained JSON-LD of all data that is to be made available to the other component. (Mandatory)
 2. Optional: provide read (or optionally read/write) endpoints for each major data type.
 3. Optional: provide the URL of a read-only (or read/write) SPARQL endpoint.
+4. Optional: URL representing queries (in a format internal to the component) a self-contained JSON-LD of all data that is referenced in the subset represented by the query.  For example: if the query is some specific generic ideas, the comments if any should be included.
 
 The platforms may elect to provide rich endpoints, with full create/update/delete features, and filters as query arguments. 
 Query filters, in particular, are not part of the specification and not expected.
@@ -611,7 +612,7 @@ As large parts of our project deals with social network analysis, this is a non-
 One safe route would have been to only deal with public forums, where there is no assumption of anonymity.
 That said, some of our communities are involved in ongoing discussions, and have not signed research agreements beforehand, and we have to do the best we can to guarantee their privacy against at least the most basic attempts at re-identification.
 
-To that purpose, the various platform should provide each tool they deal with pseudonymized data, that is data where the user identity is replaced by an opaque identity.
+To that purpose, the various platform should be able to provide each tool they deal with pseudonymized data, that is data where the user identity is replaced by an opaque identity.
 This conversion must have the following properties:
 
 1. It must be identity preserving, in that two ideas with the same author should be marked as belonging to the same pseudonym.
@@ -623,7 +624,7 @@ In particular, if the same user account is used in a public and private discussi
 This is only a consideration if we distinguish an intermediate level of access to personal information between "full access" and "no access"; this is very unlikely to be worth the added complexity.
 
 Analysis tools must be granted access to APIs with a key that gives them access to certain discussions at a certain level, and not other discussions.
-On the other hand, the front-end of each platform will need access to at least some information about other participants in the discussion (at least their nickname), and hence the API access points used by the front-end will have to be secured.
+On the other hand, the front-end of each platform will need access to at least some information about other participants in the discussion (at least their nickname), and hence the API access points used by their internal front-end will have to be secured.
 
 In general, it is easy to create a database table that will associate a unique random URI to a combination of user account, conversation unit, and access level (if used).
 The SPARQL machinery can use `owl:sameAs` equivalence to associate those identities to user accounts.
@@ -702,7 +703,8 @@ Those classes themselves derive from an abstract generic idea, which has also be
 This is more than an academic exercise, as within the catalyst consortium:
 1. Pure IBIS does not allow expressing abstract nodes and edges, and is thus insufficient as a "lowest common denominator". 
 2. One of the platforms (Assembl) will allow the creation of generic ideas that initially do not have an IBIS type, but may acquire it later.
-Client tools should expect generic ideas from this (and maybe other) platforms.
+
+Client tools should expect generic ideas with no defined subtype, of subtypes not defined in this specifications.
 
 ### The model
 
@@ -759,7 +761,7 @@ eg_d1:idealink_3_2 a ibis:ArgumentSupportsPosition;
 
 ## SIOC 
 
-The [SIOC](http://sioc-project.org) [ontology](http://rdfs.org/sioc/ns) will be used to expose (or re-expose, as the case may be) most contributions of participants to the conversation, including the generic ideas in the concept graph, messages on social platforms, comments on the generic ideas (which will be treated as ideas), etc. 
+The [SIOC](http://sioc-project.org) [ontology](http://rdfs.org/sioc/ns) will be used to expose (or re-expose, as the case may be) most contributions of participants to the conversation, including the generic ideas in the concept graph, messages on social platforms, comments on the generic ideas (which will be treated as ideas<!-- The comments will be treated as ideas?-->), etc. 
 These will all be represented as `sioc:Item` instances. 
 In particular, representing the IBIS information as posts allows to naturally indicate user, creation date, etc. 
 Unless the social platform exposes its information as SIOC itself (as Drupal does), IP will develop "SIOC transducers" that will obtain the message information and expose it as SIOC to other catalyst components (with the appropriate authorization.)
@@ -849,7 +851,7 @@ As mentioned in the section on [Pseudonymisation support][], we would use random
 
 Otherwise, user account information will include users being parts of certain groups or having certain roles (such as "moderators"), for the purposes of visualizations that need this information (as shown by Wikitalia.) 
 Those can and should be expressed in SIOC, where groups and roles are opaque resources.
-There does not seem to be a need for the components to understand the semantics of the roles and groups, so this will fall outside the scope of this specification.
+There does not seem to be a need for the components to understand the semantics of the roles and groups (they only need to let a user select them), so this will fall outside the scope of this specification.
 
 
 ### Example data: user information
@@ -1012,7 +1014,7 @@ digraph g {
 
 Not all contributions to a debate are structured. 
 Assembl, like communication platforms, starts with unstructured contributions (posts) and harvesters identify generic ideas within those; 
-the other catalyst platforms (deliberatorium and debatehub) start with structured contributions but allow unstrucured comments to those structured contributions. 
+the other catalyst platforms (deliberatorium and debatehub) start with structured contributions but allow unstrucured comments to those structured contributions (as does assembl). 
 
 In both cases, we have links between structured and unstructured contributions. 
 If we take the commenting case as typical, we see that comments (and here we will assimilate posts to comments) can be applied to any contribution, whether an idea or another post/comment. 
