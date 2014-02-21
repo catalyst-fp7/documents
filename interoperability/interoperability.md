@@ -402,37 +402,40 @@ Those will be grouped according to the origin of those contributions.
 So the most minimal, static view of the data for one conversation (which we define as the unit of data access, and some servers may have only one such unit) could be as simple as this:
 
 ```json
-{'conversations':[{'data': 'http://catalyst.platform.server/api/conversation/1/all-data/'}]}
+{"conversations":[{"data":
+    "http://catalyst.platform.server/api/conversation/1/all-data/"}]}
 ```
 
 A given widget may also recieve a dynamic subset by reference, like this:
 
 ```json
-{'conversations':[{'dataSelection': 'http://catalyst.platform.server/api/conversation/1/datasubet/widget0336'}]}
+{"conversations":[{"dataSelection":
+    "http://catalyst.platform.server/api/conversation/1/datasubet/widget0336"}]}
 ```
 
 But a full-fledged server's configuration could look like this. Note that the keys of a conversation dictionary are agreed upon, but the URLs are expected to be opaque. More important, all the endpoints except the first are optional, and may be ommitted even if they are meaningful for your platform.
 
 ```json
 {
-    '@context': 'http://purl.org/catalyst/jsonld',
-    'users': 'http://catalyst.platform.server/api/userinfo/',
-    'conversations':[{
-        '@id': 'http://catalyst.platform.server/api/conversation/1',
-        '@type': 'Conversation',
-        'allData': 'http://catalyst.platform.server/api/all_data/',
-        'ideas': 'http://catalyst.platform.server/api/conversation/1/ideas/',
-        'users': 'http://catalyst.platform.server/api/conversation/1/users/',
-        'messages': 'http://catalyst.platform.server/api/conversation/1/messages/',
-        'messageSources': 'http://catalyst.platform.server/api/conversation/1/sources/',
-        'votes_write': 'http://catalyst.platform.server/api/conversation/1/votes/',
-        'history': 'http://catalyst.platform.server/api/conversation/1/history/',
-        'sparql_write': 'http://catalyst.platform.server/sparql/'
+    "@context": "http://purl.org/catalyst/jsonld",
+    "users": "http://catalyst.platform.server/api/userinfo/",
+    "conversations":[{
+        "@id": "http://catalyst.platform.server/api/conversation/1",
+        "@type": "Conversation",
+        "allData": "http://catalyst.platform.server/api/all_data/",
+        "ideas": "http://catalyst.platform.server/api/conversation/1/ideas/",
+        "users": "http://catalyst.platform.server/api/conversation/1/users/",
+        "messages": "http://catalyst.platform.server/api/conversation/1/messages/",
+        "messageSources": "http://catalyst.platform.server/api/conversation/1/sources/",
+        "votes_write": "http://catalyst.platform.server/api/conversation/1/votes/",
+        "history": "http://catalyst.platform.server/api/conversation/1/history/",
+        "sparql_write": "http://catalyst.platform.server/sparql/"
     }, 
-    {@id: 'another conversation...'}
+    {"@id": "another conversation..."}
     ]
 }
 ```
+<!-- %TODO: Adjust ontology accordingly -->
 
 This would expose endpoints for most of the server's data, but the components will also have to agree on appropriate levels of data access. 
 We propose that this should be done through the platform defining a pseudo-user for the component, with the appropriate permissions.
