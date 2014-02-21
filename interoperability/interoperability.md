@@ -1525,45 +1525,41 @@ SELECT ?person WHERE {
 
 ### IBIS PA
 
+Another ontology was developed to represent IBIS data. 
+As mentioned, it has the downside that IBIS links are represented as RDF links, and thus cannot be addressed for the purposes of voting, history, etc.
+However, the ontologies are similar in intent, and a computable crossover between the two ontologies can be defined using appropriate OWL2 constructs.
+
 ```n3
 {{../../catalyst_ontology/catalyst_paibis.ttl}}
 ```
 
 ### AIF
 
+The AIF ontology was developed to represent arguments in discourse. There are two layers to this ontology: Abstarct argument schemes are defined in an upper ontology, and concrete arguments are said to fulfill (be instances of) those abstract argument types. Concrete arguments rely on Statements, or Information nodes, that themselves fulfill abstract Statement Descriptions.
+
 ![AIF Ontology](../201401_interoperability_presentation_MK/AIF_argument.png)
 
-Concrete arguments vs descriptions of abstract argument schemes.
-
-Types of schemes:
+There are many subtypes of argument schemes: those that are defeasible, those that indicate preference, and there are a few other constructs to designate discursive events such as illocutionary moves and transitions.
 
 ![AIF Ontology](../201401_interoperability_presentation_MK/AIF_onto.png)
 
-Also: Dialogue (including Illocutionary and Transition)
-
-#### AIF vs IBIS vs Informal thinking
+The type of arguments that AIF tries to model does not match perfectly with the dialogue mapping that uses IBIS. 
 
 * AIF argument nodes emphasize links from premises to conclusions
 * AIF preference has to be between at least two options
 * IBIS Arguments often contain an implicit argument and (unary) preference for the conclusion
 * IBIS Options are not even quite AIF Information nodes (Statements)
 * Informal concepts do not spontaneously fit IBIS, AIF or other schemes, and are often compounds.
-* Sharing between AIF and IBIS requires a more basic common ontology
 
-#### Generic Ideas
 
-* Use AIF core ontology
-* Basic relevance statement
-* Containment
-* Similarity
-* Successive refinement
+So we believe that sharing between AIF and IBIS requires a more basic common ontology, and this is why we have defined a generic idea ontology. 
+We have started to draft how those two models can correspond where it makes sense to do so. In particular:
 
-#### IBIS in AIF
+* AIF Relevance Statement can be identified in the IBIS Option->Issue link.
+* IBIS Arguments are unary preferences, but many of them can be combined into a an AIF Preference scheme instance.
+* An IBIS Argument->Option link can be translated as an AIF Argument with Unary preference.
 
-* Relevance Statement in Option->Issue link.
-* Unary preference scheme for IBIS Arguments.
-    *Can be combined into AIF Preference.
-* AIF Argument + Unary preference identified in Argument->Option link.
+This is a preliminary mapping between the ontologies, expressed as OWL2.
 
 ```n3
 {{../../catalyst_ontology/catalyst_aif.ttl}}
