@@ -318,7 +318,7 @@ This part of the document assumes a basic understanding of the following technol
 * [REST](http://rest.elkstein.org/)
 * [RDF](http://www.w3.org/2007/02/turtle/primer/)
 * [Turtle syntax](http://www.w3.org/TR/turtle/)
-* [JSON-LD](json-ld.org/spec/latest/json-ld/)
+* [JSON-LD](http://json-ld.org/spec/latest/json-ld/)
 * [SPARQL 1.1](http://www.w3.org/TR/sparql11-overview/) ([tutorial](http://www.cambridgesemantics.com/semantic-university/sparql-by-example))
 
 ### Levels of data access
