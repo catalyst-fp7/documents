@@ -1,0 +1,125 @@
+\documentclass[a4paper,article,11pt]{memoir}
+
+%
+%	Generic Configuration for memoir-based documents
+%
+
+\usepackage{layouts}[2001/04/29]
+
+
+% In case we need a glossary, or index
+\usepackage{glossaries}
+\glstoctrue
+\makeglossaries
+\makeindex
+
+
+% Basic page layout configuration
+\def\mychapterstyle{default}
+\def\mypagestyle{headings}
+
+
+% Use 8.5 x 11 inch page layout
+%
+%	8.5 x 11 layout for memoir-based documents
+%
+
+
+%%% need more space for ToC page numbers
+\setpnumwidth{2.55em}
+\setrmarg{3.55em}
+
+%%% need more space for ToC section numbers
+\cftsetindents{part}{0em}{3em}
+\cftsetindents{chapter}{0em}{3em}
+\cftsetindents{section}{3em}{3em}
+\cftsetindents{subsection}{4.5em}{3.9em}
+\cftsetindents{subsubsection}{8.4em}{4.8em}
+\cftsetindents{paragraph}{10.7em}{5.7em}
+\cftsetindents{subparagraph}{12.7em}{6.7em}
+
+%%% need more space for LoF numbers
+\cftsetindents{figure}{0em}{3.0em}
+
+%%% and do the same for the LoT
+\cftsetindents{table}{0em}{3.0em}
+
+%%% set up the page layout
+\settrimmedsize{\stockheight}{\stockwidth}{*}	% Use entire page
+\settrims{0pt}{0pt}
+
+\setlrmarginsandblock{2.3cm}{2.3cm}{*}
+\setulmarginsandblock{2.5cm}{2.5cm}{*}
+
+\setmarginnotes{17pt}{51pt}{\onelineskip}
+\setheadfoot{1cm}{1cm}
+\setheaderspaces{*}{0.5cm}{*}
+
+
+%%% GTN
+%\setlength\uppermargin{2.5cm}
+%\setlength\spinemargin{2.3cm}
+%\setlength\textheight{\paperheight minus 3.5cm minus \footskip}
+%\setlength\textwidth{\paperwidth minus 4.6cm}
+
+
+\checkandfixthelayout
+
+
+% Use default packages for memoir setup
+%
+%	Default packages for memoir documents created by MultiMarkdown
+%
+
+\usepackage{fancyvrb}			% Allow \verbatim et al. in footnotes
+\usepackage{graphicx}			% To enable including graphics in pdf's
+%\usepackage{booktabs}			% Better tables
+%\usepackage{tabulary}			% Support longer table cells
+\usepackage[utf8]{inputenc}		% For UTF-8 support
+%\usepackage[scaled]{uarial}
+\usepackage[scaled=0.92]{helvet}
+\renewcommand*\familydefault{\sfdefault} %% Only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}		% Use T1 font encoding for accented characters
+\usepackage{xcolor}				% Allow for color (annotations)
+\usepackage{colortbl}
+%\usepackage[sort&compress]{natbib} % Better bibliography support
+\usepackage[style=authoryear,backend=biber]{biblatex}
+\include{mmd-disable-natbib}
+\usepackage{supertabular}                       % Support longer table cells
+\usepackage{rotating}
+\usepackage{array}
+\usepackage{pdflscape}
+\usepackage[english]{babel}
+\usepackage[xcolor]{mdframed}
+\usepackage{microtype}
+\usepackage{datetime}
+\usepackage{calc}
+\usepackage{pageslts}
+\VerbatimFootnotes
+
+
+
+% Configure default metadata to avoid errors
+%
+%	Configure default metadata in case it's missing to avoid errors
+%
+
+\def\myauthor{Author}
+\def\defaultemail{}
+\def\defaultposition{}
+\def\defaultdepartment{}
+\def\defaultaddress{}
+\def\defaultphone{}
+\def\defaultfax{}
+\def\defaultweb{}
+
+
+\def\mytitle{Title}
+\def\subtitle{}
+\def\keywords{}
+
+
+\def\bibliostyle{plain}
+% \def\bibliocommand{}
+
+\def\myrecipient{}

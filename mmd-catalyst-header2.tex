@@ -1,0 +1,216 @@
+%
+%	For setup that must follow metadata included in the document
+%
+
+
+% Bibliography
+
+\ifx\bibliocommand\undefined
+\else
+	\bibliocommand
+\fi
+
+%
+%	Configure information from metadata for use in title
+%
+
+\ifx\latexauthor\undefined
+\else
+	\def\myauthor{\latexauthor}
+\fi
+
+\def\fullauthor{\myauthor}
+\def\fulltitle{\mytitle}
+
+\ifx\subtitle\undefined
+\else
+	\addtodef{\fulltitle}{}{ \subtitle}
+\fi
+
+\ifx\affiliation\undefined
+\else
+	\addtodef{\fullauthor}{}{ \\ \affiliation}
+\fi
+
+\ifx\address\undefined
+\else
+	\addtodef{\fullauthor}{}{ \\ \address}
+\fi
+
+\ifx\phone\undefined
+\else
+	\addtodef{\fullauthor}{}{ \\ \phone}
+\fi
+
+\ifx\email\undefined
+\else
+	\addtodef{\fullauthor}{}{ \\ \email}
+\fi
+
+\ifx\event\undefined
+\else
+	\date[\mydate]{\today}
+\fi
+
+\usepackage[
+	plainpages=false,
+	pdfpagelabels,
+	pdftitle={\fulltitle},
+	%pagebackref,
+	pdfauthor={\myauthor},
+	pdfkeywords={\keywords}
+	]{hyperref}
+\usepackage{memhfixc}
+
+\setlength\parindent{0pt}
+\setlength\parskip{10pt}
+
+\setlength\headheight{0.82in}
+\setlength\topmargin{-2.2cm}
+\setlength\uppermargin{0.9in}
+\setlength\textheight{22cm}
+\setlength\footskip{3cm}
+
+\setsecnumdepth{subsubsection}
+
+\makepagestyle{catalystp}
+\makeevenhead{catalystp}{}{\includegraphics{images/catalyst_header.png}}{}
+\makeoddhead{catalystp}{}{\includegraphics{images/catalyst_header.png}}{}
+\makeevenfoot{catalystp}{
+\tiny\textcolor{orange}{\docnumber  \mytitle}\textcolor{gray}{ • }\textcolor{orange}{\monthname  \the\year}\textcolor{gray}{ • }\textcolor{orange}{\affiliation}\par
+\textcolor{gray}{The CATALYST project is supported by the European Commission under its FP7 research funding programme}
+}{}{\small \textcolor{gray}{Page {\bfseries\thepage} of {\bfseries\lastpageref{LastPages}}}}
+\makeoddfoot{catalystp}{
+\tiny\textcolor{orange}{\docnumber  \mytitle}\textcolor{gray}{ • }\textcolor{orange}{\monthname  \the\year}\textcolor{gray}{ • }\textcolor{orange}{\affiliation}\par
+\textcolor{gray}{The CATALYST project is supported by the European Commission under its FP7 research funding programme}
+}{}{\small \textcolor{gray}{Page {\bfseries\thepage} of {\bfseries\lastpageref{LastPages}}}}
+
+\begin{document}
+\title{\fulltitle}
+\author{\fullauthor}
+
+
+
+\definecolor{h1b}{gray}{0.8}
+\definecolor{orange}{rgb}{0.92,0.58,0.09}
+
+\let\oldchapter\chapter
+\renewcommand{\chapter}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=1, innerbottommargin=1,skipabove=0,skipbelow=2]\oldchapter{#1}\end{mdframed}}
+\newcommand{\chapterstar}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=1, innerbottommargin=1,skipabove=0,skipbelow=2]\oldchapter*{#1}\end{mdframed}}
+
+\renewcommand{\printtoctitle}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=1, innerbottommargin=1,skipabove=0,skipbelow=2]\printchaptertitle{#1}\end{mdframed}}
+\renewcommand*{\cftchapterfont}{\normalfont\bfseries}
+
+
+\defbibheading{bibliography}[\bibname]{%
+                \chapter{#1}%
+                \label{#1}
+                \markboth{#1}{#1}}
+
+\maxtocdepth{subsection}
+
+
+\makeatletter
+\renewcommand{\@maketitle}{%
+  \newpage
+  \null
+  \vspace{-3.7cm}
+  \begin{center}
+  \includegraphics{images/catalyst_header_title.png} \par
+  \vspace{3cm}
+  \includegraphics{images/fp7_title.png} \par
+  \end{center}
+  \vspace{2.5cm}
+  \begin{tabular}{l>{\bfseries}l}
+  Project Acronym: & CATALYST \\
+  Project Full Title: & Collective Applied Intelligence and Analytics for Social Innovation \\
+  Grant Agreement: & 6611188 \\
+  Project Duration: & 24 months (Oct. 2013 - Sept. 2015) \\
+  \end{tabular}
+  \vspace{1.5cm}
+  \begin{mdframed}[backgroundcolor=orange, fontcolor=white, defaultunit=pt, linewidth=0, innerleftmargin=4, innerrightmargin=4, innertopmargin=10, innerbottommargin=10,skipabove=8,skipbelow=4]
+  \begin{center}
+  \bfseries\large\docnumber  \mytitle\mdseries\normalsize
+  \end{center}
+  \end{mdframed}
+
+  \par
+
+  \begin{tabular}{l>{\bfseries}l}
+Deliverable Status: & Draft \\
+File Name: & CATALYST\_WP3\_IP\_V0.9\_21022014.pdf \\
+Due Date: & January 2014 (M4) \\
+Submission Date: & February 2014 (M5) \\
+Dissemination Level: & Public \\
+Task Leader: & Imagination for People \\
+  \end{tabular}
+  \par
+  \vspace{2cm}
+  \footnotesize \textcopyright Copyright 2013-2015 The CATALYST FP7 consortium\par \normalsize
+}
+\makeatother
+
+
+\def\format{complete}
+
+\frontmatter
+\pagenumbering{roman}
+
+\maketitle
+\mainmatter
+\pagestyle{catalystp}
+
+\clearpage
+
+\footnotesize
+The CATALYST project consortium is composed of:
+
+\begin{tabular}{>{\bfseries}lll}
+SO & Sigma Orionis & France \\
+I4P & Imagination for People & France \\
+OU & The Open University & United Kingdom \\
+UZH & University of Zurich & Switzerland \\
+EN & Euclid Network & United Kingdom \\
+CSCP & Collaborating Centre on Sustainable Consumption and Production & Germany \\
+Purpose & Purpose Europe & United Kingdom \\
+Wikitalia & Wikitalia & Italy \\
+\end{tabular}
+\par
+\vspace{12cm}
+
+\textcolor{gray}{{\bfseries \emph{Disclaimer}}}
+
+\textcolor{gray}{\textit{
+All intellectual property rights are owned by the CATALYST consortium members and are protected by the applicable laws. Except where otherwise specified, all document contents are: “© CATALYST Project - All rights reserved”. Reproduction is not authorised without prior written agreement.}}
+
+\textcolor{gray}{\textit{
+All CATALYST consortium members have agreed to full publication of this document. The commercial use of any information contained in this document may require a license from the owner of that information. }}
+
+\textcolor{gray}{\textit{
+All CATALYST consortium members are also committed to publish accurate and up to date information and take the greatest care to do so. However, the CATALYST consortium members cannot accept liability for any inaccuracies or omissions nor do they accept liability for any direct, indirect, special, consequential or other losses or damages of any kind arising out of the use of this information.}}
+\normalsize
+
+\clearpage
+\chapterstar{Revision Control}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+\rowcolor{h1b}
+\bfseries Version & \bfseries Author & \bfseries Date & \bfseries Status \\
+\hline
+0.9&Marc-Antoine Parent and Benoit Grégoire (Imagination for People)&Month 05, 2014&Draft\\
+\hline
+\end{tabular}
+\clearpage
+\pagestyle{catalystp}
+\tableofcontents
+
+\clearpage
+
+\chapterstar{Executive summary}
+
+\small
+The present document is a deliverable of the CATALYST project, funded by the European Commission’s Directorate-General for Communications Networks, Content \& Technology (DG CONNECT), under its 7th EU Framework Programme for Research and Technological Development (FP7).
+
+\clearpage
+

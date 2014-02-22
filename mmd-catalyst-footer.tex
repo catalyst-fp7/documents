@@ -1,0 +1,30 @@
+
+%
+%	MultiMarkdown default footer file
+%
+
+% Back Matter
+\if@mainmatter
+	we're in main
+	\backmatter
+\fi
+
+% Bibliography
+\ifx\bibliocommand\undefined
+\else
+	\printbibliography
+\fi
+
+% Glossary
+\ifx\doglossary\undefined
+\else
+	\printglossaries
+\fi
+
+% Index
+\ifx\doindex\undefined
+\else
+	\printindex
+\fi
+
+\end{document}
