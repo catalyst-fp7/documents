@@ -17,9 +17,10 @@ SubmissionYear: 2014
 WorkPackage: 3
 DocStatus: Draft
 Author: Marc-Antoine Parent, Benoit Grégoire
-html header:    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
-    <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+html header: <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/xcode.min.css">
+    <script src="highlight.pack.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
+    <style></style>
 Affiliation: Imagination for People
 Latex Footer: mmd-catalyst-footer
 Latex Input: mmd-catalyst-header2
