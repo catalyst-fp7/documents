@@ -1054,7 +1054,7 @@ digraph g {
         <tr><td>eg_d1:message_1 a <U>SIOC:Post</U></td></tr>
         <tr><td>dcterms:title "Climate change is a real problem"@eng</td></tr>
         <tr><td>SIOC:content "We need to reduce CO2 levels."@eng</td></tr>
-        <tr><td>SIOC:addressed_to "conversation1@Assembl.net"</td></tr>
+        <tr><td>SIOC:addressed_to "discussion1@Assembl.net"</td></tr>
     </table>>];
     post1->user1 [label="SIOC:has_creator"];
     post1->forum [label="SIOC:has_container"];
@@ -1075,7 +1075,7 @@ eg_d1:message_1 a SIOC:Post ;
     dcterms:title "Climate change is a real problem"@eng;
     SIOC:content """We need to reduce CO2 levels."""@eng;
     SIOC:has_creator eg_site:user_maparent;
-    SIOC:addressed_to "conversation1@Assembl.net";
+    SIOC:addressed_to "discussion1@Assembl.net";
     SIOC:has_container eg_d1:forum.
 
 eg_d1:message_2 a SIOC:Post ;
@@ -1135,7 +1135,7 @@ digraph g {
         <tr><td>eg_d1:message_1 a <U>SIOC:Post</U></td></tr>
         <tr><td>dcterms:title "Climate change is a real problem"@eng</td></tr>
         <tr><td>SIOC:content "We need to reduce CO2 levels."@eng</td></tr>
-        <tr><td>SIOC:addressed_to "conversation1@Assembl.net"</td></tr>
+        <tr><td>SIOC:addressed_to "discussion1@Assembl.net"</td></tr>
     </table>>];
     extract1 [label=<eg_d1:extracts_1 a <U>oa:SpecificResource</U>>];
     selection1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
