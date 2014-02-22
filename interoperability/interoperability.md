@@ -38,40 +38,47 @@ Some participants (or communities as a whole) may choose to migrate to the integ
 # Glossary
 
 CI tool
-: Blah
+: Any tool that can be used to enhance collective intelligence, whether or not it is in any way related to this ecosystem.
 
 Catalyst CI platform
+: The main platforms from the technical partners of the Catalyst consortium which allow participants to collectively manipulate Concept maps.
+
 
 Ecosystem component
-: Any component accessible by other component thru mecanisms defined in this specification.
-This includes both Caatalyst CI platforms and reusable widgets and visualisations...
+: Any component accessible by other component through mechanisms defined in this specification.
+This includes both Catalyst CI platforms and reusable widgets and visualisations.
 
 Data providers
 : Any component with a endpoint serving data defined in this specification.
 
 Data consumers
-:
+: Any component using data served by a data provider, through mechanisms defined in this specification
 
 Conversation
-:
+: In general, conversations designates a collective process between a set of participants, whereby they exchange ideas. Conversations may be public or private. In the context of this specification, this process defines a unit of data access. Participants to the same conversation are aware of each other's contributions, but not necessarily of contributions to private conversations in which they do not participate. Data consumers' access to data is defined in the same terms, one conversation at a time.
 
 Moderator
 : In the context of this specification, designates (collectively) moderators, harversters, community managers, etc.  It also includes any participant taking on such functions.
 
 Post
-: Includes messages, comments, etc.
+: An unstructured contribution to a conversation. This includes posts on social platforms, email messages to individuals or mailing lists, comments to other contributions, etc.
 
 Concept map
 : Any decomposition of concepts in a conversation as a structure. 
 
 Generic Idea
 : A concept of a concept map that is considered as a unit at a given point in the conversation, when it is represented in the data model defined by this specification.  They are nodes or links in a graph structure (links being generic ideas in their own right), that may have types to refine their nature (arguments, options, etc.).
-Not defined in glossary:
 
-Dataset vs graph
+Contribution
+: Designates posts (unstructured) and ideas (structured), contribution units from participants in a conversation.
 
-(Catalyst) Data Model
+<!-- 
+%Not defined in glossary:
 
+%Dataset vs graph
+
+%(Catalyst) Data Model
+-->
 
 # Requirements
 
