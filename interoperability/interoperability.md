@@ -28,9 +28,9 @@ It is built upon the belief that at this stage in the adoption curve of CI tools
 
 Online community managers are natural users of specialized CI tools (when they know about them).  However, we do not expect most participants to adopt such tools at the outset.  Their first contact with CI tools will be when they see the tools' outputs, or subsets of their functionality, made directly available on popular Internet social networks and communication platforms.  Interested participants can progressively move to the richer CI tools, and hopefully in time assume leadership roles themselves.
 
-In this model, moderators or participants can directly create structured representations of discussion in integrated CI platforms, or use a CI platform to distill structured representations from contributions made on more general purpose online discussion platforms and social networks (a practice we call harvesting).
+In this model, moderators or participants can directly create structured representations of conversation in integrated CI platforms, or use a CI platform to distill structured representations from contributions made on more general purpose online conversation platforms and social networks (a practice we call harvesting).
 
-The artifacts derived from the structured discussions by the CI tools, such as visualisations, synthesis, reports and attention mediation signals from computer analytics, will be sent back (as content or as references) to the discussion platforms, in the form of messages native to that platform (tweets, emails, facebook wall posts, etc.).
+The artifacts derived from the structured discussions by the CI tools, such as visualisations, synthesis, reports and attention mediation signals from computer analytics, will be sent back (as content or as references) to the conversation platforms, in the form of messages native to that platform (tweets, emails, facebook wall posts, etc.).
 For communication platforms which have appropriate integration mechanisms, javascript widgets can expose richer functionality such as dynamic visualisations, creativity widgets, or voting widgets.
 
 Some participants (or communities as a whole) may choose to migrate to the integration platforms for their richer environment; in general, this should only be a requirement for harvesters and moderators.
@@ -77,7 +77,7 @@ Dataset vs graph
 
 ## Sharing raw concept maps
 
-Most collective intelligence tools allow organising concepts in some sort of structure that reflects the discussion back to the participants (a concept map in the very broadest sense).
+Most collective intelligence tools allow organising concepts in some sort of structure that reflects the conversation back to the participants (a concept map in the very broadest sense).
 The core of this specification is a Data Model to represent the following in a systems-independent way while preserving as much semantics as practical: 
 
 * The generic ideas of the concept map
@@ -270,7 +270,7 @@ Users db
 : Holds the social graph of those participants to a conversation which use the Catalyst platform.
 
 Comments db
-: Holds contributions to the discussion which are not strictly IBIS concepts: quotes, comments, etc.
+: Holds contributions to the conversation which are not strictly IBIS concepts: quotes, comments, etc.
 
 Frontend of Catalyst platforms
 : The user-facing side of each catalyst platform will be tied closely to its respective database, and specifying that interaction is a non-goal. However, it will integrate information from other services, either as (Pulled) json data, or as embedded widgets.
@@ -438,10 +438,10 @@ The list of endpoints other than the global endpoints is meant to correspond to 
 
 For interoperability purposes, we need to refer to many collective entities as a whole, notably:
 
-1. The notion of discussion: the set of all interactions that a community has around a topic.
-2. The collection of all generic ideas and their links in a discussion
-3. The information relevant to users in a discussion (with controlled access)
-4. The collection of posts, i.e. contributions to the discussion that are not part of the graph of generic ideas: References, comments, etc.
+1. The notion of conversation: the set of all interactions that a community has around a topic.
+2. The collection of all generic ideas and their links in a conversation
+3. The information relevant to users in a conversation (with controlled access)
+4. The collection of posts, i.e. contributions to the conversation that are not part of the graph of generic ideas: References, comments, etc.
 Those will be grouped according to the origin of those contributions.
 5. The set of those contribution origins: sources such as social media, mailing lists, etc.
 6. The set of interaction history.
@@ -517,7 +517,7 @@ In either case, the history events would be pulled from the catalyst platform by
 
 In the specific case of attention mediation, data payloads (or URLs to data) could be posted by the analytics platform on an agreed upon endpoint in the catalyst platform.
 The issue of translating those payloads to human-readable messages is non-trivial, since the catalyst integration platforms are the ones which are aware of the participant's functional languages.
-Ideally, both platforms would agree on a vocabulary of attention signals, and the localization of those signals would be performed by the catalyst discussion platform.
+Ideally, both platforms would agree on a vocabulary of attention signals, and the localization of those signals would be performed by the catalyst conversation platform.
 
 ## Platform and visualisations
 
@@ -664,12 +664,12 @@ This conversion must have the following properties:
 2. It must be reversible: if an analytic tool identifies someone as central in the social network, the platform should be able to identify the original user account.
 3. It must not leak personal information (name, email, etc.)
 4. The pseudonyms should vary by conversation unit.
-In particular, if the same user account is used in a public and private discussion on the same server, it should not be possible to tie those accounts together using the same pseudonym.
+In particular, if the same user account is used in a public and private conversation on the same server, it should not be possible to tie those accounts together using the same pseudonym.
 5. Similarly, if two tools are given data different views of the data on the same conversation with different degrees of access to personal information, they should not be given the same pseudonyms.
 This is only a consideration if we distinguish an intermediate level of access to personal information between "full access" and "no access"; this is very unlikely to be worth the added complexity.
 
 Analysis tools must be granted access to APIs with a key that gives them access to certain discussions at a certain level, and not other discussions.
-On the other hand, the front-end of each platform will need access to at least some information about other participants in the discussion (at least their nickname), and hence the API access points used by their internal front-end will have to be secured.
+On the other hand, the front-end of each platform will need access to at least some information about other participants in the conversation (at least their nickname), and hence the API access points used by their internal front-end will have to be secured.
 
 In general, it is easy to create a database table that will associate a unique random URI to a combination of user account, conversation unit, and access level (if used).
 The SPARQL machinery can use `owl:sameAs` equivalence to associate those identities to user accounts.
@@ -838,30 +838,30 @@ So they would naturally belong to one collection.
 
 ```turtle
 @prefix eg_site: <http://www.assembl.net/> .
-@prefix eg_d1: <http://www.assembl.net/discussion/1/> .
+@prefix eg_d1: <http://www.assembl.net/conversation/1/> .
 
 <http://www.assembl.net> a catalyst:Site ;
-    sioc:space_of <http://www.assembl.net/discussion/1/>;
+    sioc:space_of <http://www.assembl.net/conversation/1/>;
     sioc:host_of eg_d1:forum.
 
-<http://www.assembl.net/discussion/1/>
-    a catalyst:Discussion;
+<http://www.assembl.net/conversation/1/>
+    a catalyst:conversation;
     dcterms:hasPart eg_d1:forum, eg_d1:ideas;
     catalyst:participants eg_d1:d1_participants;
     catalyst:uses_source eg_d1:mailingList1;
-    version:history_graph <http://www.assembl.net/discussion/1/archive>.
+    version:history_graph <http://www.assembl.net/conversation/1/archive>.
 
 eg_d1:forum a sioc:Forum ;
-    dcterms:isPartOf <http://www.assembl.net/discussion/1/> .
+    dcterms:isPartOf <http://www.assembl.net/conversation/1/> .
 
 eg_d1:ideas a catalyst:Ideas ;
-    dcterms:isPartOf <http://www.assembl.net/discussion/1/> .
+    dcterms:isPartOf <http://www.assembl.net/conversation/1/> .
     # To a non-assembl-aware tool, this is just another sioc:Container.
 
 eg_d1:d1_participants a catalyst:Participants.
 
 eg_d1:d1_member a sioc:Role;
-    sioc:has_scope <http://www.assembl.net/discussion/1/> .
+    sioc:has_scope <http://www.assembl.net/conversation/1/> .
 
 eg_d1:d1_mailingList1 a assembl:MailingList, sioc:Space.
 ```
@@ -872,18 +872,18 @@ digraph g {
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
     users [label=<d1_participants:users a <U>catalyst:Participants</U>>];
-    users->discussion [label="catalyst:participants", dir="back"];
+    users->conversation [label="catalyst:participants", dir="back"];
     forum [label=<eg_d1:forum a <U>sioc:Forum</U>>];
     site [label=<&lt;http://www.assembl.net/&gt; a <U>catalyst:Site</U>>];
     forum->site [label="sioc:host_of", dir="back"];
-    discussion->site [label="sioc:space_of", dir="back"];
+    conversation->site [label="sioc:space_of", dir="back"];
     member_role [label=<eg_d1:d1_member a <U>sioc:Role</U>>];
-    member_role->discussion [label="sioc:has_scope"];
-    discussion [label=<&lt;http://www.assembl.net/discussion/1/&gt;<br /> a <U>catalyst:Discussion</U>>];
+    member_role->conversation [label="sioc:has_scope"];
+    conversation [label=<&lt;http://www.assembl.net/conversation/1/&gt;<br /> a <U>catalyst:conversation</U>>];
     forum [label=<eg_d1:forum a <U>sioc:Forum</U>>];
     ideasContainer [label=<eg_d1:ideas a <U>sioc:Container</U>>];
-    forum->discussion [label="sioc:part_of"];
-    ideasContainer->discussion [label="sioc:part_of"];
+    forum->conversation [label="sioc:part_of"];
+    ideasContainer->conversation [label="sioc:part_of"];
 }
 ```
 
@@ -907,8 +907,8 @@ digraph g {
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
     site [label=<&lt;http://www.assembl.net/&gt; a <U>catalyst:Site</U>>];
-    site->discussion [label="sioc:has_space"];
-    discussion [label=<&lt;http://www.assembl.net/discussion/1/&gt;<br /> a <U>catalyst:Discussion</U>>];
+    site->conversation [label="sioc:has_space"];
+    conversation [label=<&lt;http://www.assembl.net/conversation/1/&gt;<br /> a <U>catalyst:conversation</U>>];
     site->user1 [label="catalyst:user_graph", lhead="cluster_users"];
     subgraph cluster_users {
         graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
@@ -924,7 +924,7 @@ digraph g {
             </table>>];
         user1->person1 [label="sioc:account_of"];
     }
-    discussion->user1p [label="catalyst:pseudonymization_graph", lhead="cluster_pseudo"];
+    conversation->user1p [label="catalyst:pseudonymization_graph", lhead="cluster_pseudo"];
     subgraph cluster_pseudo {
         graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
             label=<eg_discussion:pseudonymization_graph a <U>trig:Graph</U>>, fontsize=10];
@@ -936,11 +936,11 @@ digraph g {
     user1->users [label="sioc:member_of"];
     //user1->member_role [label="sioc:has_function"];
     users [label=<eg_site:users a <U>sioc:Usergroup</U>>];
-    users->discussion [label="sioc:usergroup_of"];
+    users->conversation [label="sioc:usergroup_of"];
     user1p->user1 [label="owl:sameAs", arrowhead="odot", arrowtail="odot", dir="both"];
     person1p->person1 [label="owl:sameAs", arrowhead="odot", arrowtail="odot", dir="both"];
 
-    discussion->idea [label="catalyst:pseudonymization_graph", lhead="cluster_data"];
+    conversation->idea [label="catalyst:pseudonymization_graph", lhead="cluster_data"];
     subgraph cluster_data {
         graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
             label=<eg_discussion:data a <U>trig:Graph</U>>, fontsize=10];
@@ -953,7 +953,7 @@ digraph g {
 
 ```turtle
 @prefix eg_site: <http://www.assembl.net/> .
-@prefix eg_d1: <http://www.assembl.net/discussion/1/> .
+@prefix eg_d1: <http://www.assembl.net/conversation/1/> .
 
 <http://www.assembl.net/> catalyst:user_graph <http://www.assembl.net/users/>.
 
@@ -967,17 +967,17 @@ digraph g {
         sioc:email "maparent@acm.org".
 }
 
-<http://www.assembl.net/discussion/1/> a catalyst:Discussion;
-    catalyst:pseudonymization_graph <http://www.assembl.net/discussion/1/pseudonyms>;
-    catalyst:data_graph <http://www.assembl.net/discussion/1/data>.
+<http://www.assembl.net/conversation/1/> a catalyst:conversation;
+    catalyst:pseudonymization_graph <http://www.assembl.net/conversation/1/pseudonyms>;
+    catalyst:data_graph <http://www.assembl.net/conversation/1/data>.
 
-<http://www.assembl.net/discussion/1/data> = {
+<http://www.assembl.net/conversation/1/data> = {
     eg_d1:idea_1 a ibis:Issue;
         sioc:has_creator eg_d1:pseudo_262d2e2ecb6696c0bfdc482ac6273b5b88c56ed2.
 }
 
 ### This graph would not be public
-<http://www.assembl.net/discussion/1/pseudonyms> = {
+<http://www.assembl.net/conversation/1/pseudonyms> = {
     eg_d1:pseudo_21ddd0f62e22ddab75c6e9fa92fda056e65dc0ac a foaf:Person;
         owl:sameAs eg_site:agent_maparent.
     eg_d1:pseudo_262d2e2ecb6696c0bfdc482ac6273b5b88c56ed2 a sioc:UserAccount;
@@ -1405,8 +1405,8 @@ Similarly, we need to agree on a list of object status.
 What we have now is moderator approval or rejection, used in Deliberatorium.
 Deliberatorium includes a series of reasons for rejections, we will need to specify this list.
 
-We may also have lifecycles events that apply to the whole discussion, if the methodology expects the discussion to go through many phases.
-This needs more discussion between partners.
+We may also have lifecycles events that apply to the whole conversation, if the methodology expects the conversation to go through many phases.
+This needs more conversation between partners.
 
 ### Summary of the different levels of support
 
@@ -1442,7 +1442,7 @@ However, designing the API so it does not clash with those ulterior goals in min
 ### Example data
 
 ```n3
-<http://www.assembl.net/discussion/1/>
+<http://www.assembl.net/conversation/1/>
     version:history_graph <http://www.assembl.net/archive/1/>.
 
 <http://www.assembl.net/archive/1/> = {
@@ -1505,7 +1505,7 @@ However, designing the API so it does not clash with those ulterior goals in min
 
 ## Analytics queries and results
 
-We expect a great variety of analytic tools to be developed, but though we aim to standardize how the analytics platform can obtain data from the catalyst discussion platforms, the specific utilization of the analytics output by these platforms will be intimately tied to either the discussion platform itself or one of its visualisation.
+We expect a great variety of analytic tools to be developed, but though we aim to standardize how the analytics platform can obtain data from the catalyst conversation platforms, the specific utilization of the analytics output by these platforms will be intimately tied to either the conversation platform itself or one of its visualisation.
 For that reason, it is not a realistic goal to standardize an exhaustive list of possible analytic semantics, and maybe even syntax.
 The utilization of analytics data will always be mostly ad-hoc.
 
