@@ -20,7 +20,7 @@ Format: complete
 # Introduction
 
 Many tools have been built to try to solve various problems in online collective intelligence (CI).
-This consortium believes that the lack of shared standards to allow such tools to exchange data with each other and share results on standard Internet platforms has prevented these tools to build upon one-another's strengths and greatly hurt the broader adoption of specialized CI tools in Internet discussions.
+This consortium believes that the lack of shared standards to allow such tools to exchange data with each other and share results on standard Internet platforms has prevented these tools to build upon one-another's strengths and greatly hurt the broader adoption of specialized CI tools in Internet conversations.
 
 This document attempts to describe and standardize the most common interactions of software tools applicable to the CI field to foster adoption, reuse, experimentation and research.
 It is built upon the belief that at this stage in the adoption curve of CI tools, a "lowest common denominator" approach provides the best chance that multiple tools outside the catalyst consortium will adopt the standard.
@@ -29,10 +29,10 @@ It is built upon the belief that at this stage in the adoption curve of CI tools
 
 Online community managers are natural users of specialized CI tools (when they know about them).  However, we do not expect most participants to adopt such tools at the outset.  Their first contact with CI tools will be when they see the tools' outputs, or subsets of their functionality, made directly available on popular Internet social networks and communication platforms.  Interested participants can progressively move to the richer CI tools, and hopefully in time assume leadership roles themselves.
 
-In this model, moderators or participants can directly create structured representations of conversation in integrated CI platforms, or use a CI platform to distill structured representations from contributions made on more general purpose online conversation platforms and social networks (a practice we call harvesting).
+In this model, moderators or participants can directly create structured representations of conversation in integrated CI platforms, or use a CI platform to distil structured representations from contributions made on more general purpose online conversation platforms and social networks (a practice we call harvesting).
 
-The artifacts derived from the structured discussions by the CI tools, such as visualisations, synthesis, reports and attention mediation signals from computer analytics, will be sent back (as content or as references) to the conversation platforms, in the form of messages native to that platform (tweets, emails, facebook wall posts, etc.).
-For communication platforms which have appropriate integration mechanisms, javascript widgets can expose richer functionality such as dynamic visualisations, creativity widgets, or voting widgets.
+The artefacts derived from the structured conversations by the CI tools, such as visualisations, synthesis, reports and attention mediation signals from computer analytics, will be sent back (as content or as references) to the conversation platforms, in the form of messages native to that platform (tweets, emails, Facebook wall posts, etc.).
+For communication platforms which have appropriate integration mechanisms, JavaScript widgets can expose richer functionality such as dynamic visualisations, creativity widgets, or voting widgets.
 
 Some participants (or communities as a whole) may choose to migrate to the integration platforms for their richer environment; in general, this should only be a requirement for harvesters and moderators.
 
@@ -59,7 +59,7 @@ Conversation
 : In general, conversations designates a collective process between a set of participants, whereby they exchange ideas. Conversations may be public or private. In the context of this specification, this process defines a unit of data access. Participants to the same conversation are aware of each other's contributions, but not necessarily of contributions to private conversations in which they do not participate. Data consumers' access to data is defined in the same terms, one conversation at a time.
 
 Moderator
-: In the context of this specification, designates (collectively) moderators, harversters, community managers, etc.  It also includes any participant taking on such functions.
+: In the context of this specification, designates (collectively) moderators, harvesters, community managers, etc.  It also includes any participant taking on such functions.
 
 Post
 : An unstructured contribution to a conversation. This includes posts on social platforms, email messages to individuals or mailing lists, comments to other contributions, etc.
@@ -124,7 +124,7 @@ Visualisation here is understood in a broad sense:  any transformation of raw da
 
 Some are static (images), some dynamic (widgets).
 Some allow entering additional data to enrich the visualisation, or navigating the concept map.
-All re-usable visualisations need to be sharable on the wider Internet for maximum impact (social networks, emails or sometimes even print).
+All re-usable visualisations need to be shareable on the wider Internet for maximum impact (social networks, emails or sometimes even print).
 
 These components take as input one or both of:
 
@@ -136,7 +136,7 @@ The form of those inputs, and how to transmit them to the visualisations is cove
 Once it has the data, the visualisation can optionally:
 
 * perform some transformation or filtering of the data
-* gather additional data from a human in its interface (ex: select a variant of the visualisation, have a human add textual context to the data, etc.) or use a data subset previously specified in a specific CI tool.
+* gather additional data from a human in its interface (e.g.: select a variant of the visualisation, have a human add textual context to the data, etc.) or use a data subset previously specified in a specific CI tool.
 * contact one or more remote servers for processing or to get additional data
 
 If and how a specific visualisation does so is an implementation detail that is outside this specification.
@@ -147,8 +147,8 @@ This is covered by this specification.
 "Re-usable" Visualisation here means that:
 
 1. The code of the visualisation can be directly re-used by any system providing the data meant to be visualised in the Data Model defined by this specification.
-2. That the final output of the visualisation (typically:  a URL to an image, an embeedable web widget, a downloadable pdf, etc.) can be displayed easily outside the context of the system that runs the visualisation code simply by linking a URL or including an iframe or a small piece of javascript as appropriate.
-3. That the visualisations is self contained.  For example, when used as a widget if it displays a menu, it should only contain the elements necessary to exploit the specific visualisation, not the complete menus of it's parent application (if thre is one).
+2. That the final output of the visualisation (typically:  a URL to an image, an embeddable web widget, a downloadable pdf, etc.) can be displayed easily outside the context of the system that runs the visualisation code simply by linking a URL or including an iframe or a small piece of JavaScript as appropriate.
+3. That the visualisations is self contained.  For example, when used as a widget if it displays a menu, it should only contain the elements necessary to exploit the specific visualisation, not the complete menus of it's parent application (if there is one).
 
 
 ## Re-usable interactive widgets
@@ -161,7 +161,7 @@ Making such tools (voting, ideation facilitation, collective action, etc.) avail
 The difference between this and the visualisations above is that these widgets always store data of their own to some back-end, and manipulating this stored data is expected to be done by end users (not moderators, harvesters, etc.).
 
 The main problem here is not the lack of standards, but the number of incompatible standards which are not widely deployed.  
-One actually has direct applicability, and some significant traction:  [OpenSocial] (http://opensocial.org/).
+One actually has direct applicability, and some significant traction:  [OpenSocial](http://opensocial.org/).
 Sadly, the tooling required for its deployment is significant, and quite probably overkill in our case.
 
 This specification will take a pragmatic approach, to attempt to at least provide a common denominator that is sufficient for our narrow field, technology independent, and allows the minimal number of requirements for sharing CI widgets OUTSIDE the ecosystem (on web forums, web sites, social networks, etc.)
@@ -183,9 +183,9 @@ digraph g {
     edge [fontsize=8];
     subgraph cluster_catalyst {
         graph [rankdir="LR", label="Catalyst Collective Intelligence Platforms [I O Z]", fontsize=10];
-        subgraph cluster_frontend {
+        subgraph cluster_front-end {
             graph [rankdir="TB", style="dotted",
-                label="Frontend", fontsize=10];
+                label="front-end", fontsize=10];
             display1 [label=<Display widgets<br/>&amp; documents>];
             internalUI[label=<Internal UI, map editors, etc.>];
         }
@@ -198,9 +198,9 @@ digraph g {
         analytics [label="Analytics [Z]"];
         viz [label="Reusable Visualisations [O I W]"];
         widgets [label=<Reusable CI widgets [I O]<br/>voting, pledging, creativity>];
-        viz_db [label="Visualisation backend & storage", style="dashed"];
-        widget_db [label="Widget backend & storage"];
-        sioc [label="Post to Sioc converter [I]"];
+        viz_db [label="Visualisation back-end & storage", style="dashed"];
+        widget_db [label="Widget back-end & storage"];
+        SIOC [label="Post to SIOC converter [I]"];
     }
     subgraph cluster_external {
         graph [color="transparent", rankdir="LR", label=""];
@@ -227,8 +227,8 @@ digraph g {
     database->analytics;
     database->viz;
     database->widgets;
-    sioc->analytics;
-    sioc->database [lhead="cluster_catalyst"];
+    SIOC->analytics;
+    SIOC->database [lhead="cluster_catalyst"];
 
     analytics->display2 [label="attention mediation", lhead="cluster_msg", color="blue", fontcolor="blue"];
 
@@ -240,10 +240,10 @@ digraph g {
     # unspecified
     edge [color="orange"];
     display3->annotation [ltail="cluster_web"];
-    internalUI->database [ltail="cluster_frontend", dir="both"];
+    internalUI->database [ltail="cluster_front-end", dir="both"];
     viz->viz_db [dir="both"];
     widgets->widget_db [dir="both"];
-    display2->sioc [ltail="cluster_comm"];
+    display2->SIOC [ltail="cluster_comm"];
 
     # fake links
     edge [color="transparent"];
@@ -253,17 +253,16 @@ digraph g {
 }
 ```
 
-This is a view of components, and their expected interactions. (Letters represent catalyst technical partners expected to develop at least one such a component)
+This is a view of components, and their expected interactions. Letters represent catalyst technical partners expected to develop at least one such a component. Links in green represent visual widget embedding. Links in orange are implementation specific, and outside of the scope of this specification. Dashed boxes are optional for any given implementation.
 
-<!-- %TODO Graph above and description below are out of sync -->
 
 Catalyst Collective Intelligence Platforms
 : These are the general web platforms that users interact with that fully exploit the data model: they include Open University's DebateHub, IP's Assembl, MIT's Deliberatorium.
 
 Databases of Catalyst platforms
-: These databases, in the backend of the catalyst platform, hold the deliberation data: Users, concept map, comments, etc. Some of that data will be made accessible to other services and widgets through RESTful and SPARQL endpoints, defined below.
+: These databases, in the back-end of the catalyst platform, hold the deliberation data: Users, concept map, comments, etc. Some of that data will be made accessible to other services and widgets through RESTful and SPARQL endpoints, defined below.
 
-Frontend of Catalyst platforms
+Front-end of Catalyst platforms
 : The user-facing side of each catalyst platform will be tied closely to its respective database, and specifying that interaction is a non-goal. However, it will integrate information from other services, either as (Pulled) json data, or as embedded widgets.
 
 Internal UI, map editors, etc.
@@ -273,19 +272,19 @@ Web annotation services
 : Some platforms integrate with services (bookmarklets, browser extensions etc.) that allow to clip quotes from web pages and integrate them into the platform datasets.
 
 Reusable Collective Intelligence Widgets (creativity, visualisation, voting, etc.)
-: Embedded Widgets are pieces of user-facing Web code that can be embedded in another platform. They may be static javascript that talks only to the back-end of the process it is embedded in, or it may need to communicate with its own *Widget backend & storage* component.
+: Embedded Widgets are pieces of user-facing Web code that can be embedded in another platform. They may be static JavaScript that talks only to the back-end of the process it is embedded in, or it may need to communicate with its own *Widget back-end & storage* component.
 
 Reusable Visualisations
-: These are dynamic web views which generate static or dynamic visualisations of the concept map or social graph, but not to edit it. Some of those may be a simple snippet of HTML and Javascript, some may have their own *Visualisation backend & storage*. In either case, they will be designed so they can be embedded in catalyst platforms, and maybe some social and messaging platforms, or even web pages.
+: These are dynamic web views which generate static or dynamic visualisations of the concept map or social graph, but not to edit it. Some of those may be a simple snippet of HTML and JavaScript, some may have their own *Visualisation back-end & storage*. In either case, they will be designed so they can be embedded in catalyst platforms, and maybe some social and messaging platforms, or even web pages.
 
 Social and messaging platforms
-: These are existing social and messaging platforms where users can post messages, such as email, facebook, twitter, blogs, etc.
+: These are existing social and messaging platforms where users can post messages, such as email, Facebook, twitter, blogs, etc.
 This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.
-How deeply they can integrate catalyst services (eg widgets) depend on their facility for integrating plugins.
+How deeply they can integrate catalyst services (e.g. widgets) depend on their facility for integrating plugins.
 
-Post to Sioc converter
+Post to SIOC converter
 : Converter components will extract messages (and attendant social graph information) from the social and messaging platforms and expose them as SIOC data to other components, including analytics, visualisation, voting services and the catalyst platforms.
-Note that this means the user graph will be distributed between many databases (Catalyst databases, Message db, and Voting services.)
+Note that this means the user graph may be distributed between many databases (Such as Catalyst databases, Post converter, and Voting services with their own storage.)
 
 Analytics services
 : The analytic components will extract data from the various databases and supply analytic results back to various components. It will also be the origin of some attention mediation messages that will be fed back into the messaging and social platforms.
@@ -318,8 +317,8 @@ This part of the document assumes a basic understanding of the following technol
 * [REST](http://rest.elkstein.org/)
 * [RDF](http://www.w3.org/2007/02/turtle/primer/)
 * [Turtle syntax](http://www.w3.org/TR/turtle/)
-* [JSON-LD](http://json-ld.org/spec/latest/json-ld/)
-* [SPARQL 1.1](http://www.w3.org/TR/sparql11-overview/) ([tutorial](http://www.cambridgesemantics.com/semantic-university/sparql-by-example))
+* [JSON-LD](http://JSON-LD.org/spec/latest/JSON-LD/)
+* [SPARQL 1.1](http://www.w3.org/TR/SPARQL11-overview/) ([tutorial](http://www.cambridgesemantics.com/semantic-university/SPARQL-by-example))
 
 ### Levels of data access
 An explicit goal of this specification is that a third player can offer a new component that will interoperate with the other components of the ecosystem, without the other components needing to adapt to the new component.
@@ -343,10 +342,10 @@ As a system makes more sophisticated access methods available, it can expect bet
 Note that some of the social platforms we plan to integrate with do not offer RDF data at all.
 The conversion of some of this data to RDF may be done within the scope of this project, but designing a generic way to do so is outside this scope, and is well handled by such known technologies as [GRDDL](http://www.w3.org/TR/grddl-primer/).
 Similarly, though some platforms (notably Drupal) will expose their data in RDFa, this still requires a crawling step and Catalyst tools are not expected to implement this themselves.
-In the specific case of Drupal, we recommend installation of the [SPARQL module](https://drupal.org/project/sparql), or at least the [RESTful Web service module](https://drupal.org/project/restws).
+In the specific case of Drupal, we recommend installation of the [SPARQL module](https://drupal.org/project/SPARQL), or at least the [RESTful Web service module](https://drupal.org/project/restws).
 
 In particular, a third player offering a new component cannot expect endpoints tailored to the exact subset of data it requires, and it may have to receive more data than it needs for its purposes.
-The RESTful endpoints thus err on the side of exhaustivity, as opposed to efficiency.
+The RESTful endpoints thus err on the side of being exhaustive, as opposed to efficient.
 Efficient, targeted requests may be defined in SPARQL, but not all catalyst components will offer generic, open SPARQL endpoints; and some authors of new components may not be familiar with SPARQL and RDF.
 Thus the choice of RESTful, JSON-LD endpoints as lowest common denominator.
 
@@ -357,26 +356,26 @@ A small subset of these endpoints will also provide full CRUD access (an example
 
 #### What you have to know about RDF while using JSON-LD
 
-JSON-LD is meant to mostly look like just another JSON format, where many dictionary values are valid URLs which specify where you can get more information about a given ressource.
+JSON-LD is meant to mostly look like just another JSON format, where many dictionary values are valid URLs which specify where you can get more information about a given resource.
 
 In many cases, it can be used by developers just like any other json document.
 However, there are a few pitfalls.
 
 *Inheritance*: the `@type` argument in JSON-LD corresponds to a RDF class.
 It may be a subclass of the RDF class you expect.
-Similarly, every property may be a subproperty of the RDF property you expect.
-The JSON-LD `@context` will give you the ontology specifications; a RDF database can use the ontologies to answer sparql queries specified using known superclasses. 
+Similarly, every property may be a sub-property of the RDF property you expect.
+The JSON-LD `@context` will give you the ontology specifications; a RDF database can use the ontologies to answer SPARQL queries specified using known super-classes. 
 
 However, one goal of this specification is that tools should be able to participate in the ecosystem without RDF machinery.
 So compliant data providers SHOULD give multiple values for the `@type` parameters when appropriate, so that at least one comes from the catalyst classes specified in this document.
-However, since there is no syntactical support for multiple property names directly in JSON-LD data, external tool developers should avoid introducing subproperties that are not part of this specification.
+However, since there is no syntactical support for multiple property names directly in JSON-LD data, external tool developers should avoid introducing sub-properties that are not part of this specification.
 
-*Inverses*: Some RDF properties define inverses: for example `sioc:creator_of owl:inverseOf sioc:has_creator` (in other words, the fact that some user is the author of a Post in SIOC can be defined inside the Post object, or inside the user account object).
-Some of those inverse are not specified in the ontology, such as `dcterms:isPartOf` and `dcterms:hasPart`. (We will define a subproperty to specify this.) The list of such inverses is short, and will be provided as an annex of this specification.
+*Inverses*: Some RDF properties define inverses: for example `SIOC:creator_of owl:inverseOf SIOC:has_creator` (in other words, the fact that some user is the author of a Post in SIOC can be defined inside the Post object, or inside the user account object).
+Some of those inverse are not specified in the ontology, such as `dcterms:isPartOf` and `dcterms:hasPart`. (We will define a sub-property to specify this.) The list of such inverses is short, and will be provided as an annex of this specification.
 <!-- %TODO:  Write annex... -->
 Tools that receive JSON-LD from a catalyst platform are expected to interpret either of those relationships as implying the other.
 
-<!-- %todo: specify a subproperty of hasPart -->
+<!-- %TODO: specify a sub-property of hasPart -->
 
 *Multiple identity*: A given object may be identified by multiple URIs.
 This would be marked with `owl:sameAs`. 
@@ -391,8 +390,8 @@ Also, from a RESTful point of view, aggregates need to exist as target to PUT op
 
 ### Trusted or vetted SPARQL queries
 
-Some platforms that have this capacity may allow trusted client tools (eg analytics, visualisation, or voting modules) to make SPARQL queries or even updates directly against their database, as opposed to loading the whole object graph or navigating it in successive REST requests.
-This obviously allows for more efficient partial requests, in a way that can be independant of the specificities of the underlying private model of each platform.
+Some platforms that have this capacity may allow trusted client tools (e.g. analytics, visualisation, or voting modules) to make SPARQL queries or even updates directly against their database, as opposed to loading the whole object graph or navigating it in successive REST requests.
+This obviously allows for more efficient partial requests, in a way that can be independent of the specificities of the underlying private model of each platform.
 
 The best way to implement this would be to use a native RDF database such as [Jena](https://jena.apache.org/) for development.
 However, most technical partners already have data in relational database.
@@ -400,13 +399,13 @@ To expose this data through a SPARQL endpoint, the main options are either:
 
 1. Use a hybrid relational-semantic database such as [Openlink Virtuoso](http://virtuoso.openlinksw.com/) with its [linked data views](http://docs.openlinksw.com/virtuoso/rdfviewsrdbms.html).
 This approach has been chosen by IP for Assembl.
-2. Use tool that can expose a relational database through a sparql through a correspondance specification, such as [D2RQ](http://d2rq.org), or [Antidot](http://www.antidot.net)'s [db2triples](https://github.com/antidot/db2triples/), which is based on the W3C standard [R2RML](http://www.w3.org/TR/r2rml/).
-The disadvantage of such translation layers is that they will have poorer performance than a native sparql database.
+2. Use tool that can expose a relational database through a SPARQL through a correspondence specification, such as [D2RQ](http://d2rq.org), or [Antidot](http://www.antidot.net)'s [db2triples](https://github.com/antidot/db2triples/), which is based on the W3C standard [R2RML](http://www.w3.org/TR/r2rml/).
+The disadvantage of such translation layers is that they will have poorer performance than a native SPARQL database.
 3. Take snapshots of the relational database (probably using a JSON-LD view, as defined above) and feed it to a native RDF database.
-This has the downside of being less timely, but may be less ressource-intensive than the previous option.
+This has the downside of being less timely, but may be less resource-intensive than the previous option.
 
 In a broader ecosystem context, most platforms would not open the SPARQL endpoint to untrusted external tools, if only to avoid denial of service attacks using complex queries.
-However, a platform may choose to expose a subset of pre-defined sparql queries to unknown tools, and tool builders may propose useful SPARQL queries to platform builders.
+However, a platform may choose to expose a subset of pre-defined SPARQL queries to unknown tools, and tool builders may propose useful SPARQL queries to platform builders.
 
 ## Endpoints and configuration
 
@@ -414,7 +413,7 @@ Though it should be possible to develop new components in the ecosystem without 
 Each component will have its own configuration mechanism, and it is not a goal to normalise configuration formats, but it is a goal to specify which information needs to be included in the configuration to enable interoperability.
 
 Basically, any component (including catalyst CI platforms) that has to push to or pull from another component needs to know about that component's available endpoints.
-This initial configuration will take the form of a dictionary (JSON-LD or even plain javascript object) with the URL of endpoints given for any defined endpoint type. This initial configuration data may be passed as value or as a URL reference, and may be a static file for a given component.
+This initial configuration will take the form of a dictionary (JSON-LD or even plain JavaScript object) with the URL of endpoints given for any defined endpoint type. This initial configuration data may be passed as value or as a URL reference, and may be a static file for a given component.
 
 The configuration for any server component (especially platforms) can include the following:
 
@@ -454,7 +453,7 @@ A given widget may also recieve a dynamic subset by reference, like this:
     "http://catalyst.platform.server/api/conversation/1/datasubet/widget0336"}]}
 ```
 
-But a full-fledged server's configuration could look like this. Note that the keys of a conversation dictionary are agreed upon, but the URLs are expected to be opaque. More important, all the endpoints except the first are optional, and may be ommitted even if they are meaningful for your platform.
+But a full-fledged server's configuration could look like this. Note that the keys of a conversation dictionary are agreed upon, but the URLs are expected to be opaque. More important, all the endpoints except the first are optional, and may be omitted even if they are meaningful for your platform.
 
 ```json
 {
@@ -470,7 +469,7 @@ But a full-fledged server's configuration could look like this. Note that the ke
         "messageSources": "http://catalyst.platform.server/api/conversation/1/sources/",
         "votes_write": "http://catalyst.platform.server/api/conversation/1/votes/",
         "history": "http://catalyst.platform.server/api/conversation/1/history/",
-        "sparql_write": "http://catalyst.platform.server/sparql/"
+        "SPARQL_write": "http://catalyst.platform.server/SPARQL/"
     }, 
     {"@id": "another conversation..."}
     ]
@@ -493,7 +492,7 @@ Catalyst platforms will request the analytics to perform long-running calculatio
 The URL may be protected by some form of access control, such as an access token, if necessary.
 
 At this time, we foresee that these will be short enough (minutes) to be covered by synchronous requests.  Components exploiting these results are expected to do any caching necessary to share and deliver them to other components or end users.
-If that turns out not to be the case, it may be necessary to specify an asychronous communication model for analytics.
+If that turns out not to be the case, it may be necessary to specify an asynchronous communication model for analytics.
 
 ### Batch requests
 
@@ -515,7 +514,7 @@ Ideally, both platforms would agree on a vocabulary of attention signals, and th
 
 ## Platform and visualisations
 
-One of the end goal being to allow embeeding of the visualisations in outside platforms, we will need to balance forward thinking and flexibilty with ease of implementation, browser compatibility, and pragmatism.
+One of the end goal being to allow embeding of the visualisations in outside platforms, we will need to balance forward thinking and flexibility with ease of implementation, browser compatibility, and pragmatism.
 
 Instead of trying to find (or worse, define) a universal standard, we will define a variety of means to achieve varying levels of support.  Some new techniques are emerging, and we expect this field to change significantly during the 2 years of the initial catalyst project.
 
@@ -525,7 +524,7 @@ Various systems on the Internet have various levels of capability.  Those are li
 
 #### Systems only allowing text
 
-While these systems may allow attaching images, hyperlinks or videos, they give very little formating control (no HTML at all).  Examples include plain text email and facebook posts.
+While these systems may allow attaching images, hyperlinks or videos, they give very little formatting control (no HTML at all).  Examples include plain text email and Facebook posts.
 
 Any visualisation or widget that want to be exposed there is limited to a hyperlink, a textual description and perhaps a thumbnail.
 
@@ -533,15 +532,15 @@ The hyperlink can point to the representation is available (typically on a Catal
 
 #### Systems allowing static HTML
 
-These systems, by configuration or technical limitation, offer more or less limited html formatting, and normally no javascript or iframe.  Examples include many formums, Content Management Sytem and HTML email.
+These systems, by configuration or technical limitation, offer more or less limited html formatting, and normally no JavaScript or iframe.  Examples include many forums, Content Management System and HTML email.
 
 Any visualisation that want to be exposed inline must have a static version.  However, typically several hyperlinks and buttons can be included in the representation.
 
 The hyperlinks can point to a specific section, or a specific action on the representation on the web (typically on a Catalyst CI platform).
 
-#### Systems allowing IFRAME tags or javascript embeeding
+#### Systems allowing IFRAME tags or JavaScript embedding
 
-These systems offer more or less limited html formatting, and allows either (or both) javascript or an iframe HTML tag to be included in a message or page.  Examples include many formums, Content Management Sytem and wikis (is so configured) and most generic web sites.
+These systems offer more or less limited html formatting, and allows either (or both) JavaScript or an iframe HTML tag to be included in a message or page.  Examples include many forums, Content Management System and wikis (is so configured) and most generic web sites.
 
 This is the first level that allows inline interactive visualisations.
 
@@ -550,30 +549,30 @@ Any visualisation that want to be exposed inline must be able to be wrapped in a
 #### Systems designed to display widgets
 
 These systems include facilities for displaying reusable web components as part of their design.
-Examples include many Portlet and dashboard servers such as Liferay, enterprise social networks, some Content Management Systems, and some Catalyst CI platforms.
+Examples include many portlet and dashboard servers such as Liferay, enterprise social networks, some Content Management Systems, and some Catalyst CI platforms.
 
-Reusable visual components that can be used across web sites is an old technical requirement, and the Web is riddled with different incompatible ways to partially fulfill it.
-This can be done using [W3C Web widgets](http://www.w3.org/standards/techs/widgets) or maybe the emerging [W3C Web components](http://www.w3.org/TR/components-intro/), as described [here](http://www.html5rocks.com/en/tutorials/webcomponents/imports/).  [OpenSocial] (http://opensocial.org/) is quite popular on enterprise social networks and some portal platforms.
+Reusable visual components that can be used across web sites is an old technical requirement, and the Web is riddled with different incompatible ways to partially fulfil it.
+This can be done using [W3C Web widgets](http://www.w3.org/standards/techs/widgets) or maybe the emerging [W3C Web components](http://www.w3.org/TR/components-intro/), as described [here](http://www.html5rocks.com/en/tutorials/webcomponents/imports/).  [OpenSocial](http://opensocial.org/) is quite popular on enterprise social networks and some portal platforms.
 
 Depending on the specific capabilities of this system, this is the first level that allows communication between widgets, access to user data and single sign on for the user of the hosting platform, and various other capabilities.
 
 #### Systems that allow creating custom modules
 
-These systems include facilities to internally run code to extend their functionnality in various ways.  Example include most Open Source Content Management Systems.
+These systems include facilities to internally run code to extend their functionality in various ways.  Example include most Open Source Content Management Systems.
 
-This typically allow all the capabilities above, but at the price of writing code specific to the system.  This can still allow significant reuse is the platform is very popular (ex:  Drupal, Wordpress)
+This typically allow all the capabilities above, but at the price of writing code specific to the system.  This can still allow significant reuse is the platform is very popular (e.g.:  Drupal, WordPress)
 
 
 ### Fully client-side widgets
 
-The simplest widget is a purely client-side visualisation widget, simply a snippet of HTML with javascript.
+The simplest widget is a purely client-side visualisation widget, simply a snippet of HTML with JavaScript.
 Such a widget would need to receive a configuration from the platform, giving the initial REST and/or SPARQL endpoint; it would then process the object graph from that endpoint.
 
 #### Example widget
 
 So, for example, a simple client-side widget that wanted to display the social graph using [D3](http://d3js.org) would go through the following steps:
 
-1. The Catalyst platform would obtain a snippet of HTML including Javascript requirements and the name of an initialization function.
+1. The Catalyst platform would obtain a snippet of HTML including JavaScript requirements and the name of an initialization function.
 2. It would insert the HTML snippet in an appropriate `div` element.
 3. It would call that function with the main endpoint to the catalyst platform.
 4. The widget code would use it to obtain the endpoint(s) to the user and message data graphs.
@@ -585,23 +584,23 @@ So, for example, a simple client-side widget that wanted to display the social g
 ### Widgets with a server component
 
 A different scenario would involve a server component, which could receive a request on a known endpoint, and return visualisation data.
-The server would have to get the graph data that is to be visualized: either the json-ld graph could be part of the request, or the location of a REST or SPARQL endpoint on the platform server where the visualisation server could get the data.
+The server would have to get the graph data that is to be visualized: either the JSON-LD graph could be part of the request, or the location of a REST or SPARQL endpoint on the platform server where the visualisation server could get the data.
 This raises classical cross-origin data issues: If the widget code is hosted on the visualisation server, it would require an authorization token to access the platform data, and vice-versa.
 
-In the simplest case, the server would simply return an image; in some more elaborate cases, the visualisation widget would have its own HTML snippet and attendant javascript to lay out and interact with the visualisation data.
+In the simplest case, the server would simply return an image; in some more elaborate cases, the visualisation widget would have its own HTML snippet and attendant JavaScript to lay out and interact with the visualisation data.
 The best practice involves sending back a shareable URL where the image or HTML can be retrieved by other components.
 Those problems have known solutions.
 
 ### Voting widgets
 
-Voting widgets are a fairly complex example, because unlike most other widgets they affect the common data model, as opposed to many other components whose results are more independant.
+Voting widgets are a fairly complex example, because unlike most other widgets they affect the common data model, as opposed to many other components whose results are more independent.
 For that reason, going through the interactions expected of a reusable voting component illustrates the more complex workflow possible in this architecture. 
 This is intended to be a full example, and therefore fairly complex; most components would only need a subset of this interaction.
 
 0. As part of the Catalyst platform's configuration, there will be an endpoint to a voting component. The catalyst platform will send a message to the voting component with initial configuration.
-1. The voting component will receieve a basic RESTful endpoint for one of the catalyst integrated platforms. From there it would obtain each collection's endpoint.
-2. It would use those other endpoints to obtain the generic idea dataset and pseudonymized user graph from the catalyst platform.
-3. Optional: It may be directed to obtain the pseudonymized user graph of a social platform separately, through the endpoint of a Message-SIOC converter. That step is unlikely, as the social user graph will often be cached by the catalyst platforms.
+1. The voting component will receive a basic RESTful endpoint for one of the catalyst integrated platforms. From there it would obtain each collection's endpoint.
+2. It would use those other endpoints to obtain the generic idea dataset and pseudonymised user graph from the catalyst platform.
+3. Optional: It may be directed to obtain the pseudonymised user graph of a social platform separately, through the endpoint of a Message-SIOC converter. That step is unlikely, as the social user graph will often be cached by the catalyst platforms.
 4. Optional: Configuration information sent to the voting component may have information about user groups or roles that are allowed to vote. (Those groups will otherwise be opaque SIOC entities from the voting platform's standpoint) (This configuration information would have to be defined at a later stage.)
 5. Voting will have to convey to the catalyst platform which of the types of  voting information it expects (boolean, lickert or ordering) and the catalyst platform will provide an appropriate representation. This information could also be part of the catalyst configuration.
 6. User action in the snippet will trigger a `POST` action with the voting information (in JSON-LD) on an appropriate RESTful endpoint set in the configuration.
@@ -623,16 +622,16 @@ The advantage of that approach is that it uses mechanisms we have already define
 the disadvantage is that, in most architectures, it is difficult for the platform server to push changes back to the platform front-end. (Assembl being an exception.)
 
 The other option is for the widget front-end to exchange those same user events with the platform front-end.
-The advantage is that the widget front-end needs to understand less about the platform backend endpoints;
+The advantage is that the widget front-end needs to understand less about the platform back-end endpoints;
 the disadvantage is that event passing between web components has not yet been standardized properly.
 We are left either with:
 
-* completely ad-hoc solutions, where the widget and frontent would document the elements and javascript events that can be sent to them.
-* structured architectures such as [Aura](http://aurajs.com/), that are light to integrate (no server component) but are unlikely to be already used on integration platform it is't UI isn't widget based.
+* completely ad-hoc solutions, where the widget and front-end would document the elements and JavaScript events that can be sent to them.
+* structured architectures such as [Aura](http://aurajs.com/), that are light to integrate (no server component) but are unlikely to be already used on integration platform unless its UI is already widget based.
 * solutions that are heavily dependent on a specific front-end framework such as [Marionette](http://marionettejs.com/)
 * heavy architectures such as [OpenSocial](http://opensocial.org/).
 
-The main problem is that unlike the reusable widget case above, both the existing integration platfom's frontend AND the widget must pick the same standard for all widgets (bot internal ones and reusable ones).
+The main problem is that unlike the reusable widget case above, both the existing integration platfom's front-end AND the widget must pick the same standard for all widgets (bot internal ones and reusable ones).
 
 This is going to be an area of further exploration for us before we commit to a choice.
 
@@ -647,7 +646,7 @@ However, some basic principles can be agreed upon: First, analytic results shoul
 A common case of analytics for sending intermediate results is to "annotate" the nodes of the concept map with aggregate values. Those aggregate values can be expressed as RDF properties from a closed vocabulary. A document will be written that documents the meaning of each of those properties, with their JSON-LD name. The JSON-LD document would follow this structure:
 
 * node (GenericIdea, User, Post, etc.)
-    * metric_aggregate_name (EX:  NUM_COMMENTER, 
+    * metric_aggregate_name (e.g.:  NUM_COMMENTER, 
         NUM_DIRECT_COMMENTS, NUM_TOTAL_POSTS, LEVEL_OF_DISAGREMENT)
         * value (typically a scalar value, 
         but may be a structure, such as a list of participants)
@@ -680,7 +679,7 @@ The catalyst integrated platform will decide if, how, and how frequently it will
 
 ## Unspecified interactions
 
-Some interactions between components will not be the subject of specfication, because they are self-contained, highly specific and knowledge of their internal function is not useful to the ecosystem as a whole. Those include:
+Some interactions between components will not be the subject of specification, because they are self-contained, highly specific and knowledge of their internal function is not useful to the ecosystem as a whole. Those include:
 
 1. Importation of messages from the server platforms to the message database. 
 The output of that operation needs to follow this specification, but its process is self-contained.
@@ -697,14 +696,14 @@ Trying to agree on this is possible, but probably too much effort for the real b
 Though members of the Catalyst consortium have mostly worked with public conversations, we may have to deal with private conversations and we must ensure that our APIs do not open the door to unauthorized access.
 In general, access control will be granted to tools on a per-conversation basis.
 
-## Pseudonymization support
+## Pseudonymisation support
 
 In particular, the Catalyst project has an obligation to ensure that personal information is not transmitted without consent.
 As large parts of our project deals with social network analysis, this is a non-trivial requirement.
 One safe route would have been to only deal with public forums, where there is no assumption of anonymity.
-That said, some of our communities are involved in ongoing discussions, and have not signed research agreements beforehand, and we have to do the best we can to guarantee their privacy against at least the most basic attempts at re-identification.
+That said, some of our communities are involved in ongoing conversations, and have not signed research agreements beforehand, and we have to do the best we can to guarantee their privacy against at least the most basic attempts at re-identification.
 
-To that purpose, the various platform should be able to provide each tool they deal with pseudonymized data, that is data where the user identity is replaced by an opaque identity.
+To that purpose, the various platform should be able to provide each tool they deal with pseudonymised data, that is data where the user identity is replaced by an opaque identity.
 This conversion must have the following properties:
 
 1. It must be identity preserving, in that two ideas with the same author should be marked as belonging to the same pseudonym.
@@ -715,17 +714,17 @@ In particular, if the same user account is used in a public and private conversa
 5. Similarly, if two tools are given data different views of the data on the same conversation with different degrees of access to personal information, they should not be given the same pseudonyms.
 This is only a consideration if we distinguish an intermediate level of access to personal information between "full access" and "no access"; this is very unlikely to be worth the added complexity.
 
-Analysis tools must be granted access to APIs with a key that gives them access to certain discussions at a certain level, and not other discussions.
+Analysis tools must be granted access to APIs with a key that gives them access to certain conversations at a certain level, and not other conversations.
 On the other hand, the front-end of each platform will need access to at least some information about other participants in the conversation (at least their nickname), and hence the API access points used by their internal front-end will have to be secured.
 
 In general, it is easy to create a database table that will associate a unique random URI to a combination of user account, conversation unit, and access level (if used).
 The SPARQL machinery can use `owl:sameAs` equivalence to associate those identities to user accounts.
 That equivalence table, as well as all user information, must be off-limit to any query engine (including SPARQL endpoints) that do not have proper access.
 
-*Implementation note*: it would be much safer if all references to user accounts in the RDF model were made through the pseudonymization table, even at the database level.
+*Implementation note*: it would be much safer if all references to user accounts in the RDF model were made through the pseudonymisation table, even at the database level.
 This is possible in new systems, much more difficult to add to existing systems.
-The alternative is to add a pseudonymizing filter at the exit, which could be bypassed by clever sparql queries.
-So we would discourage use of unvetted sparql queries for a database with direct reference to user records.
+The alternative is to add a pseudonymising filter at the exit, which could be bypassed by clever SPARQL queries.
+So we would discourage use of unvetted SPARQL queries for a database with direct reference to user records.
 
 ## Credential-passing for platforms
 
@@ -766,7 +765,6 @@ p1->p2[color=blue, arrowhead=empty, label="inheritance"];
 c1 [shape=rect, label="subclass"];
 c2 [shape=rect, label="superclass"];
 c1->c2[color=blue, arrowhead=empty, label="inheritance"];
-
 }
 ```
 
@@ -775,7 +773,7 @@ c1->c2[color=blue, arrowhead=empty, label="inheritance"];
 Though we have chosen to focus on the semantics of IBIS within the Catalyst consortium, the general problem of discourse visualisation has been approached through a variety of different models: formal logic and its varieties (modal, etc.); rhetorical tropes; argumentation schemes; decision theory; defeasability, etc.
 In all cases, we can distinguish the following principles:
 
-<!-- %todo: References -->
+<!-- %TODO: References -->
 
 1. Networked context: Many ideas take their full meaning from the network of its associations with other ideas.
 In the case of IBIS, for example, an Argument's meaning can be hard to interpret without knowing what Option it bolsters.
@@ -853,23 +851,23 @@ eg_d1:idealink_3_2 a ibis:ArgumentSupportsPosition;
 
 ## SIOC 
 
-The [SIOC](http://sioc-project.org) [ontology](http://rdfs.org/sioc/ns) will be used to expose (or re-expose, as the case may be) most contributions of participants to the conversation, including the generic ideas, messages on social platforms, comments on the generic ideas (which will be treated as ideas<!-- The comments will be treated as ideas?-->), etc. 
-These will all be represented as `sioc:Item` instances. 
+The [SIOC](http://SIOC-project.org) [ontology](http://rdfs.org/SIOC/ns) will be used to expose (or re-expose, as the case may be) most contributions of participants to the conversation, including the generic ideas, messages on social platforms, comments on the generic ideas (which will be treated as ideas<!-- The comments will be treated as ideas?-->), etc. 
+These will all be represented as `SIOC:Item` instances. 
 In particular, representing the IBIS information as posts allows to naturally indicate user, creation date, etc. 
 Unless the social platform exposes its information as SIOC itself (as Drupal does), IP will develop "Post to SIOC converters" that will obtain the message information and expose it as SIOC to other catalyst components (with the appropriate authorization.)
 
 ### SIOC containers
 
-For interoperability purposes, we need to refer to many collective entities as a whole, including all those defined in the [Endpoints and configuration][] section. Most of those collections (with the notable exception of interaction history) will be represented as instances of `sioc:Collection`. 
+For interoperability purposes, we need to refer to many collective entities as a whole, including all those defined in the [Endpoints and configuration][] section. Most of those collections (with the notable exception of interaction history) will be represented as instances of `SIOC:Collection`. 
 The URI of the collection will correspond to the URL of the corresponding endpoint, in the case where the latter is defined.
-In general, collections are defined so that `sioc:Items` in this collection share an (other) RDF superclass.
+In general, collections are defined so that `SIOC:Items` in this collection share an (other) RDF superclass.
 For example, we would consider IBIS nodes (aka GenericIdeaNodes) to be a superclass, but the subtypes (Issue, Option and Argument) to be subclasses: 
 So they would naturally belong to one collection.
 
 
 ### The SIOC model
 
-![Main sioc classes](../201401_interoperability_presentation_MK/sioc.png)
+![Main SIOC classes](../201401_interoperability_presentation_MK/SIOC.png)
 
 ### The Catalyst core model
 
@@ -884,33 +882,33 @@ So they would naturally belong to one collection.
 ### Example data: the main containers
 
 ```turtle
-@prefix eg_site: <http://www.assembl.net/> .
-@prefix eg_d1: <http://www.assembl.net/conversation/1/> .
+@prefix eg_site: <http://www.Assembl.net/> .
+@prefix eg_d1: <http://www.Assembl.net/conversation/1/> .
 
-<http://www.assembl.net> a catalyst:Site ;
-    sioc:space_of <http://www.assembl.net/conversation/1/>;
-    sioc:host_of eg_d1:forum.
+<http://www.Assembl.net> a catalyst:Site ;
+    SIOC:space_of <http://www.Assembl.net/conversation/1/>;
+    SIOC:host_of eg_d1:forum.
 
-<http://www.assembl.net/conversation/1/>
+<http://www.Assembl.net/conversation/1/>
     a catalyst:conversation;
     dcterms:hasPart eg_d1:forum, eg_d1:ideas;
     catalyst:participants eg_d1:d1_participants;
     catalyst:uses_source eg_d1:mailingList1;
-    version:history_graph <http://www.assembl.net/conversation/1/archive>.
+    version:history_graph <http://www.Assembl.net/conversation/1/archive>.
 
-eg_d1:forum a sioc:Forum ;
-    dcterms:isPartOf <http://www.assembl.net/conversation/1/> .
+eg_d1:forum a SIOC:Forum ;
+    dcterms:isPartOf <http://www.Assembl.net/conversation/1/> .
 
 eg_d1:ideas a catalyst:Ideas ;
-    dcterms:isPartOf <http://www.assembl.net/conversation/1/> .
-    # To a non-assembl-aware tool, this is just another sioc:Container.
+    dcterms:isPartOf <http://www.Assembl.net/conversation/1/> .
+    # To a non-Assembl-aware tool, this is just another SIOC:Container.
 
 eg_d1:d1_participants a catalyst:Participants.
 
-eg_d1:d1_member a sioc:Role;
-    sioc:has_scope <http://www.assembl.net/conversation/1/> .
+eg_d1:d1_member a SIOC:Role;
+    SIOC:has_scope <http://www.Assembl.net/conversation/1/> .
 
-eg_d1:d1_mailingList1 a assembl:MailingList, sioc:Space.
+eg_d1:d1_mailingList1 a Assembl:MailingList, SIOC:Space.
 ```
 
 ```graphviz 0.59
@@ -920,24 +918,24 @@ digraph g {
     edge [fontsize=8];
     users [label=<d1_participants:users a <U>catalyst:Participants</U>>];
     users->conversation [label="catalyst:participants", dir="back"];
-    forum [label=<eg_d1:forum a <U>sioc:Forum</U>>];
-    site [label=<&lt;http://www.assembl.net/&gt; a <U>catalyst:Site</U>>];
-    forum->site [label="sioc:host_of", dir="back"];
-    conversation->site [label="sioc:space_of", dir="back"];
-    member_role [label=<eg_d1:d1_member a <U>sioc:Role</U>>];
-    member_role->conversation [label="sioc:has_scope"];
-    conversation [label=<&lt;http://www.assembl.net/conversation/1/&gt;<br /> a <U>catalyst:conversation</U>>];
-    forum [label=<eg_d1:forum a <U>sioc:Forum</U>>];
-    ideasContainer [label=<eg_d1:ideas a <U>sioc:Container</U>>];
-    forum->conversation [label="sioc:part_of"];
-    ideasContainer->conversation [label="sioc:part_of"];
+    forum [label=<eg_d1:forum a <U>SIOC:Forum</U>>];
+    site [label=<&lt;http://www.Assembl.net/&gt; a <U>catalyst:Site</U>>];
+    forum->site [label="SIOC:host_of", dir="back"];
+    conversation->site [label="SIOC:space_of", dir="back"];
+    member_role [label=<eg_d1:d1_member a <U>SIOC:Role</U>>];
+    member_role->conversation [label="SIOC:has_scope"];
+    conversation [label=<&lt;http://www.Assembl.net/conversation/1/&gt;<br /> a <U>catalyst:conversation</U>>];
+    forum [label=<eg_d1:forum a <U>SIOC:Forum</U>>];
+    ideasContainer [label=<eg_d1:ideas a <U>SIOC:Container</U>>];
+    forum->conversation [label="SIOC:part_of"];
+    ideasContainer->conversation [label="SIOC:part_of"];
 }
 ```
 
 ## FOAF and users
 
-The SIOC model distinguishes between user accounts and the users themselves, which are modeled using the [FOAF](http://www.foaf-project.org/) [ontology](http://xmlns.com/foaf/0.1/).
-This approach allows the social analytics engines to know that the same person may be at the origin of messages on different platforms, through different accounts. (Of course, this increases the risk of de-anonymization, and has to be handled appropriately.)
+The SIOC model distinguishes between user accounts and the users themselves, which are modelled using the [FOAF](http://www.foaf-project.org/) [ontology](http://xmlns.com/foaf/0.1/).
+This approach allows the social analytics engines to know that the same person may be at the origin of messages on different platforms, through different accounts. (Of course, this increases the risk of de-anonymisation, and has to be handled appropriately.)
 
 As mentioned in the section on [Pseudonymisation support][], we would use randomized information for user lists.
 
@@ -953,9 +951,9 @@ digraph g {
     graph [bgcolor="transparent", rankdir="LR", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
-    site [label=<&lt;http://www.assembl.net/&gt; a <U>catalyst:Site</U>>];
-    site->conversation [label="sioc:has_space"];
-    conversation [label=<&lt;http://www.assembl.net/conversation/1/&gt;<br /> a <U>catalyst:conversation</U>>];
+    site [label=<&lt;http://www.Assembl.net/&gt; a <U>catalyst:Site</U>>];
+    site->conversation [label="SIOC:has_space"];
+    conversation [label=<&lt;http://www.Assembl.net/conversation/1/&gt;<br /> a <U>catalyst:conversation</U>>];
     site->user1 [label="catalyst:user_graph", lhead="cluster_users"];
     subgraph cluster_users {
         graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
@@ -966,69 +964,69 @@ digraph g {
             <tr><td>foaf:lastName 'Parent'</td></tr>
             </table>>];
         user1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-            <tr><td>eg_site:user_maparent a <U>sioc:UserAccount</U></td></tr>
-            <tr><td>sioc:email "maparent@acm.org"</td></tr>
+            <tr><td>eg_site:user_maparent a <U>SIOC:UserAccount</U></td></tr>
+            <tr><td>SIOC:email "maparent@acm.org"</td></tr>
             </table>>];
-        user1->person1 [label="sioc:account_of"];
+        user1->person1 [label="SIOC:account_of"];
     }
     conversation->user1p [label="catalyst:pseudonymization_graph", lhead="cluster_pseudo"];
     subgraph cluster_pseudo {
         graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
-            label=<eg_discussion:pseudonymization_graph a <U>trig:Graph</U>>, fontsize=10];
+            label=<eg_conversation:pseudonymization_graph a <U>trig:Graph</U>>, fontsize=10];
         person1p [label=<eg_d1:pseudo_21d... a <U>foaf:Person</U>>];
-        user1p [label=<eg_d1:pseudo_262... a <U>sioc:UserAccount</U>>];
-        user1p->person1p [label="sioc:account_of"];
+        user1p [label=<eg_d1:pseudo_262... a <U>SIOC:UserAccount</U>>];
+        user1p->person1p [label="SIOC:account_of"];
     }
 
-    user1->users [label="sioc:member_of"];
-    //user1->member_role [label="sioc:has_function"];
-    users [label=<eg_site:users a <U>sioc:Usergroup</U>>];
-    users->conversation [label="sioc:usergroup_of"];
+    user1->users [label="SIOC:member_of"];
+    //user1->member_role [label="SIOC:has_function"];
+    users [label=<eg_site:users a <U>SIOC:Usergroup</U>>];
+    users->conversation [label="SIOC:usergroup_of"];
     user1p->user1 [label="owl:sameAs", arrowhead="odot", arrowtail="odot", dir="both"];
     person1p->person1 [label="owl:sameAs", arrowhead="odot", arrowtail="odot", dir="both"];
 
     conversation->idea [label="catalyst:pseudonymization_graph", lhead="cluster_data"];
     subgraph cluster_data {
         graph [bgcolor="transparent", rankdir="TB", compound="true", style="dashed",
-            label=<eg_discussion:data a <U>trig:Graph</U>>, fontsize=10];
+            label=<eg_conversation:data a <U>trig:Graph</U>>, fontsize=10];
         idea [label=<eg_d1:idea1 a <U>catalyst:Idea</U>>];
     }
-    idea->user1p [label="sioc:has_creator"];
+    idea->user1p [label="SIOC:has_creator"];
 }
 ```
 
 
 ```turtle
-@prefix eg_site: <http://www.assembl.net/> .
-@prefix eg_d1: <http://www.assembl.net/conversation/1/> .
+@prefix eg_site: <http://www.Assembl.net/> .
+@prefix eg_d1: <http://www.Assembl.net/conversation/1/> .
 
-<http://www.assembl.net/> catalyst:user_graph <http://www.assembl.net/users/>.
+<http://www.Assembl.net/> catalyst:user_graph <http://www.Assembl.net/users/>.
 
-<http://www.assembl.net/users/> = {
+<http://www.Assembl.net/users/> = {
     eg_site:agent_maparent a foaf:Person;
         foaf:familyName "Marc-Antoine";
         foaf:firstName "Parent".
 
-    eg_site:user_maparent a sioc:UserAccount;
-        sioc:account_of eg_site:agent_maparent;
-        sioc:email "maparent@acm.org".
+    eg_site:user_maparent a SIOC:UserAccount;
+        SIOC:account_of eg_site:agent_maparent;
+        SIOC:email "maparent@acm.org".
 }
 
-<http://www.assembl.net/conversation/1/> a catalyst:conversation;
-    catalyst:pseudonymization_graph <http://www.assembl.net/conversation/1/pseudonyms>;
-    catalyst:data_graph <http://www.assembl.net/conversation/1/data>.
+<http://www.Assembl.net/conversation/1/> a catalyst:conversation;
+    catalyst:pseudonymization_graph <http://www.Assembl.net/conversation/1/pseudonyms>;
+    catalyst:data_graph <http://www.Assembl.net/conversation/1/data>.
 
-<http://www.assembl.net/conversation/1/data> = {
+<http://www.Assembl.net/conversation/1/data> = {
     eg_d1:idea_1 a ibis:Issue;
-        sioc:has_creator eg_d1:pseudo_262d2e2ecb6696c0bfdc482ac6273b5b88c56ed2.
+        SIOC:has_creator eg_d1:pseudo_262d2e2ecb6696c0bfdc482ac6273b5b88c56ed2.
 }
 
 ### This graph would not be public
-<http://www.assembl.net/conversation/1/pseudonyms> = {
+<http://www.Assembl.net/conversation/1/pseudonyms> = {
     eg_d1:pseudo_21ddd0f62e22ddab75c6e9fa92fda056e65dc0ac a foaf:Person;
         owl:sameAs eg_site:agent_maparent.
-    eg_d1:pseudo_262d2e2ecb6696c0bfdc482ac6273b5b88c56ed2 a sioc:UserAccount;
-        sioc:account_of eg_d1:pseudo_21ddd0f62e22ddab75c6e9fa92fda056e65dc0ac;
+    eg_d1:pseudo_262d2e2ecb6696c0bfdc482ac6273b5b88c56ed2 a SIOC:UserAccount;
+        SIOC:account_of eg_d1:pseudo_21ddd0f62e22ddab75c6e9fa92fda056e65dc0ac;
         owl:sameAs eg_site:user_maparent.
 }
 
@@ -1044,48 +1042,48 @@ digraph g {
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
     user1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_site:user_maparent a <U>sioc:UserAccount</U></td></tr>
-        <tr><td>sioc:email "maparent@acm.org"</td></tr>
+        <tr><td>eg_site:user_maparent a <U>SIOC:UserAccount</U></td></tr>
+        <tr><td>SIOC:email "maparent@acm.org"</td></tr>
         </table>>];
     user2 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_site:user_benoitg a <U>sioc:UserAccount</U></td></tr>
-        <tr><td>sioc:email "benoitg@coeus.ca"</td></tr>
+        <tr><td>eg_site:user_benoitg a <U>SIOC:UserAccount</U></td></tr>
+        <tr><td>SIOC:email "benoitg@coeus.ca"</td></tr>
         </table>>];
-    forum [label=<eg_d1:forum a <U>sioc:Forum</U>>];
+    forum [label=<eg_d1:forum a <U>SIOC:Forum</U>>];
     post1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_d1:message_1 a <U>sioc:Post</U></td></tr>
+        <tr><td>eg_d1:message_1 a <U>SIOC:Post</U></td></tr>
         <tr><td>dcterms:title "Climate change is a real problem"@eng</td></tr>
-        <tr><td>sioc:content "We need to reduce CO2 levels."@eng</td></tr>
-        <tr><td>sioc:addressed_to "discussion1@assembl.net"</td></tr>
+        <tr><td>SIOC:content "We need to reduce CO2 levels."@eng</td></tr>
+        <tr><td>SIOC:addressed_to "conversation1@Assembl.net"</td></tr>
     </table>>];
-    post1->user1 [label="sioc:has_creator"];
-    post1->forum [label="sioc:has_container"];
+    post1->user1 [label="SIOC:has_creator"];
+    post1->forum [label="SIOC:has_container"];
     post2 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_d1:message_2 a <U>sioc:Post</U></td></tr>
+        <tr><td>eg_d1:message_2 a <U>SIOC:Post</U></td></tr>
         <tr><td>dcterms:title "Telecommuting might help"@eng</td></tr>
     </table>>];
-    post2->user2 [label="sioc:has_creator"];
-    post2->user1 [label="sioc:addressed_to"];
-    post2->forum [label="sioc:has_container"];
-    post2->post1 [label="sioc:reply_of"];
+    post2->user2 [label="SIOC:has_creator"];
+    post2->user1 [label="SIOC:addressed_to"];
+    post2->forum [label="SIOC:has_container"];
+    post2->post1 [label="SIOC:reply_of"];
 }
 ```
 
 ```turtle
-eg_d1:message_1 a sioc:Post ;
+eg_d1:message_1 a SIOC:Post ;
     dcterms:created "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
     dcterms:title "Climate change is a real problem"@eng;
-    sioc:content """We need to reduce CO2 levels."""@eng;
-    sioc:has_creator eg_site:user_maparent;
-    sioc:addressed_to "discussion1@assembl.net";
-    sioc:has_container eg_d1:forum.
+    SIOC:content """We need to reduce CO2 levels."""@eng;
+    SIOC:has_creator eg_site:user_maparent;
+    SIOC:addressed_to "conversation1@Assembl.net";
+    SIOC:has_container eg_d1:forum.
 
-eg_d1:message_2 a sioc:Post ;
+eg_d1:message_2 a SIOC:Post ;
     dcterms:title "Telecommuting might help"@eng;
-    sioc:has_creator eg_site:user_benoitg;
-    sioc:addressed_to eg_site:user_maparent;
-    sioc:has_container eg_d1:forum;
-    sioc:reply_of eg_d1:message_1.
+    SIOC:has_creator eg_site:user_benoitg;
+    SIOC:addressed_to eg_site:user_maparent;
+    SIOC:has_container eg_d1:forum;
+    SIOC:reply_of eg_d1:message_1.
 ```
 
 ### Example data: a post with origin
@@ -1097,16 +1095,16 @@ digraph g {
     node [fillcolor=white, style=filled,  shape=record];
     idea1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'><tr><td>eg_d1:idea_1 a ibis:Issue</td></tr><tr><td>dcterms:title='Stop climate change'@eng</td></tr><tr><td>dcterms:created '2013-11-02T14:20:04'^^&lt;xsd:dateTimeStamp&gt;</td></tr><tr><td>dcterms:modified '2014-01-02T11:32:17'^^&lt;xsd:dateTimeStamp&gt;</td></tr></table>>];
     user1 [label="eg_site:user_maparent a foaf:Person"];
-    idea1->user1 [label="sioc:has_creator"];
-    ideasContainer [label="eg_d1:ideas a sioc:Container"];
-    idea1->ideasContainer [label="sioc:has_container"];
+    idea1->user1 [label="SIOC:has_creator"];
+    ideasContainer [label="eg_d1:ideas a SIOC:Container"];
+    idea1->ideasContainer [label="SIOC:has_container"];
 }
 ```
 ## Comments to contributions or to Quotes
 
 Not all contributions to a debate are structured. 
 Assembl, like communication platforms, starts with unstructured contributions (posts) and harvesters identify generic ideas within those; 
-the other catalyst platforms (deliberatorium and debatehub) start with structured contributions but allow unstrucured comments to those structured contributions (as does assembl). 
+the other catalyst platforms (Deliberatorium and Debatehub) start with structured contributions but allow unstructured comments to those structured contributions (as does Assembl). 
 
 In both cases, we have links between structured and unstructured contributions. 
 If we take the commenting case as typical, we see that comments (and here we will assimilate posts to comments) can be applied to any contribution, whether an idea or another post/comment. 
@@ -1134,10 +1132,10 @@ digraph g {
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
     post1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_d1:message_1 a <U>sioc:Post</U></td></tr>
+        <tr><td>eg_d1:message_1 a <U>SIOC:Post</U></td></tr>
         <tr><td>dcterms:title "Climate change is a real problem"@eng</td></tr>
-        <tr><td>sioc:content "We need to reduce CO2 levels."@eng</td></tr>
-        <tr><td>sioc:addressed_to "discussion1@assembl.net"</td></tr>
+        <tr><td>SIOC:content "We need to reduce CO2 levels."@eng</td></tr>
+        <tr><td>SIOC:addressed_to "conversation1@Assembl.net"</td></tr>
     </table>>];
     extract1 [label=<eg_d1:extracts_1 a <U>oa:SpecificResource</U>>];
     selection1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
@@ -1179,7 +1177,7 @@ digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=10];
     edge [fontsize=9];
-    post1 [label=<eg_d1:message_1 a <U>sioc:Post</U>>];
+    post1 [label=<eg_d1:message_1 a <U>SIOC:Post</U>>];
     extract1 [label=<eg_d1:extracts_1 a <U>oa:SpecificResource</U>>];
     extract1->post1 [label="oa:hasSource"];
     annotation1 [label=<eg_d1:annotations_1 a <U>oa:Annotation</U>>];
@@ -1190,7 +1188,7 @@ digraph g {
             label=<eg_site:annotation_1_target a <U>trig:Graph</U>>, fontsize=10];
         idea1_alias [label="eg_d1:idea_1", style="dotted"];
         extract1_alias [label="eg_d1:extracts_1", style="dotted"];
-        extract1_alias -> idea1_alias [label="assembl:expressesIdea"];
+        extract1_alias -> idea1_alias [label="Assembl:expressesIdea"];
     }
     idea1->idea1_alias [style="dotted", arrowhead="none"];
     extract1->extract1_alias [style="dotted", arrowhead="none"];
@@ -1208,7 +1206,7 @@ eg_site:annotation_1_target a trig:Graph.
 ### The annotation body links the text extract to an idea in a named graph.
 
 eg_site:annotation_1_target = {
-    eg_d1:extracts_1 assembl:expressesIdea eg_d1:idea_1.
+    eg_d1:extracts_1 Assembl:expressesIdea eg_d1:idea_1.
 }
 ```
 
@@ -1237,8 +1235,8 @@ digraph g {
     edge [fontsize=9];
     idea3 [label=<eg_d1:idea_3 a <U>ibis:Argument</U>>];
     user2 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_site:user_benoitg a <U>sioc:UserAccount</U></td></tr>
-        <tr><td>sioc:email "benoitg@coeus.ca"</td></tr>
+        <tr><td>eg_site:user_benoitg a <U>SIOC:UserAccount</U></td></tr>
+        <tr><td>SIOC:email "benoitg@coeus.ca"</td></tr>
         </table>>];
     vote1 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
         <tr><td>eg_d1:vote1 a <U>vote:BinaryVote</U></td></tr>
@@ -1268,8 +1266,8 @@ digraph g {
     edge [fontsize=9];
     idea3 [label=<eg_d1:idea_3 a <U>ibis:Argument</U>>];
     user2 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_site:user_benoitg a <U>sioc:UserAccount</U></td></tr>
-        <tr><td>sioc:email "benoitg@coeus.ca"</td></tr>
+        <tr><td>eg_site:user_benoitg a <U>SIOC:UserAccount</U></td></tr>
+        <tr><td>SIOC:email "benoitg@coeus.ca"</td></tr>
         </table>>];
     vote2 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
         <tr><td>eg_d1:vote2 a <U>vote:LickertVote</U></td></tr>
@@ -1309,8 +1307,8 @@ digraph g {
     idea4 [label=<eg_d1:idea_4 a <U>ibis:Argument</U>>];
     idea5 [label=<eg_d1:idea_5 a <U>ibis:Argument</U>>];
     user2 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
-        <tr><td>eg_site:user_benoitg a <U>sioc:UserAccount</U></td></tr>
-        <tr><td>sioc:email "benoitg@coeus.ca"</td></tr>
+        <tr><td>eg_site:user_benoitg a <U>SIOC:UserAccount</U></td></tr>
+        <tr><td>SIOC:email "benoitg@coeus.ca"</td></tr>
         </table>>];
     vote3 [label=<<table border='0' cellborder='0' cellpadding='0' cellspacing='0'>
         <tr><td>eg_d1:vote3 a <U>vote:OrderingVote</U></td></tr>
@@ -1348,9 +1346,9 @@ These levels must be validated with Mark, who is developing most history-based a
 The most basic level conceivable could be based on timed automatic snapshots of the idea graph; is this even usable for any of the analytics? We will not consider this option until we have an answer.
 
 Historical data is otherwise composed of a stream of change events; it should be possible to query the database for a subset of change events by date.
-At the most basic levels, each event takes the form like that of a sequence: At a given Timestamp (When), agent (Noun) does an action (Verb) on a target object (or objects), with some optional contextual arguments that depend on the verb. (This is similar to the model used in the Experience API.)
+At the most basic levels, each event takes the form like that of a sequence: At a given timestamp (When), agent (Noun) does an action (Verb) on a target object (or objects), with some optional contextual arguments that depend on the verb. (This is similar to the model used in the Experience API.)
 
-Agents are URI identifiers to (probably pseudonymized) users; Verbs are taken from a very limited closed vocabulary; and targets are URI references.
+Agents are URI identifiers to (probably pseudonymised) users; Verbs are taken from a very limited closed vocabulary; and targets are URI references.
 Details about the target should be obtained using the usual RESTful API to obtain the object graph (preferably as collections.) Note that this will not in general allow to fully reconstitute the prior state; that would be left to optional arguments in a second layer of support.
 
 ### Known change types
@@ -1399,7 +1397,7 @@ However, those signals are owned by the user, in that my vote is independent of 
 [^tags]: Tags may either be shared or belong to a user.
 We should allow both options.
 
-A few other operations are more complex, and we are not convinced that it would be benificial to include them.
+A few other operations are more complex, and we are not convinced that it would be beneficial to include them.
 
 * Move: corresponds to updates to link objects, which may be expressed as link creation/deletion.
 * Clone: create an object with a structural reference (`dcterms:source`) to its origin.
@@ -1409,7 +1407,7 @@ A few other operations are more complex, and we are not convinced that it would 
 
 A few notes on this model: 
 
-1. Giving the target as an URI (vs data) in the "delete" operation implies that the corresponding data should still be retrieved, as a "tombstoned" object.
+1. Giving the target as an URI (vs. data) in the "delete" operation implies that the corresponding data should still be retrieved, as a "tombstoned" object.
 This is considered to be a level 2 requirement.
 At the first level of support, a query for the deleted object may return a HTTP 404 Not Found, HTTP 410 Gone, or equivalent.
 
@@ -1429,7 +1427,7 @@ In that case, best practice would be to use the same timestamp.
 
 The simplicity of the verbs is complemented by an open model of the types of object that are referred to, using RDF classes. (New object classes may be introduced by different implementations, which would by default be ignored by the analytics engines, unless they are RDF subclasses of the established object list.) Here is a first cut of existing object types in our platforms:
 
-* Discussions (a set of ideas taken as a whole)
+* Conversations (a set of ideas taken as a whole)
 * Generic ideas (nodes)
 * Idea Links
 * Views (curated or automated collections of nodes and links, such as Compendium Maps or Assembl synthesis)
@@ -1452,7 +1450,7 @@ Similarly, we need to agree on a list of object status.
 What we have now is moderator approval or rejection, used in Deliberatorium.
 Deliberatorium includes a series of reasons for rejections, we will need to specify this list.
 
-We may also have lifecycles events that apply to the whole conversation, if the methodology expects the conversation to go through many phases.
+We may also have life-cycles events that apply to the whole conversation, if the methodology expects the conversation to go through many phases.
 This needs more conversation between partners.
 
 ### Summary of the different levels of support
@@ -1462,11 +1460,11 @@ As mentioned, the list of changed properties may or may not be required of a fir
 Some extra level of information (e.g. editing distance for text property updates) may be useful to analytics, and independently specified for level 1.
 
 To support layer 2, the platform would retain enough information to reconstitute the state of the database at any point.
-This does not mean that giving an object graph at a given timepoint is the responsibility of the platform.
+This does not mean that giving an object graph at a given time point is the responsibility of the platform.
 But it does mean that creation events should store the initial state of an object, and updates and moves should give the new value of any affected property.
 This is close to the level that was proposed originally.
 
-Some aspects of this api are still under design, as we believe we can design them so as to fulfill two accessory goals:
+Some aspects of this API are still under design, as we believe we can design them so as to fulfil two accessory goals:
 
 1. The change operations should come with a commutative algebra, so they can be used as [operational transformations](http://en.wikipedia.org/wiki/Operational_transformation) on the object graph.
 
@@ -1489,10 +1487,10 @@ However, designing the API so it does not clash with those ulterior goals in min
 ### Example data
 
 ```n3
-<http://www.assembl.net/conversation/1/>
-    version:history_graph <http://www.assembl.net/archive/1/>.
+<http://www.Assembl.net/conversation/1/>
+    version:history_graph <http://www.Assembl.net/archive/1/>.
 
-<http://www.assembl.net/archive/1/> = {
+<http://www.Assembl.net/archive/1/> = {
 
     eg_d1:event1
         a version:Create;
@@ -1501,12 +1499,12 @@ However, designing the API so it does not clash with those ulterior goals in min
         version:revision "0"^^xsd:integer;
         version:when "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
         version:snapshot [
-            a sioc:Post, version:ObjectSnapshot ;
+            a SIOC:Post, version:ObjectSnapshot ;
             dcterms:created "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
             dcterms:title "Let's discuss IBIS"@eng;
-            sioc:content """This was the initial text of the post."""@eng;
-            sioc:has_creator eg_site:user_maparent;
-            sioc:has_container eg_d1:forum;
+            SIOC:content """This was the initial text of the post."""@eng;
+            SIOC:has_creator eg_site:user_maparent;
+            SIOC:has_container eg_d1:forum;
             version:snapshot_of eg_d1:message_1
         ].
     eg_d1:event2
@@ -1524,7 +1522,7 @@ However, designing the API so it does not clash with those ulterior goals in min
         version:updated_value [
             a rdf:Statement;
             rdf:subject eg_d1:message_1;
-            rdf:predicate sioc:content;
+            rdf:predicate SIOC:content;
             rdf:object "A more elaborate description"@eng
         ].
     eg_d1:event3
@@ -1540,17 +1538,15 @@ However, designing the API so it does not clash with those ulterior goals in min
         version:revision "3"^^xsd:integer;
         version:when "2013-11-03T11:00:01"^^xsd:dateTimeStamp;
         version:tombstone [
-            a sioc:Post, version:Tombstone ;
+            a SIOC:Post, version:Tombstone ;
             dcterms:created "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
             dcterms:title "Let's discuss IBIS in RDF"@eng;
-            sioc:content """A more elaborate description"""@eng;
-            sioc:has_creator eg_site:user_maparent;
-            sioc:has_container eg_d1:forum;
+            SIOC:content """A more elaborate description"""@eng;
+            SIOC:has_creator eg_site:user_maparent;
+            SIOC:has_container eg_d1:forum;
             version:snapshot_of eg_d1:message_1
         ].
 ```
-
-
 
 # Appendices
 
@@ -1558,7 +1554,7 @@ However, designing the API so it does not clash with those ulterior goals in min
 
 #### how many positive arguments?
 
-```sparql
+```SPARQL
 SELECT COUNT(DISTINCT ?arg) WHERE {
     ?asp a ibis:ArgumentSupportsPosition .
     ?asp ibis:argument_supporting ?arg
@@ -1569,12 +1565,12 @@ SELECT COUNT(DISTINCT ?arg) WHERE {
 
 #### Who contributed most ideas?
 
-```sparql
-DEFINE input:inference <http://www.assembl.net/Rules>
+```SPARQL
+DEFINE input:inference <http://www.Assembl.net/Rules>
 PREFIX idea: <http://purl.org/catalyst/idea#>
 PREFIX ibis: <http://purl.org/catalyst/ibis#>
 SELECT ?u WHERE {
-    ?i sioc:has_creator ?u .
+    ?i SIOC:has_creator ?u .
     ?i a idea:GenericIdea
 }
 ORDER BY DESC(COUNT(?i)) LIMIT 1
@@ -1588,31 +1584,31 @@ ibis:Issue rdfs:subClassOf idea:GenericIdea
 
 #### Most replied-to post
 
-```sparql
-DEFINE input:inference <http://www.assembl.net/Rules>
+```SPARQL
+DEFINE input:inference <http://www.Assembl.net/Rules>
 SELECT ?post WHERE {
-    ?post a sioc:Post .
-    ?post sioc:has_reply+ ?reply
+    ?post a SIOC:Post .
+    ?post SIOC:has_reply+ ?reply
 } ORDER BY DESC(COUNT(?reply)) LIMIT 1
 ```
 
 Note the use of 
 
 ```turtle
-sioc:has_reply owl:inferseOf sioc:reply_to
+SIOC:has_reply owl:inferseOf SIOC:reply_to
 ```
 
 #### Whose content illustrates an idea?
 
-```sparql
-DEFINE input:inference <http://www.assembl.net/Rules>
+```SPARQL
+DEFINE input:inference <http://www.Assembl.net/Rules>
 SELECT ?person WHERE {
-        ?person sioc:creator_of ?post .
+        ?person SIOC:creator_of ?post .
         ?extract oa:hasSource ?post .
         ?annotation oa:hasTarget ?extract .
         ?annotation oa:hasBody ?subgraph .
         GRAPH ?subgraph {
-            ?extract assembl:expressesIdea eg_d1:idea_1
+            ?extract Assembl:expressesIdea eg_d1:idea_1
         }
 } ORDER BY DESC(COUNT(?extract)) LIMIT 1
 ```
@@ -1621,8 +1617,8 @@ Fortunately, searching in subgraphs is quite doable.
 
 #### are you a negative voter?
 
-```sparql
-DEFINE input:inference <http://www.assembl.net/Rules>
+```SPARQL
+DEFINE input:inference <http://www.Assembl.net/Rules>
 PREFIX vote: <http://purl.org/catalyst/vote#>
 SELECT ?person WHERE {
     SELECT ?person (COUNT(?lickert_vote) AS ?total)
@@ -1659,7 +1655,7 @@ However, the ontologies are similar in intent, and a computable crossover betwee
 
 ### AIF
 
-The AIF ontology was developed to represent arguments in discourse. There are two layers to this ontology: Abstarct argument schemes are defined in an upper ontology, and concrete arguments are said to fulfill (be instances of) those abstract argument types. Concrete arguments rely on Statements, or Information nodes, that themselves fulfill abstract Statement Descriptions.
+The AIF ontology was developed to represent arguments in discourse. There are two layers to this ontology: Abstract argument schemes are defined in an upper ontology, and concrete arguments are said to fulfil (be instances of) those abstract argument types. Concrete arguments rely on Statements, or Information nodes, that themselves fulfil abstract Statement Descriptions.
 
 ![AIF Ontology](../201401_interoperability_presentation_MK/AIF_argument.png)
 
