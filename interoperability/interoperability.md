@@ -143,20 +143,12 @@ If and how a specific visualisation does so is an implementation detail that is 
 Finally, the visualisation generates one or more final outputs, in a format, appropriate to the nature of the output, that can be made directly available on the web.
 This is covered by this specification.
 
-"Re-usable" Visualisation here means both that:
+"Re-usable" Visualisation here means that:
 
-* The code of the visualisation can be directly re-used by any system providing the data meant to be visualised in the Data Model defined by this specification.
-* That the final output of the visualisation (typically:  a URL to an image, an embeedable web widget, a downloadable pdf, etc.) can be displayed easily outside the context of the system that runs the visualisation code simply by linking a URL or including an iframe or a small piece of javascript as appropriate.
+1. The code of the visualisation can be directly re-used by any system providing the data meant to be visualised in the Data Model defined by this specification.
+2. That the final output of the visualisation (typically:  a URL to an image, an embeedable web widget, a downloadable pdf, etc.) can be displayed easily outside the context of the system that runs the visualisation code simply by linking a URL or including an iframe or a small piece of javascript as appropriate.
+3. That the visualisations is self contained.  For example, when used as a widget if it displays a menu, it should only contain the elements necessary to exploit the specific visualisation, not the complete menus of it's parent application (if thre is one).
 
-<!--
-%Best practices, for another section
-%Passing data
-%  Reference in URLs
-%  Data input in widget
-%  Stored thru some outside process.
-%
-%Self contained:  Should not display complete menus, only those necessary for the visualisations.
--->
 
 ## Re-usable interactive widgets
 
@@ -528,15 +520,59 @@ Ideally, both platforms would agree on a vocabulary of attention signals, and th
 
 ## Platform and visualisations
 
+One of the end goal being to allow embeeding of the visualisations in outside platforms, we will need to balance forward thinking and flexibilty with ease of implementation, browser compatibility, and pragmatism.
+
+Instead of trying to find (or worse, define) a universal standard, we will define a variety of means to achieve varying levels of support.  Some new techniques are emerging, and we expect this field to change significantly during the 2 years of the initial catalyst project.
+
+### The capabilities of the system where may we want to share visualisations and widgets
+
+Various systems on the Internet have various levels of capability.  Those are listed in order of increasing sophistication.
+
+#### Systems only allowing text
+
+While these systems may allow attaching images, hyperlinks or videos, they give very little formating control (no HTML at all).  Examples include plain text email and facebook posts.
+
+Any visualisation or widget that want to be exposed there is limited to a hyperlink, a textual description and perhaps a thumbnail.
+
+The hyperlink can point to the representation is available (typically on a Catalyst CI platform).
+
+#### Systems allowing static HTML
+
+These systems, by configuration or technical limitation, offer more or less limited html formatting, and normally no javascript or iframe.  Examples include many formums, Content Management Sytem and HTML email.
+
+Any visualisation that want to be exposed inline must have a static version.  However, typically several hyperlinks and buttons can be included in the representation.
+
+The hyperlinks can point to a specific section, or a specific action on the representation on the web (typically on a Catalyst CI platform).
+
+#### Systems allowing IFRAME tags or javascript embeeding
+
+These systems offer more or less limited html formatting, and allows either (or both) javascript or an iframe HTML tag to be included in a message or page.  Examples include many formums, Content Management Sytem and wikis (is so configured) and most generic web sites.
+
+This is the first level that allows inline interactive visualisations.
+
+Any visualisation that want to be exposed inline must be able to be wrapped in an element (typically an iframe) of unknown size.  
+
+#### Systems designed to display widgets
+
+These systems include facilities for displaying reusable web components as part of their design.
+Examples include many Portlet and dashboard servers such as Liferay, enterprise social networks, some Content Management Systems, and some Catalyst CI platforms.
+
 Reusable visual components that can be used across web sites is an old technical requirement, and the Web is riddled with different incompatible ways to partially fulfill it.
-Some new techniques are emerging, but we will need to balance forward thinking and flexibilty with ease of implementation, browser compatibility, and pragmatism.
-Instead of trying to find (or worse, define) a universal standard, we will define a variety of means to achieve varying levels of support. 
+This can be done using [W3C Web widgets](http://www.w3.org/standards/techs/widgets) or maybe the emerging [W3C Web components](http://www.w3.org/TR/components-intro/), as described [here](http://www.html5rocks.com/en/tutorials/webcomponents/imports/).  [OpenSocial] (http://opensocial.org/) is quite popular on enterprise social networks and some portal platforms.
+
+Depending on the specific capabilities of this system, this is the first level that allows communication between widgets, access to user data and single sign on for the user of the hosting platform, and various other capabilities.
+
+#### Systems that allow creating custom modules
+
+These systems include facilities to internally run code to extend their functionnality in various ways.  Example include most Open Source Content Management Systems.
+
+This typically allow all the capabilities above, but at the price of writing code specific to the system.  This can still allow significant reuse is the platform is very popular (ex:  Drupal, Wordpress)
+
 
 ### Fully client-side widgets
 
 The simplest widget is a purely client-side visualisation widget, simply a snippet of HTML with javascript.
-This can be done using [W3C Web widgets](http://www.w3.org/standards/techs/widgets) or maybe the emerging [W3C Web components](http://www.w3.org/TR/components-intro/), as described [here](http://www.html5rocks.com/en/tutorials/webcomponents/imports/).
-Such a widget would need to receive a configuration from the platform, giving the initial REST and/or SPARQL endpoint; it would then get its data by navigating the object graph from that endpoint.
+Such a widget would need to receive a configuration from the platform, giving the initial REST and/or SPARQL endpoint; it would then process the object graph from that endpoint.
 
 #### Example widget
 
@@ -564,7 +600,7 @@ Those problems have known solutions.
 ### Voting widgets
 
 Voting widgets are a fairly complex example, because unlike most other widgets they affect the common data model, as opposed to many other components whose results are more independant.
-For that reason, going through the interactions expected of a reusable voting component illustrates a large part of the workflow in this architecture. 
+For that reason, going through the interactions expected of a reusable voting component illustrates the more complex workflow possible in this architecture. 
 This is intended to be a full example, and therefore fairly complex; most components would only need a subset of this interaction.
 
 0. As part of the Catalyst platform's configuration, there will be an endpoint to a voting component. The catalyst platform will send a message to the voting component with initial configuration.
@@ -573,7 +609,6 @@ This is intended to be a full example, and therefore fairly complex; most compon
 3. Optional: It may be directed to obtain the pseudonymized user graph of a social platform separately, through the endpoint of a Message-SIOC converter. That step is unlikely, as the social user graph will often be cached by the catalyst platforms.
 4. Optional: Configuration information sent to the voting component may have information about user groups or roles that are allowed to vote. (Those groups will otherwise be opaque SIOC entities from the voting platform's standpoint) (This configuration information would have to be defined at a later stage.)
 5. Voting will have to convey to the catalyst platform which of the types of  voting information it expects (boolean, lickert or ordering) and the catalyst platform will provide an appropriate representation. This information could also be part of the catalyst configuration.
-    * Another mechanism to achieve the same purpose would be for the voting component to provide a HTML snippet to be embedded with each idea in the appropriate view. (This would use the same mechanisms as widget display.) We will determine whether this more complex route is necessary.
 6. User action in the snippet will trigger a `POST` action with the voting information (in JSON-LD) on an appropriate RESTful endpoint set in the configuration.
     * This endpoint will usually be part of the voting component service, which will store votes itself.
     * In a catalyst platform with full read/write SPARQL endpoints, the catalyst platform could store the voting data itself, if configured to do so. This limits the applicability of the voting service to a subset of catalyst platforms; but it also simplifies the design of the voting component. We expect the balance of costs and benefits to favour the first option.
@@ -593,16 +628,16 @@ The advantage of that approach is that it uses mechanisms we have already define
 the disadvantage is that, in most architectures, it is difficult for the platform server to push changes back to the platform front-end. (Assembl being an exception.)
 
 The other option is for the widget front-end to exchange those same user events with the platform front-end.
-The advantage is that the widget front end needs to understand less about the platform backend endpoints;
+The advantage is that the widget front-end needs to understand less about the platform backend endpoints;
 the disadvantage is that event passing between web components has not yet been standardized properly.
 We are left either with:
 
-* completely ad-hod solutions, where the widget and frontent would document the elements and javascript events that can be sent to them.
-* structured ad-hoc architectures such as [Aura](http://aurajs.com/), that are light to integrate (no server component) but are unlikely to be already used on integration platform it is't UI isn't widget based.
+* completely ad-hoc solutions, where the widget and frontent would document the elements and javascript events that can be sent to them.
+* structured architectures such as [Aura](http://aurajs.com/), that are light to integrate (no server component) but are unlikely to be already used on integration platform it is't UI isn't widget based.
 * solutions that are heavily dependent on a specific front-end framework such as [Marionette](http://marionettejs.com/)
 * heavy architectures such as [OpenSocial](http://opensocial.org/).
 
-The main problem is that unlike the reusable widget case above, both the existing integration platfom's frontend AND the widget must pick the same standard.
+The main problem is that unlike the reusable widget case above, both the existing integration platfom's frontend AND the widget must pick the same standard for all widgets (bot internal ones and reusable ones).
 
 This is going to be an area of further exploration for us before we commit to a choice.
 
@@ -1344,7 +1379,7 @@ So here is the list of fundamental operations:
 
 
 [^genericprop]: We are still considering whether the the name of the properties that were affected by an update operation should be included in the first level of support.
-In particular, some implementers might change a row in a database without knowing which columns are affected.
+In particular, some implementers might change a row in a database without knowing which columns are affected. 
 Also, note that the list of properties defined in the standard is closed, but implementers may introduce new properties or sub-properties.
 Feedback would be appreciated. 
 
