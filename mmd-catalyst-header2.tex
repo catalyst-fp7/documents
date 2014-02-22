@@ -74,14 +74,14 @@
 \setsecnumdepth{subsubsection}
 
 \makepagestyle{catalystp}
-\makeevenhead{catalystp}{}{\includegraphics{images/catalyst_header.png}}{}
-\makeoddhead{catalystp}{}{\includegraphics{images/catalyst_header.png}}{}
-\makeevenfoot{catalystp}{
-\tiny\textcolor{orange}{\docnumber  \mytitle}\textcolor{gray}{ • }\textcolor{orange}{\monthname  \the\year}\textcolor{gray}{ • }\textcolor{orange}{\affiliation}\par
+\makeevenhead{catalystp}{\includegraphics{images/fp7.png}}{\includegraphics{images/catalyst_header.png}}{\includegraphics{images/europe.png}}
+\makeoddhead{catalystp}{\includegraphics{images/fp7.png}}{\includegraphics{images/catalyst_header.png}}{\includegraphics{images/europe.png}}
+\makeevenfoot{catalystp}{%
+\tiny\textcolor{myorange}{\docnumber~\mytitle}\textcolor{gray}{ • }\textcolor{myorange}{\monthname~\the\year}\textcolor{gray}{ • }\textcolor{myorange}{\affiliation}\par
 \textcolor{gray}{The CATALYST project is supported by the European Commission under its FP7 research funding programme}
 }{}{\small \textcolor{gray}{Page {\bfseries\thepage} of {\bfseries\lastpageref{LastPages}}}}
-\makeoddfoot{catalystp}{
-\tiny\textcolor{orange}{\docnumber  \mytitle}\textcolor{gray}{ • }\textcolor{orange}{\monthname  \the\year}\textcolor{gray}{ • }\textcolor{orange}{\affiliation}\par
+\makeoddfoot{catalystp}{%
+\tiny\textcolor{myorange}{\docnumber~\mytitle}\textcolor{gray}{ • }\textcolor{myorange}{\monthname~\the\year}\textcolor{gray}{ • }\textcolor{myorange}{\affiliation}\par
 \textcolor{gray}{The CATALYST project is supported by the European Commission under its FP7 research funding programme}
 }{}{\small \textcolor{gray}{Page {\bfseries\thepage} of {\bfseries\lastpageref{LastPages}}}}
 
@@ -92,7 +92,7 @@
 
 
 \definecolor{h1b}{gray}{0.8}
-\definecolor{orange}{rgb}{0.92,0.58,0.09}
+\definecolor{myorange}{rgb}{0.92,0.58,0.09}
 
 \let\oldchapter\chapter
 \renewcommand{\chapter}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=1, innerbottommargin=1,skipabove=0,skipbelow=2]\oldchapter{#1}\end{mdframed}}
@@ -128,7 +128,7 @@
   Project Duration: & 24 months (Oct. 2013 - Sept. 2015) \\
   \end{tabular}
   \vspace{1.5cm}
-  \begin{mdframed}[backgroundcolor=orange, fontcolor=white, defaultunit=pt, linewidth=0, innerleftmargin=4, innerrightmargin=4, innertopmargin=10, innerbottommargin=10,skipabove=8,skipbelow=4]
+  \begin{mdframed}[backgroundcolor=myorange, fontcolor=white, defaultunit=pt, linewidth=0, innerleftmargin=4, innerrightmargin=4, innertopmargin=10, innerbottommargin=10,skipabove=8,skipbelow=4]
   \begin{center}
   \bfseries\large\docnumber  \mytitle\mdseries\normalsize
   \end{center}
@@ -136,13 +136,15 @@
 
   \par
 
+\newdateformat{filenamedate}{\twodigit{\THEDAY}\twodigit{\THEMONTH}\THEYEAR}
+
   \begin{tabular}{l>{\bfseries}l}
-Deliverable Status: & Draft \\
-File Name: & CATALYST\_WP3\_IP\_V0.9\_21022014.pdf \\
-Due Date: & January 2014 (M4) \\
-Submission Date: & February 2014 (M5) \\
+Deliverable Status: & \docstatus \\
+File Name: & CATALYST\_WP\workpackage \_I4P\_V\versionno\_\filenamedate\today .pdf \\
+Due Date: & \monthname[\duecalendarmonth] \dueyear ~(M\dueprojectmonth) \\
+Submission Date: & \monthname[\submissioncalendarmonth] \submissionyear ~(M\submissionprojectmonth) \\
 Dissemination Level: & Public \\
-Task Leader: & Imagination for People \\
+Task Leader: & \affiliation \\
   \end{tabular}
   \par
   \vspace{2cm}
@@ -198,7 +200,9 @@ All CATALYST consortium members are also committed to publish accurate and up to
 \rowcolor{h1b}
 \bfseries Version & \bfseries Author & \bfseries Date & \bfseries Status \\
 \hline
-0.9&Marc-Antoine Parent and Benoit Grégoire (Imagination for People)&Month 05, 2014&Draft\\
+% history 
+%0.9&\myauthor  (\affiliation )&Month 05, 2014&Draft\\
+\small\versionno &\footnotesize\myauthor  (\affiliation ) & \small Month \twodigit{\submissionprojectmonth} , \submissionyear & \small Draft\\
 \hline
 \end{tabular}
 \clearpage

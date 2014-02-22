@@ -5,9 +5,17 @@ Email: maparent@acm.org, benoitg@i4p.org
 BibTex: catalystinterop
 MainLanguage: english
 Title: Software Architecture and Cross-Platform Interoperability Specification
-docnumber: D3.1
+DocNumber: D3.1
 Subtitle: INITIAL DOCUMENT
-Revision: 0.01
+VersionNo: 0.9
+DueProjectMonth: 4
+DueCalendarMonth: 1
+DueYear: 2014
+SubmissionProjectMonth: 5
+SubmissionCalendarMonth: 2
+SubmissionYear: 2014
+WorkPackage: 3
+DocStatus: Draft
 Author: Marc-Antoine Parent, Benoit Grégoire
 html header:    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
     <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
