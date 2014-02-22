@@ -39,8 +39,8 @@ pdf: interoperability.pdf
 html: interoperability.html $(PNGFILES)
 
 %.pdf: %.tex ontologies
-	TEXINPUT=.:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
-	TEXINPUT=.:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
+	TEXINPUTS=.:../latex/:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
+	TEXINPUTS=.:../latex/:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
 
 %.tex: %.md
 	multimarkdown -t latex -f $< | ./convert_latex.py > $@

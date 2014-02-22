@@ -1,4 +1,4 @@
-Latex Input: ../mmd-catalyst-header
+Latex Input: mmd-catalyst-header
 Latex Input: extra-packages
 Base Header Level: 2
 Email: maparent@acm.org, benoitg@i4p.org
@@ -21,8 +21,8 @@ html header:    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/st
     <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
 Affiliation: Imagination for People
-Latex Footer: ../mmd-catalyst-footer
-Latex Input: ../mmd-catalyst-header2
+Latex Footer: mmd-catalyst-footer
+Latex Input: mmd-catalyst-header2
 Format: complete
 
 # Introduction
