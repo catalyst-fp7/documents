@@ -1,19 +1,20 @@
-Latex Input: mmd-memoir-header
+Latex Input: ../mmd-catalyst-header
 Latex Input: extra-packages
 Base Header Level: 2
 Email: maparent@acm.org, benoitg@i4p.org
 BibTex: catalystinterop
 MainLanguage: english
-Title: Catalyst interoperability operation
+Title: Software Architecture and Cross-Platform Interoperability Specification
+docnumber: D3.1
 Subtitle: INITIAL DOCUMENT
 Revision: 0.01
 Author: Marc-Antoine Parent, Benoit Grégoire
 html header:    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
     <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
-Affiliation: Imagination for people
-Latex Footer: mmd-memoir-footer
-Latex Input: mmd-memoir-begin-doc
+Affiliation: Imagination for People
+Latex Footer: ../mmd-catalyst-footer
+Latex Input: ../mmd-catalyst-header2
 Format: complete
 
 # Introduction
@@ -199,7 +200,7 @@ digraph g {
         widgets [label=<Reusable CI widgets [I O]<br/>voting, pledging, creativity>];
         viz_db [label="Visualisation backend & storage", style="dashed"];
         widget_db [label="Widget backend & storage"];
-        sioc [label="SIOC transducer [I]"];
+        sioc [label="Post to Sioc converter [I]"];
     }
     subgraph cluster_external {
         graph [color="transparent", rankdir="LR", label=""];
@@ -256,51 +257,45 @@ This is a view of components, and their expected interactions. (Letters represen
 
 <!-- %TODO Graph above and description below are out of sync -->
 
-Catalyst integrated platforms
+Catalyst Collective Intelligence Platforms
 : These are the general web platforms that users interact with that fully exploit the data model: they include Open University's DebateHub, IP's Assembl, MIT's Deliberatorium.
 
 Databases of Catalyst platforms
-: These databases, in the backend of the catalyst platform, hold the deliberation data. The data will be made accessible to other services and widgets through RESTful and SPARQL endpoints, defined below.
-
-Concept graph db
-: Holds the concept graph of IBIS nodes and links.
-
-Users db
-: Holds the social graph of those participants to a conversation which use the Catalyst platform.
-
-Comments db
-: Holds contributions to the conversation which are not strictly IBIS concepts: quotes, comments, etc.
+: These databases, in the backend of the catalyst platform, hold the deliberation data: Users, concept map, comments, etc. Some of that data will be made accessible to other services and widgets through RESTful and SPARQL endpoints, defined below.
 
 Frontend of Catalyst platforms
 : The user-facing side of each catalyst platform will be tied closely to its respective database, and specifying that interaction is a non-goal. However, it will integrate information from other services, either as (Pulled) json data, or as embedded widgets.
 
-Embedded Widgets (creativity, visualisation, voting, etc.)
-: Embedded Widgets are pieces of user-facing Web code that can be embedded in another platform. They may be static javascript that talks only to the back-end of the process it is embedded in, or it may need to communicate with its own server component.
+Internal UI, map editors, etc.
+: Some web components will be part of the front-end of their platform, and will not be reusable.
 
-Visualisation widgets
-: In particular, these are dynamic web views which allow to view and maybe navigate the idea or social graphs, but not to edit it. Some of those widgets will be written as integrated components of their respective Catalyst platform, but many will be written as embedded widgets, i.e. reusable Web components which can be embedded in catalyst platforms, and maybe some social and messaging platforms.
+Web annotation services
+: Some platforms integrate with services (bookmarklets, browser extensions etc.) that allow to clip quotes from web pages and integrate them into the platform datasets.
+
+Reusable Collective Intelligence Widgets (creativity, visualisation, voting, etc.)
+: Embedded Widgets are pieces of user-facing Web code that can be embedded in another platform. They may be static javascript that talks only to the back-end of the process it is embedded in, or it may need to communicate with its own *Widget backend & storage* component.
+
+Reusable Visualisations
+: These are dynamic web views which generate static or dynamic visualisations of the concept map or social graph, but not to edit it. Some of those may be a simple snippet of HTML and Javascript, some may have their own *Visualisation backend & storage*. In either case, they will be designed so they can be embedded in catalyst platforms, and maybe some social and messaging platforms, or even web pages.
 
 Social and messaging platforms
 : These are existing social and messaging platforms where users can post messages, such as email, facebook, twitter, blogs, etc.
 This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.
 How deeply they can integrate catalyst services (eg widgets) depend on their facility for integrating plugins.
 
-Message db
+Post to Sioc converter
 : Converter components will extract messages (and attendant social graph information) from the social and messaging platforms and expose them as SIOC data to other components, including analytics, visualisation, voting services and the catalyst platforms.
 Note that this means the user graph will be distributed between many databases (Catalyst databases, Message db, and Voting services.)
 
 Analytics services
 : The analytic components will extract data from the various databases and supply analytic results back to various components. It will also be the origin of some attention mediation messages that will be fed back into the messaging and social platforms.
 
-Visualisation services
-: Visualisation services generate static or dynamic visualisations of various aspects of the data: IBIS and social graph, augmented with votes or the results of analytic services. 
-
 Voting services
 : Voting is a good candidate for reusable components: We can define votes in a platform independent fashion.
 Each voting component would define voting values, store them in their own databases, and provide appropriate aggregates to other components. It needs to access data from the Catalyst platform to identify the voting users and the voted ideas.
 
-Annotation services
-: These services (bookmarklets etc.) will allow to extract quotes from Web pages or Messages and push them to the Comments db as evidence for the concept graph.
+Dashboard
+: A web page that can display results from visualization and analytics tools to give an integrated view of the conversation, independent of the main CI platforms.
 
 # Interoperability mechanisms
 
@@ -643,11 +638,19 @@ This is going to be an area of further exploration for us before we commit to a 
 
 ## Analytics intermediate results and attention mediation
 
-A common case of analytics for sending intermediate results is to "annotate" the nodes of the concept map with aggregate values
+We expect a great variety of analytic tools to be developed, but though we aim to standardize how the analytics platform can obtain data from the catalyst conversation platforms, the specific utilization of the analytics output by these platforms will be intimately tied to either the conversation platform itself or one of its visualisation.
+For that reason, it is not a realistic goal to standardize an exhaustive list of possible analytic semantics, and maybe even syntax.
+The utilization of analytics data will always be mostly ad-hoc.
 
-    * node (GenericIdea, User, Post, etc.)
-     * metric_aggregate_name (EX:  NUM_COMMENTER, NUN_DIRECT_COMMENTS, NUM_TOTAL_POSTS, LEVEL_OF_DISAGREMENT)
-      * value (typically a scalar value, but may be a structure, such as a list of participants)
+However, some basic principles can be agreed upon: First, analytic results should refer to resources by their RDF identifier; second, we could develop a syntax for the most common cases, based on JSON-LD; and third, we have to agree on basic API endpoints.
+
+A common case of analytics for sending intermediate results is to "annotate" the nodes of the concept map with aggregate values. Those aggregate values can be expressed as RDF properties from a closed vocabulary. A document will be written that documents the meaning of each of those properties, with their JSON-LD name. The JSON-LD document would follow this structure:
+
+* node (GenericIdea, User, Post, etc.)
+    * metric_aggregate_name (EX:  NUM_COMMENTER, 
+        NUM_DIRECT_COMMENTS, NUM_TOTAL_POSTS, LEVEL_OF_DISAGREMENT)
+        * value (typically a scalar value, 
+        but may be a structure, such as a list of participants)
 
 The meaning of aggregate names and format (and interpretation) of the value, for metrics that do not provide their own visualisations, is done through shared knowledge.
 A metric will typically generate more than one aggregate per node.
@@ -655,21 +658,23 @@ Definition for common metrics will eventually be listed in an annex to this spec
 
 ### Attention mediation
 The case of attention mediation deserves special mention, because it is expected that the end user will receive actual notifications by email, or in some user interface of a catalyst integrated platform.
-The actual text of this notification depends on information only the integrated platform can realistically generate:  URL where the user can/should take action, language the user speaks, context of the notification (summarizing the context, such as a description of the nodes), the user's real name and email address
+The actual text of this notification depends on information only the integrated platform can realistically generate:  URL where the user can/should take action, language the user speaks, context of the notification (summarizing the context, such as a description of the nodes), the user's real name and email address, etc.
 
-    * node (User)
-     * ATTENTION_MEDIATION_VOTE_MAJORITY_CHANGE
-      * strength: (In this case 0 or 1)
-      * node: (GenericIdea)
-      * mediationReason: VOTED_FOR_IDEA 
-     * ATTENTION_MEDIATION_INCREASING_CONFLICT
-      * strength: (In this case a value between 0 and 1)
-      * node: (GenericIdea)
-      * mediationReason: VOTED_FOR_IDEA, POSTED_ON_SUB_IDEA 
-     * ATTENTION_MEDIATION_RENEWED_ACTIVITY
-      * strength: (In this case a value between 0 and 1, probably a function of the number of duration of the dip in activity * recent posts/total posts)
-      * node: (GenericIdea)
-      * mediationReason: VOTED_FOR_IDEA, POSTED_ON_IDEA 
+We will have a closed vocabulary (using SKOS or some other means) of attention mediation message identifiers, and another vocabulary of reasons while a given message is sent to a given user. A message will consist of a recipient (User), topic (a Generic Idea), mediation message, mediation reason, and possibly signal strength.
+
+To avoid repetition, The JSON-LD file might group data by topic, or topic and message. The structure would be close to this one:
+
+* topic: (GenericIdea)
+    * message: ATTENTION_MEDIATION_VOTE_MAJORITY_CHANGE
+        * strength: (In this case 0 or 1)
+        * target: (User); mediationReason: VOTED_FOR_IDEA
+        * target: (User); mediationReason: CREATED_IDEA
+    * ATTENTION_MEDIATION_INCREASING_CONFLICT
+        * strength: (In this case a value between 0 and 1)
+        * target: (User); mediationReason: VOTED_FOR_IDEA, POSTED_ON_SUB_IDEA 
+    * ATTENTION_MEDIATION_RENEWED_ACTIVITY
+        * strength: (In this case a value between 0 and 1, probably a function of the number of duration of the dip in activity * recent posts/total posts)
+        * target: (User); mediationReason: VOTED_FOR_IDEA, POSTED_ON_IDEA 
 
 The catalyst integrated platform will decide if, how, and how frequently it will notify the user for each attention mediation.
 
@@ -851,7 +856,7 @@ eg_d1:idealink_3_2 a ibis:ArgumentSupportsPosition;
 The [SIOC](http://sioc-project.org) [ontology](http://rdfs.org/sioc/ns) will be used to expose (or re-expose, as the case may be) most contributions of participants to the conversation, including the generic ideas, messages on social platforms, comments on the generic ideas (which will be treated as ideas<!-- The comments will be treated as ideas?-->), etc. 
 These will all be represented as `sioc:Item` instances. 
 In particular, representing the IBIS information as posts allows to naturally indicate user, creation date, etc. 
-Unless the social platform exposes its information as SIOC itself (as Drupal does), IP will develop "SIOC transducers" that will obtain the message information and expose it as SIOC to other catalyst components (with the appropriate authorization.)
+Unless the social platform exposes its information as SIOC itself (as Drupal does), IP will develop "Post to SIOC converters" that will obtain the message information and expose it as SIOC to other catalyst components (with the appropriate authorization.)
 
 ### SIOC containers
 
@@ -1471,7 +1476,7 @@ A graph editor widget, for example, could use the same vocabulary to to express 
 Both those aspects are out of scope for catalyst 1, and this may even be true of the third level of support as a whole.
 However, designing the API so it does not clash with those ulterior goals in mind is both possible and desirable.
 
-## The model
+### The model
 
 ```graphviz 0.21
 {{../../catalyst_ontology/version.dot}}
@@ -1545,17 +1550,6 @@ However, designing the API so it does not clash with those ulterior goals in min
         ].
 ```
 
-## Analytics queries and results
-
-We expect a great variety of analytic tools to be developed, but though we aim to standardize how the analytics platform can obtain data from the catalyst conversation platforms, the specific utilization of the analytics output by these platforms will be intimately tied to either the conversation platform itself or one of its visualisation.
-For that reason, it is not a realistic goal to standardize an exhaustive list of possible analytic semantics, and maybe even syntax.
-The utilization of analytics data will always be mostly ad-hoc.
-
-However, some basic principles can be agreed upon: First, analytic results should refer to resources by their RDF identifier; second, we could develop a syntax for the most common cases, based on JSON-LD; and third, we have to agree on basic API endpoints.
-
-### Analytics results sample data
-
-<!-- %TODO -->
 
 
 # Appendices
