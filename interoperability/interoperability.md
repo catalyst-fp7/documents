@@ -836,7 +836,7 @@ We have experimented with the notion of criterion, which can be based on an issu
 
 ### Example data:
 
-```turtle
+```n3
 eg_d1:idea_1 a ibis:Issue;
     dcterms:title "Stop climate change"@eng;
     dcterms:description "A longer description"@eng.
@@ -889,7 +889,7 @@ So they would naturally belong to one collection.
 
 ### Example data: the main containers
 
-```turtle
+```n3
 @prefix eg_site: <http://www.Assembl.net/> .
 @prefix eg_d1: <http://www.Assembl.net/conversation/1/> .
 
@@ -1004,7 +1004,7 @@ digraph g {
 ```
 
 
-```turtle
+```n3
 @prefix eg_site: <http://www.Assembl.net/> .
 @prefix eg_d1: <http://www.Assembl.net/conversation/1/> .
 
@@ -1077,7 +1077,7 @@ digraph g {
 }
 ```
 
-```turtle
+```n3
 eg_d1:message_1 a SIOC:Post ;
     dcterms:created "2013-11-01T09:00:04"^^xsd:dateTimeStamp;
     dcterms:title "Climate change is a real problem"@eng;
@@ -1162,7 +1162,7 @@ digraph g {
 ```
 
 
-```turtle
+```n3
 eg_d1:extracts_1 a oa:SpecificResource;
     oa:hasSource eg_d1:message_1;
     oa:hasSelector [
@@ -1204,7 +1204,7 @@ digraph g {
 }
 ```
 
-```turtle
+```n3
 eg_d1:annotations_1 a oa:Annotation;
     oa:hasTarget eg_d1:extracts_1;
     oa:hasBody eg_site:annotation_1_target.
@@ -1256,7 +1256,7 @@ digraph g {
 ```
 
 
-```turtle
+```n3
 eg_d1:vote1 a vote:BinaryVote;
     vote:voter eg_site:user_benoitg;
     dcterms:created "2013-11-02T14:20:04"^^xsd:dateTimeStamp;
@@ -1292,7 +1292,7 @@ digraph g {
 }
 ```
 
-```turtle
+```n3
 eg_d1:vote_range a vote:LickertRange;
     vote:min "1"^^xsd:integer;
     vote:max "10"^^xsd:integer.
@@ -1333,7 +1333,7 @@ digraph g {
 }
 ```
 
-```turtle
+```n3
 eg_d1:vote3 a vote:OrderingVote;
     vote:voter eg_site:user_benoitg;
     vote:ordered_ideas [ a rdf:Seq;
@@ -1562,7 +1562,7 @@ However, designing the API so it does not clash with those ulterior goals in min
 
 #### how many positive arguments?
 
-```SPARQL
+```sparql
 SELECT COUNT(DISTINCT ?arg) WHERE {
     ?asp a ibis:ArgumentSupportsPosition .
     ?asp ibis:argument_supporting ?arg
@@ -1573,7 +1573,7 @@ SELECT COUNT(DISTINCT ?arg) WHERE {
 
 #### Who contributed most ideas?
 
-```SPARQL
+```sparql
 DEFINE input:inference <http://www.Assembl.net/Rules>
 PREFIX idea: <http://purl.org/catalyst/idea#>
 PREFIX ibis: <http://purl.org/catalyst/ibis#>
@@ -1592,7 +1592,7 @@ ibis:Issue rdfs:subClassOf idea:GenericIdea
 
 #### Most replied-to post
 
-```SPARQL
+```sparql
 DEFINE input:inference <http://www.Assembl.net/Rules>
 SELECT ?post WHERE {
     ?post a SIOC:Post .
@@ -1602,13 +1602,13 @@ SELECT ?post WHERE {
 
 Note the use of 
 
-```turtle
+```n3
 SIOC:has_reply owl:inferseOf SIOC:reply_to
 ```
 
 #### Whose content illustrates an idea?
 
-```SPARQL
+```sparql
 DEFINE input:inference <http://www.Assembl.net/Rules>
 SELECT ?person WHERE {
         ?person SIOC:creator_of ?post .
@@ -1625,7 +1625,7 @@ Fortunately, searching in subgraphs is quite doable.
 
 #### are you a negative voter?
 
-```SPARQL
+```sparql
 DEFINE input:inference <http://www.Assembl.net/Rules>
 PREFIX vote: <http://purl.org/catalyst/vote#>
 SELECT ?person WHERE {
