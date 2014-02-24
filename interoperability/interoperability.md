@@ -443,14 +443,14 @@ Those will be grouped according to the origin of those contributions.
 So the most minimal, static view of the data for one conversation (which we define as the unit of data access, and some servers may have only one such unit) could be as simple as this:
 
 ```json
-{"conversations":[{"data":
+{"conversations":[{"fullDataService":
     "http://catalyst.platform.server/api/conversation/1/all-data/"}]}
 ```
 
 A given widget may also recieve a dynamic subset by reference, like this:
 
 ```json
-{"conversations":[{"dataSelection":
+{"conversations":[{"dataSelectionService":
     "http://catalyst.platform.server/api/conversation/1/datasubet/widget0336"}]}
 ```
 
@@ -463,15 +463,15 @@ But a full-fledged server's configuration could look like this. Note that the ke
     "conversations":[{
         "@id": "http://catalyst.platform.server/api/conversation/1",
         "@type": "Conversation",
-        "allData": "http://catalyst.platform.server/api/all_data/",
-        "ideas": "http://catalyst.platform.server/api/conversation/1/ideas/",
-        "users": "http://catalyst.platform.server/api/conversation/1/users/",
-        "messages": "http://catalyst.platform.server/api/conversation/1/messages/",
-        "messageSources": "http://catalyst.platform.server/api/conversation/1/sources/",
-        "votes_write": "http://catalyst.platform.server/api/conversation/1/votes/",
-        "history": "http://catalyst.platform.server/api/conversation/1/history/",
-        "SPARQL_write": "http://catalyst.platform.server/SPARQL/"
-    }, 
+        "fullDataService": "http://catalyst.platform.server/api/full_data/",
+        "ideasService": "http://catalyst.platform.server/api/conversation/1/ideas/",
+        "usersService": "http://catalyst.platform.server/api/conversation/1/users/",
+        "messagesService": "http://catalyst.platform.server/api/conversation/1/messages/",
+        "messageSourcesService": "http://catalyst.platform.server/api/conversation/1/sources/",
+        "votesService": "http://catalyst.platform.server/api/conversation/1/votes/",
+        "historyService": "http://catalyst.platform.server/api/conversation/1/history/",
+        "SPARQLService": "http://catalyst.platform.server/SPARQL/"
+    },
     {"@id": "another conversation..."}
     ]
 }
