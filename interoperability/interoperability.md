@@ -22,19 +22,11 @@ html header: <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/style
     <script>hljs.initHighlightingOnLoad();</script>
     <style></style>
 Affiliation: Imagination for People
+Format: complete
 Latex Footer: mmd-catalyst-footer
 Latex Input: mmd-catalyst-header2
-Format: complete
 
-# Introduction
-
-Many tools have been built to try to solve various problems in online collective intelligence (CI).
-This consortium believes that the lack of shared standards to allow such tools to exchange data with each other and share results on standard Internet platforms has prevented these tools to build upon one-another's strengths and greatly hurt the broader adoption of specialized CI tools in Internet conversations.
-
-This document attempts to describe and standardize the most common interactions of software tools applicable to the CI field to foster adoption, reuse, experimentation and research.
-It is built upon the belief that at this stage in the adoption curve of CI tools, a "lowest common denominator" approach provides the best chance that multiple tools outside the catalyst consortium will adopt the standard.
-
-## Context
+# Context
 
 Online community managers are natural users of specialized CI tools (when they know about them).  However, we do not expect most participants to adopt such tools at the outset.  Their first contact with CI tools will be when they see the tools' outputs, or subsets of their functionality, made directly available on popular Internet social networks and communication platforms.  Interested participants can progressively move to the richer CI tools, and hopefully in time assume leadership roles themselves.
 

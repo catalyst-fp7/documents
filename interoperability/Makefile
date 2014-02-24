@@ -38,7 +38,7 @@ $(ONTOLOGY_DIRECTORY):
 pdf: interoperability.pdf
 html: interoperability.html $(PNGFILES)
 
-%.pdf: %.tex ontologies
+interoperability.pdf: interoperability.tex ontologies summary.tex
 	TEXINPUTS=.:../latex/:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
 	TEXINPUTS=.:../latex/:$(ONTOLOGY_DIRECTORY): pdflatex -shell-escape $<
 
