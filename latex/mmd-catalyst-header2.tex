@@ -65,8 +65,8 @@
 \setlength\parindent{0pt}
 \setlength\parskip{10pt}
 
-\setlength\headheight{0.82in}
-\setlength\topmargin{-2.2cm}
+\setlength\headheight{40pt}
+\setlength\topmargin{-1.25cm}
 \setlength\uppermargin{0.9in}
 \setlength\textheight{23.5cm}
 \setlength\footskip{1.5cm}
@@ -74,17 +74,18 @@
 \setsecnumdepth{subsubsection}
 
 \makepagestyle{catalystp}
-\makeevenhead{catalystp}{}{\includegraphics{images/catalyst_header.png}}{\includegraphics{images/europe.png}}
-\makeoddhead{catalystp}{}{\includegraphics{images/catalyst_header.png}}{\includegraphics{images/europe.png}}
+\makeevenhead{catalystp}{}{\includegraphics{images/catalyst_header.png}}{}
+\makeoddhead{catalystp}{}{\includegraphics{images/catalyst_header.png}}{}
 \makeevenfoot{catalystp}{%
+\setlength\parskip{0pt}%
 \tiny\textcolor{myorange}{\docnumber~\mytitle}\textcolor{gray}{ • }\textcolor{myorange}{\monthname~\the\year}\textcolor{gray}{ • }\textcolor{myorange}{\affiliation}\par
-\textcolor{gray}{The CATALYST project is supported by the European Commission under its FP7 research funding programme}
-}{}{\small \textcolor{gray}{Page {\bfseries\thepage} of {\bfseries\lastpageref{LastPages}}}}
+\textcolor{gray}{The CATALYST project has received funding from the European Union's Seventh Framework Programme for research,\newline{}technological development and demonstration under grant agreement n\textordmasculine{}6611188}\setlength\parskip{10pt}
+}{}{\footnotesize \textcolor{gray}{Page {\bfseries\thepage} of {\bfseries\lastpageref{LastPages}}}}
 \makeoddfoot{catalystp}{%
+\setlength\parskip{0pt}%
 \tiny\textcolor{myorange}{\docnumber~\mytitle}\textcolor{gray}{ • }\textcolor{myorange}{\monthname~\the\year}\textcolor{gray}{ • }\textcolor{myorange}{\affiliation}\par
-\textcolor{gray}{The CATALYST project is supported by the European Commission under its FP7 research funding programme}
-}{}{\small \textcolor{gray}{Page {\bfseries\thepage} of {\bfseries\lastpageref{LastPages}}}}
-
+\textcolor{gray}{The CATALYST project has received funding from the European Union's Seventh Framework Programme for research,\newline{}technological development and demonstration under grant agreement n\textordmasculine{}6611188}\setlength\parskip{10pt}
+}{}{\footnotesize \textcolor{gray}{Page {\bfseries\thepage} of {\bfseries\lastpageref{LastPages}}}}
 \begin{document}
 \title{\fulltitle}
 \author{\fullauthor}
@@ -109,28 +110,29 @@
 
 \maxtocdepth{subsection}
 
-
+\pagestyle{empty}
 \makeatletter
 \renewcommand{\@maketitle}{%
   \newpage
+  \thispagestyle{empty}
   \null
-  \vspace{-3.7cm}
   \begin{center}
   \includegraphics{images/catalyst_header_title.png} \par
-  \vspace{3cm}
-  \includegraphics[scale=0.7]{images/flag_yellow_eps.pdf} \par
   \end{center}
-  \vspace{2.5cm}
+  \vspace{2.75cm}
+  \small
+  \renewcommand{\arraystretch}{1.5}
   \begin{tabular}{l>{\bfseries}l}
   Project Acronym: & CATALYST \\
   Project Full Title: & Collective Applied Intelligence and Analytics for Social Innovation \\
   Grant Agreement: & 6611188 \\
   Project Duration: & 24 months (Oct. 2013 - Sept. 2015) \\
   \end{tabular}
-  \vspace{1.5cm}
+  \renewcommand{\arraystretch}{1}
+  \vspace{1.25cm}
   \begin{mdframed}[backgroundcolor=myorange, fontcolor=white, defaultunit=pt, linewidth=0, innerleftmargin=4, innerrightmargin=4, innertopmargin=10, innerbottommargin=10,skipabove=8,skipbelow=4]
   \begin{center}
-  \bfseries\large\docnumber  \mytitle\mdseries\normalsize
+  \bfseries\large\docnumber{} \mytitle\mdseries\normalsize
   \end{center}
   \end{mdframed}
 
@@ -147,8 +149,13 @@ Dissemination Level: & Public \\
 Task Leader: & \affiliation \\
   \end{tabular}
   \par
-  \vspace{2cm}
-  \footnotesize \textcopyright Copyright 2013-2015 The CATALYST FP7 consortium\par \normalsize
+  \vspace{3cm}
+  \begin{center}
+  \includegraphics[scale=0.15]{images/flag_yellow_eps.pdf} \par
+  \scriptsize
+  This project has received funding from the European Union's Seventh Framework Programme for research, technological development and demonstration under grant agreement n\textordmasculine{}6611188
+  \end{center}
+  \normalsize
 }
 \makeatother
 
@@ -161,8 +168,6 @@ Task Leader: & \affiliation \\
 \maketitle
 \mainmatter
 \pagestyle{catalystp}
-
-\clearpage
 
 \footnotesize
 The CATALYST project consortium is composed of:
@@ -211,11 +216,11 @@ All CATALYST consortium members are also committed to publish accurate and up to
 
 \clearpage
 
-\chapterstar{Executive summary}
+\chapter{Executive summary}
 
 \input{summary}
 
 \small
-The present document is a deliverable of the CATALYST project, which has received funding from the European Union’s Seventh Framework Programme for research, technological development and demonstration under grant agreement no 7.
+The present document is a deliverable of the CATALYST project, funded by the European Commission's Directorate-General for Communications Networks, Content \& Technology (DG CONNECT), under its 7th EU Framework Programme for Research and Technological Development (FP7).
 \clearpage
 
