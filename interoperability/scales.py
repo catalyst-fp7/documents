@@ -11,5 +11,5 @@ if __name__ == '__main__':
             break
         p = subprocess.check_output(['convert', fname, '-print', '%w', '/dev/null'])
         width = int(p.strip())
-        print "%s: %0.2f" % (fname, 468.0/width)
+        print "%s: %0.2f" % (fname, 575.0/width)
         i += 1

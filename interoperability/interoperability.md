@@ -177,7 +177,7 @@ This way, analytics and annotation environments have only one format to process.
 
 # Architectural components
 
-```graphviz 0.40
+```graphviz 0.49
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -741,7 +741,7 @@ The ontology also hosts a simple JSON-LD [context](http://purl.org/catalyst/json
 In the following, there will be instance diagrams and class diagrams.
 In the latter, we will use the following conventions:
 
-```graphviz 0.71
+```graphviz 0.88
 digraph g {
 graph[rankdir="LR"];
 
@@ -799,7 +799,7 @@ Client tools should expect generic ideas with no defined subtype, of subtypes no
 
 ### The model
 
-```graphviz 0.27
+```graphviz 0.33
 {{../../catalyst_ontology/idea.dot}}
 ```
 
@@ -819,7 +819,7 @@ We have experimented with the notion of criterion, which can be based on an issu
 ### The model:
 
 
-```graphviz 0.34
+```graphviz 0.41
 {{../../catalyst_ontology/ibis.dot}}
 ```
 
@@ -872,7 +872,7 @@ So they would naturally belong to one collection.
 
 ### The Catalyst core model
 
-```graphviz 0.27
+```graphviz 0.34
 {{../../catalyst_ontology/catalyst_core.dot}}
 ```
 
@@ -912,7 +912,7 @@ eg_d1:d1_member a SIOC:Role;
 eg_d1:d1_mailingList1 a Assembl:MailingList, SIOC:Space.
 ```
 
-```graphviz 0.59
+```graphviz 0.72
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -947,7 +947,7 @@ There does not seem to be a need for the components to understand the semantics 
 
 ### Example data: user information
 
-```graphviz 0.28
+```graphviz 0.34
 digraph g {
     graph [bgcolor="transparent", rankdir="LR", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1037,7 +1037,7 @@ digraph g {
 
 ## Example data: posts
 
-```graphviz 0.83
+```graphviz 0.77
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1090,7 +1090,7 @@ eg_d1:message_2 a SIOC:Post ;
 ### Example data: a post with origin
 
 
-```graphviz 0.83
+```graphviz 1
 digraph g {
     graph [bgcolor="transparent", rankdir="BT"] ;
     node [fillcolor=white, style=filled,  shape=record];
@@ -1127,7 +1127,7 @@ Named graphs/reification are mentioned as an option, if justified.
 
 ### Example data
 
-```graphviz 0.75
+```graphviz 0.93
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1173,7 +1173,7 @@ eg_d1:annotations_1 a oa:Annotation;
 ### Relating the comment to the idea
 
 
-```graphviz 0.66
+```graphviz 0.82
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=10];
@@ -1218,7 +1218,7 @@ This is not meant to be exhaustive, or to constrain user interaction, but should
 
 ### The model
 
-```graphviz 0.52
+```graphviz 0.64
 {{../../catalyst_ontology/vote.dot}}
 ```
 
@@ -1229,7 +1229,7 @@ This is not meant to be exhaustive, or to constrain user interaction, but should
 
 ### Binary vote example data
 
-```graphviz 1.11
+```graphviz 1.00
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1260,7 +1260,7 @@ eg_d1:vote1 a vote:BinaryVote;
 ### Lickert vote example data
 
 
-```graphviz 0.72
+```graphviz 0.88
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1299,7 +1299,7 @@ eg_d1:vote2 a vote:LickertVote;
 
 ### Ordering vote example data
 
-```graphviz 0.61
+```graphviz 0.75
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1477,7 +1477,7 @@ However, designing the API so it does not clash with those ulterior goals in min
 
 ### The model
 
-```graphviz 0.21
+```graphviz 0.25
 {{../../catalyst_ontology/version.dot}}
 ```
 
