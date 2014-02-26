@@ -53,7 +53,6 @@
 \fi
 
 \usepackage[
-	plainpages=false,
 	pdfpagelabels,
 	pdftitle={\fulltitle},
 	%pagebackref,
@@ -86,6 +85,18 @@ technological development and demonstration under grant agreement n\textordmascu
 \textcolor{gray}{The CATALYST project has received funding from the European Union's Seventh Framework Programme for research,\\[-5pt]
 technological development and demonstration under grant agreement n\textordmasculine{}6611188}
 }{}{\footnotesize \textcolor{gray}{Page {\bfseries\thepage} of {\bfseries\lastpageref{LastPages}}}}
+
+
+\makepagestyle{empty2}
+\makeevenhead{empty2}{}{}{}
+\makeoddhead{empty2}{}{}{}
+\makeevenfoot{empty2}{}{}{}
+\makeoddfoot{empty2}{}{}{}
+
+\aliaspagestyle{title}{empty2}
+\aliaspagestyle{cleared}{catalystp}
+\aliaspagestyle{chapter}{catalystp}
+
 \begin{document}
 \title{\fulltitle}
 \author{\fullauthor}
@@ -110,11 +121,11 @@ technological development and demonstration under grant agreement n\textordmascu
 
 \maxtocdepth{subsection}
 
-\pagestyle{empty}
+\pagestyle{empty2}
 \makeatletter
 \renewcommand{\@maketitle}{%
   \newpage
-  \thispagestyle{empty}
+  \thispagestyle{empty2}
   \null
   \begin{center}
   \includegraphics{images/catalyst_header_title.png} \par
@@ -162,11 +173,9 @@ Task Leader: & \affiliation \\
 
 \def\format{complete}
 
-\frontmatter
-\pagenumbering{roman}
-
-\maketitle
 \mainmatter
+\pagestyle{empty2}
+\maketitle
 \pagestyle{catalystp}
 
 \footnotesize
