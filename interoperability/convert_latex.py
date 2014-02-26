@@ -3,7 +3,7 @@ import sys
 import re
 import os
 
-begin_expr = re.compile(r'\\begin{lstlisting}\[language=(\w+)( [0-9\.]+)?\]')
+begin_expr = re.compile(r'\\begin{lstlisting}\[language=(\w+)( [0-9\.]+s?)?\]')
 end_expr = re.compile(r'\\end{lstlisting}')
 insert_expr = re.compile(r'\\include{(.*)}')
 digraph_start_expr = re.compile(r'\s*(strict\s+)?digraph\s+\{')
@@ -31,6 +31,9 @@ if __name__ == '__main__':
             state = m.group(1)
             if state == 'graphviz':
                 scale = m.group(2) or '0.5'
+                scale = scale.strip()
+                if scale[-1] == 's':
+                    scale = scale[:-1] + ',angle=90,origin=c'
                 print '\\digraph[scale=%s]{fig%d}{' % (scale.strip(), num)
                 num += 1
             else:

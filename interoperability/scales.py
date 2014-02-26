@@ -9,7 +9,14 @@ if __name__ == '__main__':
         fname = "fig%d.png" % i
         if not os.path.exists(fname):
             break
-        p = subprocess.check_output(['convert', fname, '-print', '%w', '/dev/null'])
-        width = int(p.strip())
-        print "%s: %0.2f" % (fname, 575.0/width)
+        p = subprocess.check_output(['convert', fname, '-print', '%w,%h', '/dev/null'])
+        width, height = p.strip().split(',')
+        width, height = int(width), int(height)
+        sideways = ''
+        if width > 1300 and height * (1.35) < width:
+            sideways = 's'
+            scale = min(575.0/height, 800.0/width, 1)
+        else:
+            scale = min(575.0/width, 800.0/height, 1)
+        print "%s: %0.2f%s" % (fname, scale, sideways)
         i += 1

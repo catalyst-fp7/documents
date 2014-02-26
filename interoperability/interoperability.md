@@ -799,7 +799,7 @@ Client tools should expect generic ideas with no defined subtype, of subtypes no
 
 ### The model
 
-```graphviz 0.33
+```graphviz 0.46s
 {{../../catalyst_ontology/idea.dot}}
 ```
 
@@ -819,7 +819,7 @@ We have experimented with the notion of criterion, which can be based on an issu
 ### The model:
 
 
-```graphviz 0.41
+```graphviz 0.57s
 {{../../catalyst_ontology/ibis.dot}}
 ```
 
@@ -872,7 +872,7 @@ So they would naturally belong to one collection.
 
 ### The Catalyst core model
 
-```graphviz 0.34
+```graphviz 0.47s
 {{../../catalyst_ontology/catalyst_core.dot}}
 ```
 
@@ -947,7 +947,7 @@ There does not seem to be a need for the components to understand the semantics 
 
 ### Example data: user information
 
-```graphviz 0.34
+```graphviz 0.47s
 digraph g {
     graph [bgcolor="transparent", rankdir="LR", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1477,7 +1477,7 @@ However, designing the API so it does not clash with those ulterior goals in min
 
 ### The model
 
-```graphviz 0.25
+```graphviz 0.35s
 {{../../catalyst_ontology/version.dot}}
 ```
 
@@ -1549,7 +1549,7 @@ However, designing the API so it does not clash with those ulterior goals in min
         ].
 ```
 
-# Appendices
+# Annex
 
 ## Example SPARQL queries
 
