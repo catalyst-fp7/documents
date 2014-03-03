@@ -69,6 +69,8 @@
 \setlength\uppermargin{0.9in}
 \setlength\textheight{23.5cm}
 \setlength\footskip{1.5cm}
+\setlength\afterchapskip{2pt}
+\setlength\beforechapskip{12pt}
 
 \setsecnumdepth{subsubsection}
 
@@ -101,6 +103,7 @@ technological development and demonstration under grant agreement n\textordmascu
 \title{\fulltitle}
 \author{\fullauthor}
 \renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\appendixtocname}{Annex}
 
 
 
@@ -109,10 +112,14 @@ technological development and demonstration under grant agreement n\textordmascu
 
 \let\oldchapter\chapter
 \renewcommand{\chapter}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=1, innerbottommargin=1,skipabove=0,skipbelow=2]\oldchapter{#1}\end{mdframed}}
-\newcommand{\chapterstar}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=1, innerbottommargin=1,skipabove=0,skipbelow=2]\oldchapter*{#1}\end{mdframed}}
 
-\renewcommand{\printtoctitle}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=1, innerbottommargin=1,skipabove=0,skipbelow=2]\printchaptertitle{#1}\end{mdframed}}
+\newcommand{\chapterstar}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=3, innerbottommargin=4,skipabove=0,skipbelow=2]\oldchapter*{#1}\end{mdframed}}
+
 \renewcommand*{\cftchapterfont}{\normalfont\bfseries}
+
+\renewcommand{\printtoctitle}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=3, innerbottommargin=4,skipabove=0,skipbelow=2]\printchaptertitle{#1}\end{mdframed}}
+
+\renewcommand{\printloftitle}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=3, innerbottommargin=4,skipabove=0,skipbelow=2]\printchaptertitle{#1}\end{mdframed}}
 
 
 \defbibheading{bibliography}[\bibname]{%
@@ -226,11 +233,12 @@ All CATALYST consortium members are also committed to publish accurate and up to
 
 \clearpage
 
-\chapter{Executive summary}
+\chapterstar{Executive summary}
+\addcontentsline{toc}{chapter}{Executive summary}
 
 \input{summary}
 
-\small
+%\small
 The present document is a deliverable of the CATALYST project, funded by the European Commission's Directorate-General for Communications Networks, Content \& Technology (DG CONNECT), under its 7th EU Framework Programme for Research and Technological Development (FP7).
 \clearpage
 

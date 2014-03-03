@@ -13,7 +13,7 @@ if __name__ == '__main__':
         width, height = p.strip().split(',')
         width, height = int(width), int(height)
         sideways = ''
-        if width > 1300 and height * (1.35) < width:
+        if width > 1100 and height * (1.35) < width:
             sideways = 's'
             scale = min(575.0/height, 800.0/width, 1)
         else:

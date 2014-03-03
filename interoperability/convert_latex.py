@@ -3,7 +3,7 @@ import sys
 import re
 import os
 
-begin_expr = re.compile(r'\\begin{lstlisting}\[language=(\w+)( [0-9\.]+s?)?\]')
+begin_expr = re.compile(r'\\begin{lstlisting}\[language=(\w+)( [0-9\.]+s?)?(.*)\]')
 end_expr = re.compile(r'\\end{lstlisting}')
 insert_expr = re.compile(r'\\include{(.*)}')
 digraph_start_expr = re.compile(r'\s*(strict\s+)?digraph\s+\{')
@@ -32,8 +32,10 @@ if __name__ == '__main__':
             if state == 'graphviz':
                 scale = m.group(2) or '0.5'
                 scale = scale.strip()
+                caption = m.group(3).strip()
                 if scale[-1] == 's':
                     scale = scale[:-1] + ',angle=90,origin=c'
+                print '\\begin{figure}[hbtp]'
                 print '\\digraph[scale=%s]{fig%d}{' % (scale.strip(), num)
                 num += 1
             else:
@@ -43,7 +45,9 @@ if __name__ == '__main__':
             state = 'graphviz1'
         elif state and end_expr.match(line):
             if state == 'graphviz1':
-                print ''
+                if caption:
+                    print '\\caption{%s}' % (caption,)
+                print '\\end{figure}'
             else:
                 print '\\end{minted}'
             state = None

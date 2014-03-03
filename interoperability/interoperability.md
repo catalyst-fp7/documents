@@ -7,15 +7,15 @@ MainLanguage: english
 Title: Software Architecture and Cross-Platform Interoperability Specification
 DocNumber: D3.1
 Subtitle: INITIAL DOCUMENT
-VersionNo: 0.9
+VersionNo: 1.0
 DueProjectMonth: 4
 DueCalendarMonth: 1
 DueYear: 2014
-SubmissionProjectMonth: 5
-SubmissionCalendarMonth: 2
+SubmissionProjectMonth: 6
+SubmissionCalendarMonth: 3
 SubmissionYear: 2014
 WorkPackage: 3
-DocStatus: Draft
+DocStatus: Final
 Author: Marc-Antoine Parent, Benoit Grégoire
 html header: <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/xcode.min.css">
     <script src="highlight.pack.js"></script>
@@ -28,7 +28,7 @@ Latex Input: mmd-catalyst-header2
 
 # Context
 
-Online community managers are natural users of specialized CI tools (when they know about them).  However, we do not expect most participants to adopt such tools at the outset.  Their first contact with CI tools will be when they see the tools' outputs, or subsets of their functionality, made directly available on popular Internet social networks and communication platforms.  Interested participants can progressively move to the richer CI tools, and hopefully in time assume leadership roles themselves.
+Online community managers are natural users of specialised CI tools (when they know about them).  However, we do not expect most participants to adopt such tools at the outset.  Their first contact with CI tools will be when they see the tools' outputs, or subsets of their functionality, made directly available on popular Internet social networks and communication platforms.  Interested participants can progressively move to the richer CI tools, and hopefully in time assume leadership roles themselves.
 
 In this model, moderators or participants can directly create structured representations of conversation in integrated CI platforms, or use a CI platform to distil structured representations from contributions made on more general purpose online conversation platforms and social networks (a practice we call harvesting).
 
@@ -40,7 +40,7 @@ Some participants (or communities as a whole) may choose to migrate to the integ
 # Glossary
 
 CI tool
-: Any tool that can be used to enhance collective intelligence, whether or not it is in any way related to this ecosystem.
+: Any tool that can be used to enhance Collective Intelligence, whether or not it is in any way related to this ecosystem.
 
 Catalyst CI platform
 : The main platforms from the technical partners of the Catalyst consortium which allow participants to collectively manipulate Concept maps.
@@ -86,7 +86,7 @@ Contribution
 
 ## Sharing raw concept maps
 
-Most collective intelligence tools allow organising concepts in some sort of structure that reflects the conversation back to the participants (a concept map in the very broadest sense).
+Most Collective Intelligence tools allow organising concepts in some sort of structure that reflects the conversation back to the participants (a concept map in the very broadest sense).
 The core of this specification is a Data Model to represent the following in a systems-independent way while preserving as much semantics as practical: 
 
 * The generic ideas of the concept map
@@ -108,12 +108,12 @@ The second level is to share more semantics about the nature of the concepts ide
 The consortium agreed that using IBIS (Issue-Based Information System) as a common baseline would foster the emergence of initial tooling.
 While it has significant limitations, IBIS is a good choice because:
 
-1. It's widely used by existing collective intelligence software
+1. It's widely used by existing Collective Intelligence software
 2. Many systems not using IBIS could transform at least a subset of their data into meaningful IBIS.
 
 ## Re-usable analytics
 
-Analytics vary greatly, but all will take data from the Data Model defined later, perform some computation and return either:
+Analytics vary greatly, but all will take data in the format defined in [Data Model][], perform some computation, and return either:
 
 1. Structured data for further computation, transformation or visualisation.
 2. Visualisations (possibly interactive) or reports directly usable by a human 
@@ -171,13 +171,13 @@ This specification will take a pragmatic approach, to attempt to at least provid
 
 A variety of tools and social networks allow participants to exchange messages on the Internet.
 Sadly, they are all in different formats, making the use, reuse and analytics of this data needlessly painful.
-The catalyst ecosystem agreed to standardise on SIOC (Semantically-Interlinked Online Communities) as a data model, and will write tools to make several other formats available as SIOC.
+The Catalyst ecosystem agreed to standardise on SIOC (Semantically-Interlinked Online Communities) as a data model, and will write tools to make several other formats available as SIOC.
 This way, analytics and annotation environments have only one format to process. 
 
 
 # Architectural components
 
-```graphviz 0.49
+```graphviz 0.69s Architectural components
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -254,17 +254,21 @@ digraph g {
 }
 ```
 
-This is a view of components, and their expected interactions. Letters represent catalyst technical partners expected to develop at least one such a component. Links in green represent visual widget embedding. Links in orange are implementation specific, and outside of the scope of this specification. Dashed boxes are optional for any given implementation.
+Figure 1 shows components, and their expected interactions. 
+Letters represent Catalyst technical partners expected to develop at least one such a component.
+Links in green represent visual widget embedding.
+Links in orange are implementation specific, and outside of the scope of this specification.
+Dashed boxes are optional for any given implementation.
 
 
 Catalyst Collective Intelligence Platforms
 : These are the general web platforms that users interact with that fully exploit the data model: they include Open University's DebateHub, IP's Assembl, MIT's Deliberatorium.
 
 Databases of Catalyst platforms
-: These databases, in the back-end of the catalyst platform, hold the deliberation data: Users, concept map, comments, etc. Some of that data will be made accessible to other services and widgets through RESTful and SPARQL endpoints, defined below.
+: These databases, in the back-end of the Catalyst platform, hold the deliberation data: Users, concept map, comments, etc. Some of that data will be made accessible to other services and widgets through RESTful and SPARQL endpoints, defined below.
 
 Front-end of Catalyst platforms
-: The user-facing side of each catalyst platform will be tied closely to its respective database, and specifying that interaction is a non-goal. However, it will integrate information from other services, either as (Pulled) json data, or as embedded widgets.
+: The user-facing side of each Catalyst platform will be tied closely to its respective database, and specifying that interaction is a non-goal. However, it will integrate information from other services, either as (Pulled) JSON data, or as embedded widgets.
 
 Internal UI, map editors, etc.
 : Some web components will be part of the front-end of their platform, and will not be reusable.
@@ -276,15 +280,15 @@ Reusable Collective Intelligence Widgets (creativity, visualisation, voting, etc
 : Embedded Widgets are pieces of user-facing Web code that can be embedded in another platform. They may be static JavaScript that talks only to the back-end of the process it is embedded in, or it may need to communicate with its own *Widget back-end & storage* component.
 
 Reusable Visualisations
-: These are dynamic web views which generate static or dynamic visualisations of the concept map or social graph, but not to edit it. Some of those may be a simple snippet of HTML and JavaScript, some may have their own *Visualisation back-end & storage*. In either case, they will be designed so they can be embedded in catalyst platforms, and maybe some social and messaging platforms, or even web pages.
+: These are dynamic web views which generate static or dynamic visualisations of the concept map or social graph, but not to edit it. Some of those may be a simple snippet of HTML and JavaScript, some may have their own *Visualisation back-end & storage*. In either case, they will be designed so they can be embedded in Catalyst platforms, and maybe some social and messaging platforms, or even web pages.
 
 Social and messaging platforms
 : These are existing social and messaging platforms where users can post messages, such as email, Facebook, twitter, blogs, etc.
 This also includes some CMS used by our partners, such as Drupal for Wikitalia or Utopia.de for Euclid.
-How deeply they can integrate catalyst services (e.g. widgets) depend on their facility for integrating plugins.
+How deeply they can integrate Catalyst services (e.g. widgets) depend on their facility for integrating plugins.
 
 Post to SIOC converter
-: Converter components will extract messages (and attendant social graph information) from the social and messaging platforms and expose them as SIOC data to other components, including analytics, visualisation, voting services and the catalyst platforms.
+: Converter components will extract messages (and attendant social graph information) from the social and messaging platforms and expose them as SIOC data to other components, including analytics, visualisation, voting services and the Catalyst platforms.
 Note that this means the user graph may be distributed between many databases (Such as Catalyst databases, Post converter, and Voting services with their own storage.)
 
 Analytics services
@@ -303,11 +307,11 @@ Dashboard
 %API endpoints would go into another chapter.
 -->
 
-Components that perform processing (visualisations, analytics, vote, etc. including some components that are part of the integrated catalyst platforms) will expect to get data from other components. 
+Components that perform processing (visualisations, analytics, vote, etc. including some components that are part of the integrated Catalyst platforms) will expect to get data from other components. 
 For example, visualisation components might want to display various nodes of the generic idea dataset with a size proportional to votes, or to per-node activity levels provided by analytics. 
 An important part of the specification will thus concern the means by which components can request data from each other, and the format of that data.
 
-Other parts will concern integration of visual components in catalyst CI platforms, web forums, social networks and web dashboards.
+Other parts will concern integration of visual components in Catalyst CI platforms, web forums, social networks and web dashboards.
 
 ## Data access
 
@@ -330,11 +334,11 @@ Other components will need richer access to write to the data model, quickly get
 Data consumers should be expected to access the data through one of the following mechanisms (choice of mechanism and endpoints to be part of configuration parameters):
 
 1. Pulling all server data relative to one unit of conversation in a single request as JSON-LD (*MANDATORY*).
-This is the minimal plumbing required to participate to the catalyst ecosystem.
+This is the minimal plumbing required to participate to the Catalyst ecosystem.
 If a given platform server can host many different conversations with disjoint communities, is is expected to offer an endpoint for each, as each may define different access permissions.
 2. Exposing a coherent subset, defined on the data server, to a consumer at a provided (opaque) URL.
 3. Endpoints allowing to access the collection of each main type of resource, optionally with some filtering ability (GET endpoints)
-4. Read-only SPARQL Endpoints with agreed queries.
+4. Read-only SPARQL endpoints with agreed queries.
 5. Read/write RESTful endpoints for the collection of each main type of resource
 6. Read/write SPARQL endpoints.
 
@@ -347,8 +351,8 @@ In the specific case of Drupal, we recommend installation of the [SPARQL module]
 
 In particular, a third player offering a new component cannot expect endpoints tailored to the exact subset of data it requires, and it may have to receive more data than it needs for its purposes.
 The RESTful endpoints thus err on the side of being exhaustive, as opposed to efficient.
-Efficient, targeted requests may be defined in SPARQL, but not all catalyst components will offer generic, open SPARQL endpoints; and some authors of new components may not be familiar with SPARQL and RDF.
-Thus the choice of RESTful, JSON-LD endpoints as lowest common denominator.
+Efficient, targeted requests may be defined in SPARQL, but not all Catalyst components will offer generic, open SPARQL endpoints; and some authors of new components may not be familiar with SPARQL and RDF.
+Thus, we propose using RESTful, JSON-LD endpoints as lowest common denominator.
 
 ### RESTful access endpoints
 
@@ -359,7 +363,7 @@ A small subset of these endpoints will also provide full CRUD access (an example
 
 JSON-LD is meant to mostly look like just another JSON format, where many dictionary values are valid URLs which specify where you can get more information about a given resource.
 
-In many cases, it can be used by developers just like any other json document.
+In many cases, it can be used by developers just like any other JSON document.
 However, there are a few pitfalls.
 
 *Inheritance*: the `@type` argument in JSON-LD corresponds to a RDF class.
@@ -368,13 +372,13 @@ Similarly, every property may be a sub-property of the RDF property you expect.
 The JSON-LD `@context` will give you the ontology specifications; a RDF database can use the ontologies to answer SPARQL queries specified using known super-classes. 
 
 However, one goal of this specification is that tools should be able to participate in the ecosystem without RDF machinery.
-So compliant data providers SHOULD give multiple values for the `@type` parameters when appropriate, so that at least one comes from the catalyst classes specified in this document.
+So, compliant data providers SHOULD give multiple values for the `@type` parameters when appropriate, so that at least one comes from the Catalyst classes specified in this document.
 However, since there is no syntactical support for multiple property names directly in JSON-LD data, external tool developers should avoid introducing sub-properties that are not part of this specification.
 
 *Inverses*: Some RDF properties define inverses: for example `SIOC:creator_of owl:inverseOf SIOC:has_creator` (in other words, the fact that some user is the author of a Post in SIOC can be defined inside the Post object, or inside the user account object).
 Some of those inverse are not specified in the ontology, such as `dcterms:isPartOf` and `dcterms:hasPart`. (We will define a sub-property to specify this.) The list of such inverses is short, and will be provided as an annex of this specification.
 <!-- %TODO:  Write annex... -->
-Tools that receive JSON-LD from a catalyst platform are expected to interpret either of those relationships as implying the other.
+Tools that receive JSON-LD from a Catalyst platform are expected to interpret either of those relationships as implying the other.
 
 <!-- %TODO: specify a sub-property of hasPart -->
 
@@ -413,24 +417,25 @@ However, a platform may choose to expose a subset of pre-defined SPARQL queries 
 Though it should be possible to develop new components in the ecosystem without modifying the code of other ecosystem components, each component will have to be made aware of other components through configuration. 
 Each component will have its own configuration mechanism, and it is not a goal to normalise configuration formats, but it is a goal to specify which information needs to be included in the configuration to enable interoperability.
 
-Basically, any component (including catalyst CI platforms) that has to push to or pull from another component needs to know about that component's available endpoints.
+Basically, any component (including Catalyst CI platforms) that has to push to or pull from another component needs to know about that component's available endpoints.
 This initial configuration will take the form of a dictionary (JSON-LD or even plain JavaScript object) with the URL of endpoints given for any defined endpoint type. This initial configuration data may be passed as value or as a URL reference, and may be a static file for a given component.
 
 The configuration for any server component (especially platforms) can include the following:
 
 1. A global read REST endpoint returning a self-contained JSON-LD of all data that is to be made available to the other component.
-2. A opaque URL returning a self-contained JSON-LD of coherent subset, defined on the data server.  For example: For a specific subset of generic ideas, the comments if any should be included.
+2. An opaque URL returning a self-contained JSON-LD of coherent subset, defined on the data server.  For example: For a specific subset of generic ideas, the comments if any should be included.
 3. provide read (or optionally read/write) endpoints for each major data type.
 4. provide the URL of a read-only (or read/write) SPARQL endpoint.
 
 Either of 1 or 2 is mandatory, 3 and 4 are optional.
 
-The platforms may elect to provide rich endpoints, with full create/update/delete features, and filters as query arguments. 
+The platforms may elect to provide rich endpoints, with full create/update/delete features, and filters as query arguments.
+
 Query filters, in particular, are not part of the specification and not expected.
 
-The list of endpoints other than the global endpoints is meant to correspond to meaningful subsets of data, notably:
-
-For interoperability purposes, we need to refer to many collective entities as a whole, notably:
+The list of endpoints other than the global endpoint is meant to correspond to meaningful subsets of data. 
+It is often convenient to access and refer to these subsets as named collections.
+Such collective entities would include, notably:
 
 1. The notion of conversation: the set of all interactions that a community has around a topic.
 2. The collection of all generic ideas and their links in a conversation
@@ -447,7 +452,7 @@ So the most minimal, static view of the data for one conversation (which we defi
     "http://catalyst.platform.server/api/conversation/1/all-data/"}]}
 ```
 
-A given widget may also recieve a dynamic subset by reference, like this:
+A given widget may also receive a dynamic subset by reference, like this:
 
 ```json
 {"conversations":[{"dataSelectionService":
@@ -492,32 +497,33 @@ Catalyst platforms will request the analytics to perform long-running calculatio
 
 The URL may be protected by some form of access control, such as an access token, if necessary.
 
-At this time, we foresee that these will be short enough (minutes) to be covered by synchronous requests.  Components exploiting these results are expected to do any caching necessary to share and deliver them to other components or end users.
+At this time, we foresee that these calculations will be short enough (minutes) to be covered by synchronous requests.
+Components exploiting these results are expected to do any caching necessary to share and deliver them to other components or end users.
 If that turns out not to be the case, it may be necessary to specify an asynchronous communication model for analytics.
 
 ### Batch requests
 
-The most common usage scenario involves a batch request from a catalyst platform to an analytics server.    
+The most common usage scenario involves a batch request from a Catalyst platform to an analytics server.    
 <!-- %I still think the most common scenario is a synchronous call, with caching a concern of the client --> 
-In the simplest case, the catalyst platform would POST to the analytics server a request with relevant data (which may include a JSON-LD payload, or the URL of endpoints whence such data can be pulled); the analytics platform would respond with an URL to the analytics computation results.
+In the simplest case, the Catalyst platform would POST to the analytics server a request with relevant data (which may include a JSON-LD payload, or the URL of endpoints whence such data can be pulled); the analytics platform would respond with an URL to the analytics computation results.
 
 ### Continuous analytics
 
 Another usage scenario involves an analytics engine watching over the changes in a Catalyst deliberation platform.
-In the most general case, this requires intimate knowledge of the requirements on both ends and will not be standardized.
+In the most general case, this requires intimate knowledge of the requirements on both ends and will not be standardised.
 However, the most common case of attention mediation events could be defined.
-In either case, the history events would be pulled from the catalyst platform by the analytics engine as a flux.
+In either case, the history events would be pulled from the Catalyst platform by the analytics engine as a flux.
 (This may still be a RESTful endpoint, or a more traditional socket if timeliness is an issue.)
 
-In the specific case of attention mediation, data payloads (or URLs to data) could be posted by the analytics platform on an agreed upon endpoint in the catalyst platform.
-The issue of translating those payloads to human-readable messages is non-trivial, since the catalyst integration platforms are the ones which are aware of the participant's functional languages.
-Ideally, both platforms would agree on a vocabulary of attention signals, and the localization of those signals would be performed by the catalyst conversation platform.
+In the specific case of attention mediation, data payloads (or URLs to data) could be posted by the analytics platform on an agreed upon endpoint in the Catalyst platform.
+The issue of translating those payloads to human-readable messages is non-trivial, since the Catalyst integration platforms are the ones which are aware of the participant's functional languages.
+Ideally, both platforms would agree on a vocabulary of attention signals, and the localization of those signals would be performed by the Catalyst conversation platform.
 
 ## Platform and visualisations
 
 One of the end goal being to allow embeding of the visualisations in outside platforms, we will need to balance forward thinking and flexibility with ease of implementation, browser compatibility, and pragmatism.
 
-Instead of trying to find (or worse, define) a universal standard, we will define a variety of means to achieve varying levels of support.  Some new techniques are emerging, and we expect this field to change significantly during the 2 years of the initial catalyst project.
+Instead of trying to find (or worse, define) a universal standard, we will define a variety of means to achieve varying levels of support.  Some new techniques are emerging, and we expect this field to change significantly during the 2 years of the Catalyst project.
 
 ### The capabilities of the system where may we want to share visualisations and widgets
 
@@ -533,15 +539,15 @@ The hyperlink can point to the representation is available (typically on a Catal
 
 #### Systems allowing static HTML
 
-These systems, by configuration or technical limitation, offer more or less limited html formatting, and normally no JavaScript or iframe.  Examples include many forums, Content Management System and HTML email.
+These systems, by configuration or technical limitation, offer more or less limited HTML formatting, and normally no JavaScript or iframe.  Examples include many forums, Content Management System and HTML email.
 
 Any visualisation that want to be exposed inline must have a static version.  However, typically several hyperlinks and buttons can be included in the representation.
 
 The hyperlinks can point to a specific section, or a specific action on the representation on the web (typically on a Catalyst CI platform).
 
-#### Systems allowing IFRAME tags or JavaScript embedding
+#### Systems allowing iframe tags or JavaScript embedding
 
-These systems offer more or less limited html formatting, and allows either (or both) JavaScript or an iframe HTML tag to be included in a message or page.  Examples include many forums, Content Management System and wikis (is so configured) and most generic web sites.
+These systems offer more or less limited HTML formatting, and allows either (or both) JavaScript or an iframe HTML tag to be included in a message or page.  Examples include many forums, Content Management System and wikis (is so configured) and most generic web sites.
 
 This is the first level that allows inline interactive visualisations.
 
@@ -559,9 +565,10 @@ Depending on the specific capabilities of this system, this is the first level t
 
 #### Systems that allow creating custom modules
 
-These systems include facilities to internally run code to extend their functionality in various ways.  Example include most Open Source Content Management Systems.
+These systems include facilities to internally run code to extend their functionality in various ways.  
+Examples include most Open Source Content Management Systems.
 
-This typically allow all the capabilities above, but at the price of writing code specific to the system.  This can still allow significant reuse is the platform is very popular (e.g.:  Drupal, WordPress)
+This typically allow all the capabilities above, but at the price of writing code specific to the system.  This can still allow significant reuse if the platform is very popular (e.g.:  Drupal, WordPress)
 
 
 ### Fully client-side widgets
@@ -575,7 +582,7 @@ So, for example, a simple client-side widget that wanted to display the social g
 
 1. The Catalyst platform would obtain a snippet of HTML including JavaScript requirements and the name of an initialization function.
 2. It would insert the HTML snippet in an appropriate `div` element.
-3. It would call that function with the main endpoint to the catalyst platform.
+3. It would call that function with the main endpoint to the Catalyst platform.
 4. The widget code would use it to obtain the endpoint(s) to the user and message data graphs.
 5. It would then obtain the user and message data through those endpoints.
 6. It would convert the JSON-LD data obtained into another data format that is expected by the visualisation libraries.
@@ -585,7 +592,7 @@ So, for example, a simple client-side widget that wanted to display the social g
 ### Widgets with a server component
 
 A different scenario would involve a server component, which could receive a request on a known endpoint, and return visualisation data.
-The server would have to get the graph data that is to be visualized: either the JSON-LD graph could be part of the request, or the location of a REST or SPARQL endpoint on the platform server where the visualisation server could get the data.
+The server would have to get the graph data that is to be visualised: either the JSON-LD graph could be part of the request, or the location of a REST or SPARQL endpoint on the platform server where the visualisation server could get the data.
 This raises classical cross-origin data issues: If the widget code is hosted on the visualisation server, it would require an authorization token to access the platform data, and vice-versa.
 
 In the simplest case, the server would simply return an image; in some more elaborate cases, the visualisation widget would have its own HTML snippet and attendant JavaScript to lay out and interact with the visualisation data.
@@ -598,17 +605,17 @@ Voting widgets are a fairly complex example, because unlike most other widgets t
 For that reason, going through the interactions expected of a reusable voting component illustrates the more complex workflow possible in this architecture. 
 This is intended to be a full example, and therefore fairly complex; most components would only need a subset of this interaction.
 
-0. As part of the Catalyst platform's configuration, there will be an endpoint to a voting component. The catalyst platform will send a message to the voting component with initial configuration.
-1. The voting component will receive a basic RESTful endpoint for one of the catalyst integrated platforms. From there it would obtain each collection's endpoint.
-2. It would use those other endpoints to obtain the generic idea dataset and pseudonymised user graph from the catalyst platform.
-3. Optional: It may be directed to obtain the pseudonymised user graph of a social platform separately, through the endpoint of a Message-SIOC converter. That step is unlikely, as the social user graph will often be cached by the catalyst platforms.
+0. As part of the Catalyst platform's configuration, there will be an endpoint to a voting component. The Catalyst platform will send a message to the voting component with initial configuration.
+1. The voting component will receive a basic RESTful endpoint for one of the Catalyst integrated platforms. From there it would obtain each collection's endpoint.
+2. It would use those other endpoints to obtain the generic idea dataset and pseudonymised user graph from the Catalyst platform.
+3. Optional: It may be directed to obtain the pseudonymised user graph of a social platform separately, through the endpoint of a Message-SIOC converter. That step is unlikely, as the social user graph will often be cached by the Catalyst platforms.
 4. Optional: Configuration information sent to the voting component may have information about user groups or roles that are allowed to vote. (Those groups will otherwise be opaque SIOC entities from the voting platform's standpoint) (This configuration information would have to be defined at a later stage.)
-5. Voting will have to convey to the catalyst platform which of the types of  voting information it expects (boolean, lickert or ordering) and the catalyst platform will provide an appropriate representation. This information could also be part of the catalyst configuration.
+5. Voting will have to convey to the Catalyst platform which of the types of  voting information it expects (boolean, lickert or ordering) and the Catalyst platform will provide an appropriate representation. This information could also be part of the Catalyst configuration.
 6. User action in the snippet will trigger a `POST` action with the voting information (in JSON-LD) on an appropriate RESTful endpoint set in the configuration.
     * This endpoint will usually be part of the voting component service, which will store votes itself.
-    * In a catalyst platform with full read/write SPARQL endpoints, the catalyst platform could store the voting data itself, if configured to do so. This limits the applicability of the voting service to a subset of catalyst platforms; but it also simplifies the design of the voting component. We expect the balance of costs and benefits to favour the first option.
-7. On demand, with appropriate configured endpoints, the voting component can provide raw voting information to the catalyst platform. (Or vice-versa if the Catalyst platform stores the voting information.) The voting information will be a separate SIOC collection.
-8. On demand, with appropriate configured endpoints, the voting component will provide aggregate voting information to the catalyst platform. The interpretation of this information is not yet specified, and in general it will depend on an agreement between components. However, some aggregates will be defined in a subsequent version of this specification, as we discover the most common usage patterns.
+    * In a Catalyst platform with full read/write SPARQL endpoints, the Catalyst platform could store the voting data itself, if configured to do so. This limits the applicability of the voting service to a subset of Catalyst platforms; but it also simplifies the design of the voting component. We expect the balance of costs and benefits to favour the first option.
+7. On demand, with appropriate configured endpoints, the voting component can provide raw voting information to the Catalyst platform. (Or vice-versa if the Catalyst platform stores the voting information.) The voting information will be a separate SIOC collection.
+8. On demand, with appropriate configured endpoints, the voting component will provide aggregate voting information to the Catalyst platform. The interpretation of this information is not yet specified, and in general it will depend on an agreement between components. However, some aggregates will be defined in a subsequent version of this specification, as we discover the most common usage patterns.
 9. On demand, with appropriate configured endpoints, the voting component will provide visualisation of aggregate voting information. This will use the usual visualisation widget interface as defined above.
 
 ### Deep interoperability with events
@@ -624,7 +631,7 @@ the disadvantage is that, in most architectures, it is difficult for the platfor
 
 The other option is for the widget front-end to exchange those same user events with the platform front-end.
 The advantage is that the widget front-end needs to understand less about the platform back-end endpoints;
-the disadvantage is that event passing between web components has not yet been standardized properly.
+the disadvantage is that event passing between web components has not yet been standardised properly.
 We are left either with:
 
 * completely ad-hoc solutions, where the widget and front-end would document the elements and JavaScript events that can be sent to them.
@@ -638,7 +645,7 @@ This is going to be an area of further exploration for us before we commit to a 
 
 ## Analytics intermediate results and attention mediation
 
-We expect a great variety of analytic tools to be developed, but though we aim to standardize how the analytics platform can obtain data from the catalyst conversation platforms, the specific utilization of the analytics output by these platforms will be intimately tied to either the conversation platform itself or one of its visualisation.
+We expect a great variety of analytic tools to be developed, but though we aim to standardize how the analytics platform can obtain data from the Catalyst conversation platforms, the specific utilization of the analytics output by these platforms will be intimately tied to either the conversation platform itself or one of its visualisation.
 For that reason, it is not a realistic goal to standardize an exhaustive list of possible analytic semantics, and maybe even syntax.
 The utilization of analytics data will always be mostly ad-hoc.
 
@@ -657,7 +664,7 @@ A metric will typically generate more than one aggregate per node.
 Definition for common metrics will eventually be listed in an annex to this specification. 
 
 ### Attention mediation
-The case of attention mediation deserves special mention, because it is expected that the end user will receive actual notifications by email, or in some user interface of a catalyst integrated platform.
+The case of attention mediation deserves special mention, because it is expected that the end user will receive actual notifications by email, or in some user interface of a Catalyst integrated platform.
 The actual text of this notification depends on information only the integrated platform can realistically generate:  URL where the user can/should take action, language the user speaks, context of the notification (summarizing the context, such as a description of the nodes), the user's real name and email address, etc.
 
 We will have a closed vocabulary (using SKOS or some other means) of attention mediation message identifiers, and another vocabulary of reasons while a given message is sent to a given user. A message will consist of a recipient (User), topic (a Generic Idea), mediation message, mediation reason, and possibly signal strength.
@@ -676,7 +683,7 @@ To avoid repetition, The JSON-LD file might group data by topic, or topic and me
         * strength: (In this case a value between 0 and 1, probably a function of the number of duration of the dip in activity * recent posts/total posts)
         * target: (User); mediationReason: VOTED_FOR_IDEA, POSTED_ON_IDEA 
 
-The catalyst integrated platform will decide if, how, and how frequently it will notify the user for each attention mediation.
+The Catalyst integrated platform will decide if, how, and how frequently it will notify the user for each attention mediation.
 
 ## Unspecified interactions
 
@@ -690,11 +697,11 @@ The output of that operation needs to follow this specification, but its process
 5. Graph edition: Each platform will implement its own mechanisms for communication between front-end and back-end, such as edition of graph data.
 In general, such mechanisms tend to be tightly coupled to the internal data model.
 Trying to agree on this is possible, but probably too much effort for the real benefits.
-6. Configuration mechanisms: Each platform will have its own configuration mechanisms. Endpoints will have to be normalized, of course.
+6. Configuration mechanisms: Each platform will have its own configuration mechanisms. Endpoints will have to be normalised, of course.
 
 # Security considerations
 
-Though members of the Catalyst consortium have mostly worked with public conversations, we may have to deal with private conversations and we must ensure that our APIs do not open the door to unauthorized access.
+Though members of the Catalyst consortium have mostly worked with public conversations, we may have to deal with private conversations and we must ensure that our APIs do not open the door to unauthorised access.
 In general, access control will be granted to tools on a per-conversation basis.
 
 ## Pseudonymisation support
@@ -734,14 +741,14 @@ We suggest using the same form of authentication that the users themselves use, 
 
 # Data model
 
-The catalyst ontology is provisionally hosted on [Github](https://github.com/catalyst-fp7/ontology/).
+The Catalyst ontology is provisionally hosted on [Github](https://github.com/catalyst-fp7/ontology/).
 The URIs for the ontology have been reserved with <http://purl.org/>, as <http://purl.org/catalyst/idea>, etc.
 The ontology also hosts a simple JSON-LD [context](http://purl.org/catalyst/jsonld)
 
 In the following, there will be instance diagrams and class diagrams.
 In the latter, we will use the following conventions:
 
-```graphviz 0.88
+```graphviz 0.88 Legend
 digraph g {
 graph[rankdir="LR"];
 
@@ -791,7 +798,7 @@ Such subsets are also first-class entities. (Compendium Maps are an instance of 
 Most of these considerations (except 5.) are out of scope for Catalyst, but we have seen it appropriate to define an abstract notion of generic idea node and generic idea link as abstract superclasses of the IBIS-specific nodes and links, for future-proofing purposes.
 Those classes themselves derive from an abstract generic idea, which has also been aligned with the AIF ontology to address point 2. Finally, RDF properties have been defined to address point 3 and 4, but they will not be used in the scope of this project.
 
-This is more than an academic exercise, as within the catalyst consortium:
+This is more than an academic exercise, as within the Catalyst consortium:
 1. Pure IBIS does not allow expressing abstract nodes and edges, and is thus insufficient as a "lowest common denominator". 
 2. One of the platforms (Assembl) will allow the creation of generic ideas that initially do not have an IBIS type, but may acquire it later.
 
@@ -799,7 +806,7 @@ Client tools should expect generic ideas with no defined subtype, of subtypes no
 
 ### The model
 
-```graphviz 0.46s
+```graphviz 0.46s The Catalyst idea ontology
 {{../../catalyst_ontology/idea.dot}}
 ```
 
@@ -810,7 +817,7 @@ Client tools should expect generic ideas with no defined subtype, of subtypes no
 
 ## The IBIS model
 
-The IBIS model has already been translated before into RDF (see appendix), but that implementation has many flaws.
+The IBIS model has already been translated before into RDF (see Annex), but that implementation has many flaws.
 In particular, we need links between generic ideas to be first-class objects, so we can vote on them, record their history, etc.
 Otherwise, we follow the classical IBIS model. 
 
@@ -819,7 +826,7 @@ We have experimented with the notion of criterion, which can be based on an issu
 ### The model:
 
 
-```graphviz 0.57s
+```graphviz 0.57s The Catalyst IBIS ontology
 {{../../catalyst_ontology/ibis.dot}}
 ```
 
@@ -852,10 +859,10 @@ eg_d1:idealink_3_2 a ibis:ArgumentSupportsPosition;
 
 ## SIOC 
 
-The [SIOC](http://SIOC-project.org) [ontology](http://rdfs.org/SIOC/ns) will be used to expose (or re-expose, as the case may be) most contributions of participants to the conversation, including the generic ideas, messages on social platforms, comments on the generic ideas (which will be treated as ideas<!-- The comments will be treated as ideas?-->), etc. 
+The [SIOC](http://SIOC-project.org) [ontology](http://rdfs.org/SIOC/ns) will be used to expose (or re-expose, as the case may be) most contributions of participants to the conversation, including the generic ideas, messages on social platforms, comments on the generic ideas, etc. 
 These will all be represented as `SIOC:Item` instances. 
 In particular, representing the IBIS information as posts allows to naturally indicate user, creation date, etc. 
-Unless the social platform exposes its information as SIOC itself (as Drupal does), IP will develop "Post to SIOC converters" that will obtain the message information and expose it as SIOC to other catalyst components (with the appropriate authorization.)
+Unless the social platform exposes its information as SIOC itself (as Drupal does), IP will develop "Post to SIOC converters" that will obtain the message information and expose it as SIOC to other Catalyst components (with the appropriate authorization.)
 
 ### SIOC containers
 
@@ -872,7 +879,7 @@ So they would naturally belong to one collection.
 
 ### The Catalyst core model
 
-```graphviz 0.47s
+```graphviz 0.47s The Catalyst core ontology (containers)
 {{../../catalyst_ontology/catalyst_core.dot}}
 ```
 
@@ -912,7 +919,7 @@ eg_d1:d1_member a SIOC:Role;
 eg_d1:d1_mailingList1 a Assembl:MailingList, SIOC:Space.
 ```
 
-```graphviz 0.72
+```graphviz 0.72 Example: participants and containers
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -938,7 +945,7 @@ digraph g {
 The SIOC model distinguishes between user accounts and the users themselves, which are modelled using the [FOAF](http://www.foaf-project.org/) [ontology](http://xmlns.com/foaf/0.1/).
 This approach allows the social analytics engines to know that the same person may be at the origin of messages on different platforms, through different accounts. (Of course, this increases the risk of de-anonymisation, and has to be handled appropriately.)
 
-As mentioned in the section on [Pseudonymisation support][], we would use randomized information for user lists.
+As mentioned in the section on [Pseudonymisation support][], we would use randomised information for user lists.
 
 Otherwise, user account information will include users being parts of certain groups or having certain roles (such as "moderators"), for the purposes of visualisations that need this information (as shown by Wikitalia.) 
 Those can and should be expressed in SIOC, where groups and roles are opaque resources.
@@ -947,7 +954,7 @@ There does not seem to be a need for the components to understand the semantics 
 
 ### Example data: user information
 
-```graphviz 0.47s
+```graphviz 0.47s Example: Pseudonymised participants and conversation
 digraph g {
     graph [bgcolor="transparent", rankdir="LR", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1037,7 +1044,7 @@ digraph g {
 
 ## Example data: posts
 
-```graphviz 0.77
+```graphviz 0.77 Example: Post data
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1087,10 +1094,7 @@ eg_d1:message_2 a SIOC:Post ;
     SIOC:reply_of eg_d1:message_1.
 ```
 
-### Example data: a post with origin
-
-
-```graphviz 1
+```graphviz 1 Example data: a post with origin
 digraph g {
     graph [bgcolor="transparent", rankdir="BT"] ;
     node [fillcolor=white, style=filled,  shape=record];
@@ -1105,7 +1109,7 @@ digraph g {
 
 Not all contributions to a debate are structured. 
 Assembl, like communication platforms, starts with unstructured contributions (posts) and harvesters identify generic ideas within those; 
-the other catalyst platforms (Deliberatorium and Debatehub) start with structured contributions but allow unstructured comments to those structured contributions (as does Assembl). 
+the other Catalyst platforms (Deliberatorium and Debatehub) start with structured contributions but allow unstructured comments to those structured contributions (as does Assembl). 
 
 In both cases, we have links between structured and unstructured contributions. 
 If we take the commenting case as typical, we see that comments (and here we will assimilate posts to comments) can be applied to any contribution, whether an idea or another post/comment. 
@@ -1118,16 +1122,16 @@ It would be convenient to attach the target to a contribution directly, but we c
 These diagrams are taken from the OpenAnnotation [1.0 specification](http://www.openannotation.org/spec/core/20130208/index.html).
 They show parts of the basic data model that we intend to use.
 
-![openannotation source model](../201401_interoperability_presentation_MK/oa_textposition.png)
+![OpenAnnotation source model](../201401_interoperability_presentation_MK/oa_textposition.png)
 
-![openannotation graph model](../201401_interoperability_presentation_MK/oa_namedgraph.png)
+![OpenAnnotation graph model](../201401_interoperability_presentation_MK/oa_namedgraph.png)
 
 Note that OpenAnnotation recommends to send semantic content using ContentAsText.
 Named graphs/reification are mentioned as an option, if justified.
 
 ### Example data
 
-```graphviz 0.93
+```graphviz 0.93 Example: Quote as Annotation
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1173,7 +1177,7 @@ eg_d1:annotations_1 a oa:Annotation;
 ### Relating the comment to the idea
 
 
-```graphviz 0.82
+```graphviz 0.82 Example: Quote as annotation (subgraph view)
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=10];
@@ -1218,7 +1222,7 @@ This is not meant to be exhaustive, or to constrain user interaction, but should
 
 ### The model
 
-```graphviz 0.64
+```graphviz 0.64 Catalyst voting ontology
 {{../../catalyst_ontology/vote.dot}}
 ```
 
@@ -1229,7 +1233,7 @@ This is not meant to be exhaustive, or to constrain user interaction, but should
 
 ### Binary vote example data
 
-```graphviz 1.00
+```graphviz 1.00 Example: Binary vote
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1260,7 +1264,7 @@ eg_d1:vote1 a vote:BinaryVote;
 ### Lickert vote example data
 
 
-```graphviz 0.88
+```graphviz 0.88 Example: Lickert Vote
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1299,7 +1303,7 @@ eg_d1:vote2 a vote:LickertVote;
 
 ### Ordering vote example data
 
-```graphviz 0.75
+```graphviz 0.75 Example: Ordering vote
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1335,14 +1339,12 @@ eg_d1:vote3 a vote:OrderingVote;
         rdf:_3 eg_d1:idea4 ].
 ```
 
-## Tags, comments, etc.
-
 ## History
 
 Many analytics require access to a detailed history of user interactions.
 On the other hand, few platforms maintain such a history.
 Adding history tracking to platforms is a non-trivial operation, and we should think in terms of different levels of support.
-These levels must be validated with Mark, who is developing most history-based analytics. (Wikitalia uses static analysis.)
+These levels must be validated with the University of Zürich, who is developing most history-based analytics. (Wikitalia uses static analysis.)
 
 The most basic level conceivable could be based on timed automatic snapshots of the idea graph; is this even usable for any of the analytics? We will not consider this option until we have an answer.
 
@@ -1382,10 +1384,9 @@ So here is the list of fundamental operations:
         * Change Read status (target, valence, strength?[^readstatus])
 
 
-[^genericprop]: We are still considering whether the the name of the properties that were affected by an update operation should be included in the first level of support.
+[^genericprop]: We are still considering whether the name of the properties that were affected by an update operation should be included in the first level of support.
 In particular, some implementers might change a row in a database without knowing which columns are affected. 
 Also, note that the list of properties defined in the standard is closed, but implementers may introduce new properties or sub-properties.
-Feedback would be appreciated. 
 
 [^readstatus]: Some platforms may define weaker or stronger signals that a user paid attention to a message.
 If a platform cannot distinguish those, it should only send strong signals.
@@ -1472,12 +1473,12 @@ Some aspects of this API are still under design, as we believe we can design the
 2. Besides recording history, a complete description of user operations allows component interoperability.
 A graph editor widget, for example, could use the same vocabulary to to express user changes to the data model to a container platform.
 
-Both those aspects are out of scope for catalyst 1, and this may even be true of the third level of support as a whole.
+Both those aspects are out of scope for Catalyst 1, and this may even be true of the third level of support as a whole.
 However, designing the API so it does not clash with those ulterior goals in mind is both possible and desirable.
 
 ### The model
 
-```graphviz 0.35s
+```graphviz 0.35s Change history ontology
 {{../../catalyst_ontology/version.dot}}
 ```
 
@@ -1549,11 +1550,18 @@ However, designing the API so it does not clash with those ulterior goals in min
         ].
 ```
 
-# Annex
+<!--
+\listoffigures
+\chapterstar{Annexes}
+\addcontentsline{toc}{chapter}{Annexes}
+\appendix
+\renewcommand{\chapter}[1]{\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=1, innerbottommargin=1,skipabove=0,skipbelow=2]\oldchapter{#1}\end{mdframed}}
 
-## Example SPARQL queries
+-->
 
-#### how many positive arguments?
+# Example SPARQL queries
+
+## how many positive arguments?
 
 ```sparql
 SELECT COUNT(DISTINCT ?arg) WHERE {
@@ -1564,7 +1572,7 @@ SELECT COUNT(DISTINCT ?arg) WHERE {
 
 `=> 1`
 
-#### Who contributed most ideas?
+## Who contributed most ideas?
 
 ```sparql
 DEFINE input:inference <http://www.Assembl.net/Rules>
@@ -1583,7 +1591,7 @@ Virtuoso note: we use a named Ruleset to use the fact that
 ibis:Issue rdfs:subClassOf idea:GenericIdea
 ```
 
-#### Most replied-to post
+## Most replied-to post
 
 ```sparql
 DEFINE input:inference <http://www.Assembl.net/Rules>
@@ -1599,7 +1607,7 @@ Note the use of
 SIOC:has_reply owl:inferseOf SIOC:reply_to
 ```
 
-#### Whose content illustrates an idea?
+## Whose content illustrates an idea?
 
 ```sparql
 DEFINE input:inference <http://www.Assembl.net/Rules>
@@ -1616,7 +1624,7 @@ SELECT ?person WHERE {
 
 Fortunately, searching in subgraphs is quite doable.
 
-#### are you a negative voter?
+## Are you a negative voter?
 
 ```sparql
 DEFINE input:inference <http://www.Assembl.net/Rules>
@@ -1641,10 +1649,14 @@ SELECT ?person WHERE {
     } 
 }  ORDER BY DESC (?negatives / ?total) LIMIT 1
 ```
+<!--
+\renewcommand{\chapter}[1]{\clearpage\begin{mdframed}[backgroundcolor=h1b, defaultunit=pt, linewidth=0, innerleftmargin=2, innerrightmargin=4, innertopmargin=1, innerbottommargin=1,skipabove=0,skipbelow=2]\oldchapter{#1}\end{mdframed}}
 
-## Relation to other vocabularies
+-->
 
-### IBIS PA
+# Relation to other vocabularies
+
+## IBIS PA
 
 Another ontology was developed to represent IBIS data. 
 As mentioned, it has the downside that IBIS links are represented as RDF links, and thus cannot be addressed for the purposes of voting, history, etc.
@@ -1654,11 +1666,11 @@ However, the ontologies are similar in intent, and a computable crossover betwee
 {{../../catalyst_ontology/catalyst_paibis.ttl}}
 ```
 
-### AIF
+## AIF
 
 The AIF ontology was developed to represent arguments in discourse. There are two layers to this ontology: Abstract argument schemes are defined in an upper ontology, and concrete arguments are said to fulfil (be instances of) those abstract argument types. Concrete arguments rely on Statements, or Information nodes, that themselves fulfil abstract Statement Descriptions.
 
-![AIF Ontology](../201401_interoperability_presentation_MK/AIF_argument.png)
+![AIF Ontology: Example argument](../201401_interoperability_presentation_MK/AIF_argument.png)
 
 There are many subtypes of argument schemes: those that are defeasible, those that indicate preference, and there are a few other constructs to designate discursive events such as illocutionary moves and transitions.
 
