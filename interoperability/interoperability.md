@@ -875,7 +875,7 @@ So they would naturally belong to one collection.
 
 ### The SIOC model
 
-![Main SIOC classes](../201401_interoperability_presentation_MK/SIOC.png)
+![Main SIOC classes](../201401_interoperability_presentation_MK/sioc.png)
 
 ### The Catalyst core model
 

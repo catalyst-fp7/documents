@@ -9,7 +9,7 @@
 #
 # On Ubuntu Linux:  
 #
-# apt-get install texlive-latex-extra dot2tex python-pygments
+# apt-get install texlive texlive-latex-extra dot2tex python-pygments texlive-bibtex-extra
 # git clone https://github.com/fletcher/MultiMarkdown-4.git
 # cd MultiMarkdown-4/
 # git submodule init
@@ -46,8 +46,8 @@ interoperability.pdf: interoperability.tex ontologies summary.tex
 	multimarkdown -t latex -f $< | ./convert_latex.py > $@
 
 clean:
-	rm -f interoperability.pdf interoperability.aux interoperability.glo interoperability.idx interoperability.ist interoperability.log interoperability.out interoperability.pdf interoperability.tex
-	rm -f fig*.pdf fig*.dot tmpmaster.g*
+	rm -f interoperability.pdf interoperability.aux interoperability.glo interoperability.idx interoperability.ist interoperability.log interoperability.out interoperability.pdf interoperability.bcf interoperability.tex summary.tex
+	rm -f fig*.pdf fig*.dot tmpmaster.g* *.pyg
 
 %.html: %.md %.pdf $(PNGFILES)
 	multimarkdown -t html -f $< | ./convert_html.py > $@
