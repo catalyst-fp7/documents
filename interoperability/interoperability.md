@@ -468,7 +468,7 @@ But a full-fledged server's configuration could look like this. Note that the ke
     "conversations":[{
         "@id": "http://catalyst.platform.server/api/conversation/1",
         "@type": "Conversation",
-        "fullDataService": "http://catalyst.platform.server/api/full_data/",
+        "fullDataService": "http://catalyst.platform.server/conversation/1/all-data/",
         "ideasService": "http://catalyst.platform.server/api/conversation/1/ideas/",
         "usersService": "http://catalyst.platform.server/api/conversation/1/users/",
         "messagesService": "http://catalyst.platform.server/api/conversation/1/messages/",
