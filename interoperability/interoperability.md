@@ -177,14 +177,14 @@ This way, analytics and annotation environments have only one format to process.
 
 # Architectural components
 
-```graphviz 0.69s Architectural components
+```graphviz 0.68s Architectural components
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
     edge [fontsize=8];
     subgraph cluster_catalyst {
         graph [rankdir="LR", label="Catalyst Collective Intelligence Platforms [I O Z]", fontsize=10];
-        subgraph cluster_front-end {
+        subgraph cluster_front_end {
             graph [rankdir="TB", style="dotted",
                 label="front-end", fontsize=10];
             display1 [label=<Display widgets<br/>&amp; documents>];
@@ -241,7 +241,7 @@ digraph g {
     # unspecified
     edge [color="orange"];
     display3->annotation [ltail="cluster_web"];
-    internalUI->database [ltail="cluster_front-end", dir="both"];
+    internalUI->database [ltail="cluster_front_end", dir="both"];
     viz->viz_db [dir="both"];
     widgets->widget_db [dir="both"];
     display2->SIOC [ltail="cluster_comm"];
@@ -806,7 +806,7 @@ Client tools should expect generic ideas with no defined subtype, of subtypes no
 
 ### The model
 
-```graphviz 0.46s The Catalyst idea ontology
+```graphviz 0.44s The Catalyst idea ontology
 {{../../catalyst_ontology/idea.dot}}
 ```
 
@@ -826,7 +826,7 @@ We have experimented with the notion of criterion, which can be based on an issu
 ### The model:
 
 
-```graphviz 0.57s The Catalyst IBIS ontology
+```graphviz 0.60s The Catalyst IBIS ontology
 {{../../catalyst_ontology/ibis.dot}}
 ```
 
@@ -879,7 +879,7 @@ So they would naturally belong to one collection.
 
 ### The Catalyst core model
 
-```graphviz 0.47s The Catalyst core ontology (containers)
+```graphviz 0.24s The Catalyst core ontology (containers)
 {{../../catalyst_ontology/catalyst_core.dot}}
 ```
 
@@ -919,7 +919,7 @@ eg_d1:d1_member a SIOC:Role;
 eg_d1:d1_mailingList1 a Assembl:MailingList, SIOC:Space.
 ```
 
-```graphviz 0.72 Example: participants and containers
+```graphviz 0.70 Example: participants and containers
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -954,7 +954,7 @@ There does not seem to be a need for the components to understand the semantics 
 
 ### Example data: user information
 
-```graphviz 0.47s Example: Pseudonymised participants and conversation
+```graphviz 0.46s Example: Pseudonymised participants and conversation
 digraph g {
     graph [bgcolor="transparent", rankdir="LR", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1044,7 +1044,7 @@ digraph g {
 
 ## Example data: posts
 
-```graphviz 0.77 Example: Post data
+```graphviz 0.75 Example: Post data
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1177,7 +1177,7 @@ eg_d1:annotations_1 a oa:Annotation;
 ### Relating the comment to the idea
 
 
-```graphviz 0.82 Example: Quote as annotation (subgraph view)
+```graphviz 0.93 Example: Quote as annotation (subgraph view)
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=10];
@@ -1222,7 +1222,7 @@ This is not meant to be exhaustive, or to constrain user interaction, but should
 
 ### The model
 
-```graphviz 0.64 Catalyst voting ontology
+```graphviz 0.62 Catalyst voting ontology
 {{../../catalyst_ontology/vote.dot}}
 ```
 
@@ -1264,7 +1264,7 @@ eg_d1:vote1 a vote:BinaryVote;
 ### Lickert vote example data
 
 
-```graphviz 0.88 Example: Lickert Vote
+```graphviz 0.87 Example: Lickert Vote
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1303,7 +1303,7 @@ eg_d1:vote2 a vote:LickertVote;
 
 ### Ordering vote example data
 
-```graphviz 0.75 Example: Ordering vote
+```graphviz 0.74 Example: Ordering vote
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=9];
@@ -1478,7 +1478,7 @@ However, designing the API so it does not clash with those ulterior goals in min
 
 ### The model
 
-```graphviz 0.35s Change history ontology
+```graphviz 0.36s Change history ontology
 {{../../catalyst_ontology/version.dot}}
 ```
 
