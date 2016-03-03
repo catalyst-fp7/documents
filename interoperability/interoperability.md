@@ -879,7 +879,7 @@ So they would naturally belong to one collection.
 
 ### The Catalyst core model
 
-```graphviz 0.24s The Catalyst core ontology (containers)
+```graphviz 0.24 The Catalyst core ontology (containers)
 {{../../catalyst_ontology/catalyst_core.dot}}
 ```
 
@@ -1177,7 +1177,7 @@ eg_d1:annotations_1 a oa:Annotation;
 ### Relating the comment to the idea
 
 
-```graphviz 0.93 Example: Quote as annotation (subgraph view)
+```graphviz 0.81 Example: Quote as annotation (subgraph view)
 digraph g {
     graph [bgcolor="transparent", rankdir="TB", compound="true"];
     node [fillcolor=white, style=filled,  shape=record, fontsize=10];
@@ -1478,7 +1478,7 @@ However, designing the API so it does not clash with those ulterior goals in min
 
 ### The model
 
-```graphviz 0.36s Change history ontology
+```graphviz 0.34s Change history ontology
 {{../../catalyst_ontology/version.dot}}
 ```
 
